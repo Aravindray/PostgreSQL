@@ -5,6 +5,7 @@
 - [How to display all the databases in PSQL?](#how-to-display-all-the-databases-in-psql)
 - [How to quit from current session from logged in user?](#how-to-quit-from-current-session-from-logged-in-user)
 - [How to display all the tables in PSQL?](#how-to-display-all-the-tables-in-psql)
+- [How to display detailed version for a particular table?](#how-to-display-detailed-version-for-a-particular-table)
 
 
 # How to create a user?
@@ -26,3 +27,7 @@ Use `\q` for quit command
 # How to display all the tables in PSQL?
 
 use `\dt` command to display all the table based on the logged in user.
+
+# How to display detailed version for a particular table?
+
+use `\d+ table_name` command, which display everything about the table.

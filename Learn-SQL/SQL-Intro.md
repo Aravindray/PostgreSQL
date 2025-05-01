@@ -14,7 +14,8 @@
 
 SQL stands for Structured Query Language. SQL let you efficiently access and manipulate the relational database, it perform the operations like querying, creating and manipulating, and managing access permission.
 
-Don't forget to add the **;** (semi-colon) at the end of the each statement.
+- Don't forget to add the **;** (semi-colon) at the end of the each statement.
+- Use single quotes for string literals - `SELECT * FROM user WHERE email='ray@gmail.com';`
 
 ## Components of SQL System
 

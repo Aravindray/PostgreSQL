@@ -1,30 +1,153 @@
 [<< SQL Intro](./SQL-Intro.md)
 
 ## Table of Content
-- [CRUD Operations](#crud-operations)
-  - [Create: How to create a database?](#create-how-to-create-a-database)
-  - [Create: How to create a table?](#create-how-to-create-a-table)
-  - [Insert: How to add a new item in a table?](#insert-how-to-add-a-new-item-in-a-table)
+- [Clauses](#clauses)
+- [OPERATOR](#operator)
+  - [Arithmetic Operators](#arithmetic-operators)
+  - [Bitwise Operators](#bitwise-operators)
+  - [Comparison Operators](#comparison-operators)
+  - [Compound Operators](#compound-operators)
+  - [Logical Operators](#logical-operators)
+  - [Special Operators](#special-operators)
+- [CRUD Operations - Create | Read | Update | Delete](#crud-operations---create--read--update--delete)
+  - [Create](#create)
+    - [Create: How to create a database?](#create-how-to-create-a-database)
+    - [Create: How to create a table?](#create-how-to-create-a-table)
+    - [Insert: TABLE ... VALUES - How to add a new item in a table?](#insert-table--values---how-to-add-a-new-item-in-a-table)
+  - [Read](#read)
+    - [Select: How to select and display all the results?](#select-how-to-select-and-display-all-the-results)
+    - [Select: WHERE - How to select and display particular result(s)?](#select-where---how-to-select-and-display-particular-results)
+    - [Select: WHERE ... LIKE ... - How to select and display particular result(s) with matching patterns (wildcard)?](#select-where--like----how-to-select-and-display-particular-results-with-matching-patterns-wildcard)
+    - [Select: WHERE - How to select and display only one result?](#select-where---how-to-select-and-display-only-one-result)
+    - [Select: ORDER BY - How to select and display record in different (sorted) orders?](#select-order-by---how-to-select-and-display-record-in-different-sorted-orders)
+    - [Select: LIMIT/OFFSET - How to limit the results?](#select-limitoffset---how-to-limit-the-results)
+    - [Select: COUNT - How to display the results count?](#select-count---how-to-display-the-results-count)
+  - [Update](#update)
+    - [Update: SET ... WHERE ... - How to update / modify the existing data?](#update-set--where----how-to-update--modify-the-existing-data)
+  - [Delete](#delete)
+    - [Delete: FROM - How to delete all records?](#delete-from---how-to-delete-all-records)
+    - [Delete: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
+    - [Delete: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
+- [Extra](#extra)
+  - [Wildcard](#wildcard)
 
-# CRUD Operations
+<br>
 
-## Create: How to create a database?
+# Clauses
+
+| Clause       | Description               |
+| ------------ | ------------------------- |
+| SELECT       | Retrieve data             |
+| FROM         | Choose the table          |
+| WHERE        | Filter rows               |
+| GROUP BY     | Group rows                |
+| HAVING       | Filter groups             |
+| ORDER BY     | Sort results              |
+| LIMIT        | Limit result rows         |
+| OFFSET       | Skip rows                 |
+| JOIN         | Combine tables            |
+| ON           | Condition for JOIN        |
+| AS           | Rename column/table       |
+| INSERT INTO  | Add new rows              |
+| VALUES       | Provide values for insert |
+| UPDATE       | Modify data               |
+| SET          | Set new values in update  |
+| DELETE       | Delete rows               |
+| CREATE TABLE | Define new table          |
+| DROP TABLE   | Remove table              |
+| ALTER TABLE  | Modify table structure    |
+
+
+# OPERATOR
+
+## Arithmetic Operators
+
+| Operator | Meaning  |
+| -------- | -------- |
+| +        | Add      |
+| -        | Subtract |
+| *        | Multiply |
+| /        | Divide   |
+| %        | Modulo   |
+
+## Bitwise Operators
+
+| Operator | Meaning              |
+| -------- | -------------------- |
+| &        | Bitwise AND          |
+|          | Bitwise OR           |
+| ^        | Bitwise exclusive OR |
+
+## Comparison Operators
+
+| Operator   | Meaning          |
+| ---------- | ---------------- |
+| =          | Equal to         |
+| != (or) <> | Not equal to     |
+| >          | Greater than     |
+| <          | Less than        |
+| >=         | Greater or equal |
+| <=         | Less or equal    |
+
+## Compound Operators
+
+| Operator | Meaning                  |
+| -------- | ------------------------ |
+| +=       | Add equals               |
+| -=       | Subtract equals          |
+| *=       | Multiply equals          |
+| /=       | Divide equals            |
+| %=       | Modulo equals            |
+| &=       | Bitwise AND equals       |
+| ^-=      | Bitwise exclusive equals |
+| !*=      | Bitwise OR equals        |
+
+## Logical Operators
+
+| Operator | Meaning              |
+| -------- | -------------------- |
+| AND      | Both conditions true |
+| OR       | At least one true    |
+| NOT      | Negate condition     |
+
+## Special Operators
+
+| Operator        | Meaning              |
+| --------------- | -------------------- |
+| LIKE            | Pattern matching     |
+| IN (...)        | Match any in list    |
+| BETWEEN A AND B | Match range          |
+| IS NULL         | Check for NULL value |
+| EXISTS          | Subquery return rows |
+| ALL             |                      |
+| ANY             |                      |
+| SOME            |                      |
+| UNIQUE          |                      |
+
+# CRUD Operations - Create | Read | Update | Delete
+
+## Create
+
+### Create: How to create a database?
 
 Logged in with a <a title="How to login with SQL Server with PSQL?" href="../Basic/Intro.md#how-to-login-with-sql-server-with-psql">superuser account</a> and <a title='How to create a user?' href="../Basic/pg-specific-cmds.md#how-to-create-a-user">create a new user</a> for the owner of this newly creating database and then execute the below cmd
 
-Syntax:
-
+Syntax
 ```
-=# CREATE DATABASE database_name WITH OWNER 'user_name'
+=# CREATE DATABASE database_name WITH OWNER 'user_name';
+```
+
+Example
+```
+=# CREATE DATABASE people WITH OWNER 'pg4e';
 ```
 
 Replace the database_name with actual database and name the database with singular noun. And replace the 'user_name' with new user which you are created from superuser.
 
-## Create: How to create a table?
+### Create: How to create a table?
 
 Syntax
-
-```psql
+```
 => CREATE TABLE table_name(
     col_1_name datatype(condition),
     col_2_name datatype(condition),
@@ -32,18 +155,218 @@ Syntax
 ```
 
 Example
-
-```psql
+```
 => CREATE TABLE user(
     name VARCHAR(128),
     email VARCHAR(128),
 );
 ```
 
-## Insert: How to add a new item in a table?
+### Insert: TABLE ... VALUES - How to add a new item in a table?
 
-syntax
-
+Syntax
 ```
 => INSERT TABLE table_name (col_1, col_2) VALUES (col_1_value, col_2_value);
 ```
+
+Example
+```
+=> INSERT TABLE user (name, email) VALUES ('Ray', 'ray@gmail.com');
+```
+
+## Read
+
+### Select: How to select and display all the results?
+
+Retrieves a group of records.
+
+Syntax
+```
+=> SELECT * FROM table_name;
+```
+
+Example
+```
+=> SELECT * FROM user;
+```
+
+### Select: WHERE - How to select and display particular result(s)?
+
+You can either retrieve all the records or a subset of the record with the help of WHERE Clause.
+
+Syntax
+```
+=> SELECT * FROM table_name WHERE condition;
+=> SELECT * FROM table_name WHERE condition_1 AND condition_2;
+=> SELECT * FROM table_name WHERE condition_1 OR condition_2;
+```
+From above AND, and OR operators is used to add multiple conditions. AND statement only execute if both the condition is True and OR statement execute if either one condition is True.
+
+Example
+```
+=> SELECT * FROM user WHERE email='ray@gmail.com';
+```
+
+The above query return one or more results if one or more rows have the same email id.
+
+### Select: WHERE ... LIKE ... - How to select and display particular result(s) with matching patterns (wildcard)?
+
+With the combination of WHERE clause and LIKE operation we can search for results in particular patterns, this method also known as wildcard.
+
+Syntax
+```
+=> SELECT * FROM table_name WHERE column_name LIKE '%a%';
+```
+Above method will take more time since this is linear process, so be careful while using this method.
+
+Example
+```
+=> SELECT * FROM user WHERE name LIKE '%e%';
+```
+
+### Select: WHERE - How to select and display only one result?
+
+For every table there will be a unique identifier (primary key) for each row (record) and it's field name is `id`, with **id** we can access only one single result.
+
+```
+=> SELECT * FROM table_name WHERE id=1;
+```
+
+### Select: ORDER BY - How to select and display record in different (sorted) orders?
+
+With the ORDER BY clause we can get the result sorted in ascending or descending order.
+
+Syntax
+```
+=> SELECT * FROM table_name ORDER BY column_name; --default order is ascending
+=> SELECT * FROM table_name ORDER BY col_1, col_2;
+=> SELECT * FROM table_name ORDER BY column_name DESC;
+```
+
+Example
+```
+=> SELECT * FROM user ORDER BY email;
+=> SELECT * FROM user ORDER BY email DESC;
+```
+
+### Select: LIMIT/OFFSET - How to limit the results?
+
+- We can request to server to return first 'n' rows, or the first 'n' rows after skipping some rows
+- The WHERE and ORDER BY clause happen 'before' the LIMIT / OFFSET are applied
+- OFFSET starts from 0 (zero), like Python list index
+
+Syntax
+```
+=> SELECT * FROM table_name ORDER BY column_name DESC LIMIT 2;
+=> SELECT * FROM table_name ORDER BY column_name OFFSET 1 LIMIT 2;
+```
+
+Example
+```
+=> SELECT * FROM user ORDER BY email DESC LIMIT 2;
+=> SELECT * FROM user ORDER BY email OFFSET 1 LIMIT 2;
+```
+
+### Select: COUNT - How to display the results count?
+
+Syntax
+```
+=> SELECT COUNT(*) FROM table_name;
+=> SELECT COUNT(*) FROM table_name WHERE condition;
+```
+
+Above statement return the count of the query
+
+Syntax
+```
+=> SELECT COUNT(*) FROM user;
+=> SELECT COUNT(*) FROM user WHERE email='ray@gmail.com';
+```
+
+## Update
+
+### Update: SET ... WHERE ... - How to update / modify the existing data?
+
+Syntax
+```
+=> UPDATE table_name SET col_1='new_value', col_2='new_value' WHERE condition;
+=> UPDATE table_name SET col_1='new_value', col_2='new_value' WHERE condition_1 AND condition_2;
+```
+
+Above statement will update one or more records if multiple rows met the same conditions, so be careful while updating.
+
+
+Example
+```
+=> UPDATE user SET name='Aravind' WHERE email='ray@gmail.com';
+```
+
+## Delete
+
+### Delete: FROM - How to delete all records?
+
+Syntax
+```
+=> DELETE FROM table_name;
+```
+
+Be careful while deleting or updating record, this process can not be undone.
+
+Example
+```
+=> DELETE FROM user;
+```
+
+### Delete: FROM ... WHERE ... - How to delete particular record(s)?
+
+With the help of WHERE clause we can check the conditions and delete the records.
+
+Syntax
+```
+=> DELETE FROM table_name WHERE condition;
+=> DELETE FROM table_name WHERE condition AND condition;
+```
+
+Be careful while deleting if many records satisfy the conditions all of them will be deleted.
+
+Example
+```
+=> DELETE FROM user WHERE email='ray@gmail.com';
+```
+
+### Delete: FROM ... WHERE ... - How to delete a single record?
+
+To delete a single retrieve the particular row with primary key and delete the record.
+
+Syntax
+```
+=> DELETE FROM table_name WHERE id=1;
+```
+
+Be careful while deleting or updating record, this process can not be undone.
+
+Example
+```
+=> DELETE FROM user WHERE id=1;
+```
+
+# Extra
+
+## Wildcard
+
+**Wildcard Characters**
+
+| Symbol | Description                       |
+| ------ | --------------------------------- |
+| %      | Represent zero or more characters |
+| _      | Represent a single character      |
+
+| Pattern  | Meaning                                            |
+| -------- | -------------------------------------------------- |
+| '%es'    | ends with                                          |
+| '%me%'   | contains                                           |
+| 'ar%'    | starts with                                        |
+| '_ondon' | starts with                                        |
+| 'L___on' | starts with 'L' and ends with 'on'                 |
+| 'a__%'   | starts with 'a' and at least 3 character in length |
+| '_r%'    | return all have 'r' in second position             |
