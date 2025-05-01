@@ -12,5 +12,6 @@ PostgreSQL - Learning Doc, Tips &amp; Tricks
 
 ### Notations
 
-This is a Terminal prompt ```$>``` <br>
-This is a Python prompt ```>>>```
+This is a Terminal prompt `$>` <br>
+This is a Postgres super user prompt `=#` <br>
+This is a Postgres normal user prompt `=>`
