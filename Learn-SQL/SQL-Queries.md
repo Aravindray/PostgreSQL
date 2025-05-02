@@ -134,12 +134,12 @@ Logged in with a <a title="How to login with SQL Server with PSQL?" href="../Bas
 
 Syntax
 ```
-=# CREATE DATABASE database_name WITH OWNER 'user_name';
+=# CREATE DATABASE database_name WITH OWNER 'user_name' ENCODING 'UTF8';
 ```
 
 Example
 ```
-=# CREATE DATABASE people WITH OWNER 'pg4e';
+=# CREATE DATABASE people WITH OWNER 'pg4e' ENCODING 'UTF8';
 ```
 
 Replace the database_name with actual database and name the database with singular noun. And replace the 'user_name' with new user which you are created from superuser.

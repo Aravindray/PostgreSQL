@@ -6,6 +6,7 @@
     - [Foreign Key](#foreign-key)
     - [Logical Key](#logical-key)
   - [Data Normalization (3NF)](#data-normalization-3nf)
+  - [SQL Query to build the relationship](#sql-query-to-build-the-relationship)
 
 # Relational Database Design
 
@@ -59,10 +60,12 @@
 | id    | ---|     | id       |
 +-------+    |     | title    |
              |     | length   |
-             | M   | rating ‎‎ ‎ |
-             | --- |album_id  |
+             | M   | rating ‎ ‎ |
+             | --- |‎ album_id |
                    +----------+
 ```
 Above image is the example of Many-to-One relationship, Think like many songs belong to one album
 
 **Notes:** Above table generated in this [website](https://ozh.github.io/ascii-tables/)
+
+## SQL Query to build the relationship

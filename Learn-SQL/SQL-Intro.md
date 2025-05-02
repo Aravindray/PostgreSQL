@@ -23,7 +23,9 @@
       - [TIME](#time)
       - [SERIAL](#serial)
   - [Constraints in PostgreSQL](#constraints-in-postgresql)
-      - [UNIQUE](#unique)
+      - [UNIQUE / UNIQUE()](#unique--unique)
+      - [ON DELETE CASCADE](#on-delete-cascade)
+      - [PRIMARY KEY / PRIMARY KEY()](#primary-key--primary-key)
   - [Functions in PostgreSQL](#functions-in-postgresql)
       - [NOW()](#now)
   - [Indexes](#indexes)
@@ -60,55 +62,66 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 ## Data Types in PostgreSQL
 
 #### CHAR(n)
-  - If CHAR(64) - it allocate entire 64 bit space (which means 64 character), we need to store entire 64 bit space
-  - Best for storing GUID (Global Unique Identifier - format is numbers and letter (A-Z))
+- If CHAR(64) - it allocate entire 64 bit space (which means 64 character), we need to store entire 64 bit space
+- Best for storing GUID (Global Unique Identifier - format is numbers and letter (A-Z))
 #### VARCHAR(n)
-  - If VARCHAR(128) - depend on the data length it will store the from 1 character to 128 character
+- If VARCHAR(128) - depend on the data length it will store the from 1 character to 128 character
 #### TEXT
-  - Get as much space as you need to store paragraph or HTML page
-  - Not used for Index and Sorting (which means no ORDER BY and WHERE clause used with this data type)
+- Get as much space as you need to store paragraph or HTML page
+- Not used for Index and Sorting (which means no ORDER BY and WHERE clause used with this data type)
 #### BINARY (rarely used)
-  - Not used for Index and Sorting
-  - Store small size image
+- Not used for Index and Sorting
+- Store small size image
 #### SMALLINT
-  - This type store -32766 to +32766
+- This type store -32766 to +32766
 #### INTEGER
-  - This type stores up to 2 Billion numbers
+- This type stores up to 2 Billion numbers
 #### BIGINT
-  - This stores 10^18 length of data
+- This stores 10^18 length of data
 #### REAL
-  - 32-bit [10^38]
+- 32-bit [10^38]
 #### DOUBLE PRECISION
-  - 64-bit [10^308]
+- 64-bit [10^308]
 #### NUMERIC
-  - This holds accuracy values
-  - Used for to store money
+- This holds accuracy values
+- Used for to store money
 #### TIMESTAMP
-  - Format is 'YYYY-MM-DD HH:MM:SS'
+- Format is 'YYYY-MM-DD HH:MM:SS'
 #### DATE
-  - Format is 'YYYY-MM-DD'
+- Format is 'YYYY-MM-DD'
 #### TIME
-  - Format is 'HH:MM:SS'
+- Format is 'HH:MM:SS'
 #### SERIAL
-  - It creates an auto increment integer column
-  - It used as Primary Key which postgres automatically generate unique sequential value
+- It creates an auto increment integer column
+- It used as Primary Key which postgres automatically generate unique sequential value
 
 Notes: ... <br>
 Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/datatype.html)
 
 ## Constraints in PostgreSQL
 
-#### UNIQUE
-  - It make sure that every record (row) value will be unique
+#### UNIQUE / UNIQUE()
+**UNIQUE**
+- It make sure that every record (row) value will be unique, and postgres automatically create index for this field.
+
+**UNIQUE(field1, field2)**
+- UNIQUE(title, album) - This make suer that the combination of field 1 (song name) and field 2 (album) must to be unique, for example if the song name 'Thank, Thank' have presented in 2 different albums like 'Vol 25', 'Vol 35'
+
+#### ON DELETE CASCADE
+- Basically says if parent/reference entry is deleted, delete everything belong to that id from this table also.
+#### PRIMARY KEY / PRIMARY KEY()
+- Primary key says make this field as auto increment integer field and index it and reference it
 
 ## Functions in PostgreSQL
 
 #### NOW()
-  - for DateTime field NOW() function is used to get to current time stamp
+- for DateTime field NOW() function is used to get to current time stamp
 
 ## Indexes
 
 Index is a technique used to quickly access the single data from million or billion of record with help of Hash and Tree mechanism (or) algorithms.
+
+- Index automatically created for primary keys, logical keys (mostly have UNIQUE keyword).
 
 **Tree**
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
