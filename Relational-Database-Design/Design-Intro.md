@@ -59,7 +59,7 @@
 | id    | ---|     | id       |
 +-------+    |     | title    |
              |     | length   |
-             | M   | rating ‎ |
+             | M   | rating ‎‎ ‎ |
              | --- |album_id  |
                    +----------+
 ```
