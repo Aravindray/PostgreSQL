@@ -19,7 +19,7 @@
     - [Select: WHERE - How to select and display particular result(s)?](#select-where---how-to-select-and-display-particular-results)
     - [Select: WHERE ... LIKE ... - How to select and display particular result(s) with matching patterns (wildcard)?](#select-where--like----how-to-select-and-display-particular-results-with-matching-patterns-wildcard)
     - [Select: WHERE - How to select and display only one result?](#select-where---how-to-select-and-display-only-one-result)
-    - [Select: ORDER BY - How to select and display record in different (sorted) orders?](#select-order-by---how-to-select-and-display-record-in-different-sorted-orders)
+    - [Select: ORDER BY - How to select and display result in different orders (sorted)?](#select-order-by---how-to-select-and-display-result-in-different-orders-sorted)
     - [Select: LIMIT/OFFSET - How to limit the results?](#select-limitoffset---how-to-limit-the-results)
     - [Select: COUNT - How to display the results count?](#select-count---how-to-display-the-results-count)
   - [Update](#update)
@@ -232,7 +232,7 @@ For every table there will be a unique identifier (primary key) for each row (re
 => SELECT * FROM table_name WHERE id=1;
 ```
 
-### Select: ORDER BY - How to select and display record in different (sorted) orders?
+### Select: ORDER BY - How to select and display result in different orders (sorted)?
 
 With the ORDER BY clause we can get the result sorted in ascending or descending order.
 
