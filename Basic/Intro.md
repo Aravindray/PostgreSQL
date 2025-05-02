@@ -6,6 +6,7 @@
 - [How to Login?](#how-to-login)
   - [How to login with SQL Server as a admin with PSQL?](#how-to-login-with-sql-server-as-a-admin-with-psql)
   - [How to login with SQL Server as a user with PSQL?](#how-to-login-with-sql-server-as-a-user-with-psql)
+- [How to create a user?](#how-to-create-a-user)
 
 # What is PostgreSQL?
 
@@ -38,7 +39,6 @@ Like every app, Postgres have <abbr title='default is postgres'>superuser</abbr>
 
 ## How to login with SQL Server as a admin with PSQL?
 
-
 Okay, how to login with gmail account what are the things you need?, like you need URL, username and password.
 
 Similarly to login with Postgres client we need Host, Port, Database, User and Password
@@ -51,6 +51,15 @@ from the above command login with default superuser, enter the password now, the
 ## How to login with SQL Server as a user with PSQL?
 
 `$> psql database_name user_name` <br>
+or `$> psql -U user_name` <br>
 from the above command replace the database_name and  user_name with actual one and then enter the password to login.
 
-<a href='./pg-specific-cmds.md'>Learn Postgres specific commands >></a>
+# How to create a user?
+
+To create a new user, we must need to log in with superuser account, once logged in execute this command in the terminal
+
+Syntax: `=> CREATE USER user_name WITH PASSWORD 'password';`
+
+replace user_name and actual_password with real username and password.
+
+<a href='./psql-specific-cmds.md'>Learn Postgres specific commands >></a>
