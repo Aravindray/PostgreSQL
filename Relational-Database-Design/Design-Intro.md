@@ -6,7 +6,6 @@
     - [Foreign Key](#foreign-key)
     - [Logical Key](#logical-key)
   - [Data Normalization (3NF)](#data-normalization-3nf)
-    - [Integer Reference Pattern](#integer-reference-pattern)
 
 # Relational Database Design
 
@@ -51,17 +50,19 @@
 - Use integer for keys and for reference.
 - Add a special key column to each table, which you will make reference to.
 
-### Integer Reference Pattern
+**Integer Reference Pattern** - We use integer column in table to reference rows in another table
 
-- We use integer column in table to reference rows in another table
-
-
+```
 +-------+          +----------+
 | Album |          |  Track   |
-+-------+          +----------+
++-------+  1       +----------+
 | id    | ---|     | id       |
 +-------+    |     | title    |
              |     | length   |
-             |     | rating |
+             | M   | rating ‎ |
              | --- |album_id  |
                    +----------+
+```
+Above image is the example of Many-to-One relationship, Think like many songs belong to one album
+
+**Notes:** Above table generated in this [website](https://ozh.github.io/ascii-tables/)
