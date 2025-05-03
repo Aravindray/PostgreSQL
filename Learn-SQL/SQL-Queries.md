@@ -28,6 +28,11 @@
     - [Delete: FROM - How to delete all records?](#delete-from---how-to-delete-all-records)
     - [Delete: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
     - [Delete: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
+- [Relation Operations](#relation-operations)
+  - [REFERENCES - How to make relation ship between multiple tables?](#references---how-to-make-relation-ship-between-multiple-tables)
+- [JOIN Operations](#join-operations)
+  - [INNER JOIN / JOIN ... ON ... - How to select and display 2 table records which connected with foreign keys?](#inner-join--join--on----how-to-select-and-display-2-table-records-which-connected-with-foreign-keys)
+  - [CROSS JOIN (Rarely used) - How to join everything in a table?](#cross-join-rarely-used---how-to-join-everything-in-a-table)
 - [Extra](#extra)
   - [Wildcard](#wildcard)
 
@@ -35,27 +40,29 @@
 
 # Clauses
 
-| Clause       | Description               |
-| ------------ | ------------------------- |
-| SELECT       | Retrieve data             |
-| FROM         | Choose the table          |
-| WHERE        | Filter rows               |
-| GROUP BY     | Group rows                |
-| HAVING       | Filter groups             |
-| ORDER BY     | Sort results              |
-| LIMIT        | Limit result rows         |
-| OFFSET       | Skip rows                 |
-| JOIN         | Combine tables            |
-| ON           | Condition for JOIN        |
-| AS           | Rename column/table       |
-| INSERT INTO  | Add new rows              |
-| VALUES       | Provide values for insert |
-| UPDATE       | Modify data               |
-| SET          | Set new values in update  |
-| DELETE       | Delete rows               |
-| CREATE TABLE | Define new table          |
-| DROP TABLE   | Remove table              |
-| ALTER TABLE  | Modify table structure    |
+| Clause       | Description                     |
+| ------------ | ------------------------------- |
+| SELECT       | Retrieve data                   |
+| FROM         | Choose the table                |
+| WHERE        | Filter rows                     |
+| GROUP BY     | Group rows                      |
+| HAVING       | Filter groups                   |
+| ORDER BY     | Sort results                    |
+| LIMIT        | Limit result rows               |
+| OFFSET       | Skip rows                       |
+| JOIN         | Combine tables                  |
+| ON           | Condition for JOIN              |
+| AS           | Rename column/table             |
+| INSERT INTO  | Add new rows                    |
+| VALUES       | Provide values for insert       |
+| UPDATE       | Modify data                     |
+| SET          | Set new values in update        |
+| DELETE       | Delete rows                     |
+| CREATE TABLE | Define new table                |
+| DROP TABLE   | Remove table                    |
+| ALTER TABLE  | Modify table structure          |
+| SERIAL       | Used to mark auto increment key |
+| REFERENCES   | Used to connect tables          |
 
 
 # OPERATOR
@@ -349,6 +356,34 @@ Example
 ```
 => DELETE FROM user WHERE id=1;
 ```
+
+# Relation Operations
+
+## REFERENCES - How to make relation ship between multiple tables?
+
+# JOIN Operations
+
+## INNER JOIN / JOIN ... ON ... - How to select and display 2 table records which connected with foreign keys?
+
+Syntax
+```
+=> SELECT tab_1.col_nam, tab_2.col_nam FROM tab_1 JOIN tab_2 ON tab_1.foreign_key_filed = tab_2.primary_key;
+```
+
+Example
+```
+=> SELECT album.title, artist.name FROM album JOIN artist ON album.artist_id = artist.id;
+-- below give same result as above
+=> SELECT album.title, artist.name FROM album INNER JOIN artist ON album.artist_id = artist.id;
+```
+
+## CROSS JOIN (Rarely used) - How to join everything in a table?
+
+**Difference between**
+| CROSS JOIN                                  | INNER JOIN                                       |
+| ------------------------------------------- | ------------------------------------------------ |
+| Cross join means take everything that match | Inner join means take the things that only match |
+| It also does **not need ON clause**         |                                                  |
 
 # Extra
 

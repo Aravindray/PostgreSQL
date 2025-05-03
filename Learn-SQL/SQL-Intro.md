@@ -22,11 +22,17 @@
       - [DATE](#date)
       - [TIME](#time)
       - [SERIAL](#serial)
-      - [REFERENCES table\_name(primary\_key)](#references-table_nameprimary_key)
   - [Constraints in PostgreSQL](#constraints-in-postgresql)
       - [UNIQUE / UNIQUE()](#unique--unique)
-      - [ON DELETE CASCADE](#on-delete-cascade)
+      - [ON DELETE](#on-delete)
+        - [CASCADE](#cascade)
+        - [RESTRICT](#restrict)
+        - [SET NULL](#set-null)
       - [PRIMARY KEY / PRIMARY KEY()](#primary-key--primary-key)
+      - [REFERENCES table\_name(primary\_key)](#references-table_nameprimary_key)
+      - [JOIN](#join)
+        - [INNER JOIN / JOIN](#inner-join--join)
+        - [CROSS JOIN](#cross-join)
   - [Functions in PostgreSQL](#functions-in-postgresql)
       - [NOW()](#now)
   - [Indexes](#indexes)
@@ -95,9 +101,6 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 #### SERIAL
 - It creates an auto increment integer column
 - It used as Primary Key which postgres automatically generate unique sequential value
-#### REFERENCES table_name(primary_key)
-- References keyword makes the relationship between table.
-- Check out this Example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
 
 Notes: ... <br>
 Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/datatype.html)
@@ -107,14 +110,29 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 #### UNIQUE / UNIQUE()
 **UNIQUE**
 - It make sure that every record (row) value will be unique, and postgres automatically create index for this field.
-
 **UNIQUE(field1, field2)**
 - UNIQUE(title, album) - This make suer that the combination of field 1 (song name) and field 2 (album) must to be unique, for example if the song name 'Thank, Thank' have presented in 2 different albums like 'Vol 25', 'Vol 35'
-
-#### ON DELETE CASCADE
+#### ON DELETE
+##### CASCADE
 - Basically says if parent/reference entry is deleted, delete everything belong to that id from this table also.
+##### RESTRICT
+- This is the default operation
+- Don't allow the change that break the constrain
+##### SET NULL
+- Set the foreign key column in the child rows to null.
+- If you decide to set null in tell postgres that this column in integer or integer null.
 #### PRIMARY KEY / PRIMARY KEY()
 - Primary key says make this field as auto increment integer field and index it and reference it
+#### REFERENCES table_name(primary_key)
+- References keyword makes the relationship between table.
+- Check out this Example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
+#### JOIN
+##### INNER JOIN / JOIN
+- The JOIN operation links across several tables as part of a SELECT operation.
+- You must tell the JOIN how to use the keys that make the connection between the tables using an ON clause.
+##### CROSS JOIN
+- Rarely used
+
 
 ## Functions in PostgreSQL
 
