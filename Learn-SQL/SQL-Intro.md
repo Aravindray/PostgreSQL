@@ -22,6 +22,7 @@
       - [DATE](#date)
       - [TIME](#time)
       - [SERIAL](#serial)
+      - [REFERENCES table\_name(primary\_key)](#references-table_nameprimary_key)
   - [Constraints in PostgreSQL](#constraints-in-postgresql)
       - [UNIQUE / UNIQUE()](#unique--unique)
       - [ON DELETE CASCADE](#on-delete-cascade)
@@ -94,6 +95,9 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 #### SERIAL
 - It creates an auto increment integer column
 - It used as Primary Key which postgres automatically generate unique sequential value
+#### REFERENCES table_name(primary_key)
+- References keyword makes the relationship between table.
+- Check out this Example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
 
 Notes: ... <br>
 Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/datatype.html)
