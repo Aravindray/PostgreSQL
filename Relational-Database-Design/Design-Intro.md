@@ -6,8 +6,9 @@
     - [Foreign Key](#foreign-key)
     - [Logical Key](#logical-key)
   - [Data Normalization (3NF)](#data-normalization-3nf)
-    - [SQL Query to build the relationship](#sql-query-to-build-the-relationship)
+  - [SQL Query to build ONE-to-Many relationship](#sql-query-to-build-one-to-many-relationship)
   - [Power of Relational Database](#power-of-relational-database)
+  - [SQL Query to build Many-to-Many relationship](#sql-query-to-build-many-to-many-relationship)
 
 # Relational Database Design
 
@@ -69,7 +70,7 @@ Above image is the example of Many-to-One relationship, Think like many songs be
 
 **Notes:** Above table generated in this [website](https://ozh.github.io/ascii-tables/)
 
-### SQL Query to build the relationship
+## SQL Query to build ONE-to-Many relationship
 
 Let consider this scenario where we want to store track (song) details, like song name (title), artist, album. Instead of storing all artist and album value repeating itself, we store each detail in separate table and link with them as foreign key in track table.
 
@@ -95,3 +96,31 @@ From above example we see that the album table storing the id of artist table wi
 
 - By removing the replicated data and replacing it with references to a single copy of each bit of data, we build a "web" of information that the relational database can read through very quickly - even for very large amounts of data.
 - Often when you want some data it comes from a number of tables linked by these foreign keys.
+
+## SQL Query to build Many-to-Many relationship
+
+- Best example of many to many relations is books and authors table, A author can write many books and A book was written by many authors.
+- Many-to-Many is a technical name, there is no direct connection between 2 tables, instead we create the intermediate table, (through table, ) and link the primary key of 2 tables.
+
+Example
+```
+-- book table
+CREATE TABLE book (
+  id SERIAL,
+  title VARCHAR(128),
+  PRIMARY KEY(id)
+)
+
+-- author table
+CREATE TABLE author (
+  id SERIAL,
+  name VARCHAR(128),
+  PRIMARY KEY(id)
+)
+
+-- intermediate table
+CREATE TABLE author_book (
+  book_id INTEGER REFERENCES book(id) ON DELETE CASCADE,
+  author_id INTEGER REFERENCES author(id) ON DELETE CASCADE,
+)
+```
