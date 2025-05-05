@@ -100,7 +100,7 @@ From above example we see that the album table storing the id of artist table wi
 ## SQL Query to build Many-to-Many relationship
 
 - Best example of many to many relations is books and authors table, A author can write many books and A book was written by many authors.
-- Many-to-Many is a technical name, there is no direct connection between 2 tables, instead we create the intermediate table, (through table, ) and link the primary key of 2 tables.
+- Many-to-Many is a technical name, there is no direct connection between 2 tables, instead we create the intermediate table, (through table, junction table, join table) and link the primary key of 2 tables.
 
 Example
 ```

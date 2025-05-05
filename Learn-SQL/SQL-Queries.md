@@ -31,7 +31,8 @@
 - [Relation Operations](#relation-operations)
   - [REFERENCES - How to make relation ship between multiple tables?](#references---how-to-make-relation-ship-between-multiple-tables)
 - [JOIN Operations](#join-operations)
-  - [INNER JOIN / JOIN ... ON ... - How to select and display 2 table records which connected with foreign keys?](#inner-join--join--on----how-to-select-and-display-2-table-records-which-connected-with-foreign-keys)
+  - [JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...](#join-with-one-to-many-relationship---inner-join--join--on-)
+  - [JOIN with Many-to-Many relationship](#join-with-many-to-many-relationship)
   - [CROSS JOIN (Rarely used) - How to join everything in a table?](#cross-join-rarely-used---how-to-join-everything-in-a-table)
 - [Extra](#extra)
   - [Wildcard](#wildcard)
@@ -363,19 +364,63 @@ Example
 
 # JOIN Operations
 
-## INNER JOIN / JOIN ... ON ... - How to select and display 2 table records which connected with foreign keys?
+## JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...
+
+This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-one-to-many-relationship)
+
+**How to query all the album which published by artist**
 
 Syntax
 ```
 => SELECT tab_1.col_nam, tab_2.col_nam FROM tab_1 JOIN tab_2 ON tab_1.foreign_key_filed = tab_2.primary_key;
 ```
 
-Example
+Actual Query
 ```
-=> SELECT album.title, artist.name FROM album JOIN artist ON album.artist_id = artist.id;
+=> SELECT artist.name, album.title
+FROM artist
+JOIN album ON album.artist_id = artist.id;
+
 -- below give same result as above
-=> SELECT album.title, artist.name FROM album INNER JOIN artist ON album.artist_id = artist.id;
+
+=> SELECT artist.name, album.title
+FROM artist
+INNER JOIN album ON album.artist_id = artist.id;
 ```
+
+## JOIN with Many-to-Many relationship
+
+This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-many-to-many-relationship)
+
+**How to display all the books written by particular author**
+
+Syntax
+```
+=> SELECT pk_table_1.field_name, pk_table_2.field_name
+FROM pk_table_1
+JOIN intermediate_table ON intermediate_table.pk_table_1_id = pk_table_1.id
+JOIN pk_table_2 ON intermediate_table.pk_table_2_id = pk_table_2.id
+WHERE pk_table_2.filter_field = 'author_name';
+```
+
+Query
+```
+=> SELECT book.title, author.name
+FROM book
+JOIN author_book ON author_book.book_id = book.id
+JOIN author ON author_book.author_id = author.id
+WHERE author.name = 'Aravind';
+```
+
+**How to find this book(s) written by which author**
+
+Query
+```
+
+```
+
+**Map every book buy it author(s)**
+
 
 ## CROSS JOIN (Rarely used) - How to join everything in a table?
 
