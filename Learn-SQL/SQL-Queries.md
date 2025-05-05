@@ -414,12 +414,24 @@ WHERE author.name = 'Aravind';
 
 **How to find this book(s) written by which author**
 
-Query
+Query - Similar as above query instead of filtering by author, use book
 ```
-
+SELECT book.title, author.name
+FROM book
+JOIN author_book ON author_book.book_id = book.id
+JOIN author ON author_book.author_id = author.id
+WHERE book.title = 'How to do it?';
 ```
 
 **Map every book buy it author(s)**
+
+Query - Same as above, without filter
+```
+SELECT book.title, author.name
+FROM book
+JOIN author_book ON author_book.book_id = book.id
+JOIN author ON author_book.author_id = author.id;
+```
 
 
 ## CROSS JOIN (Rarely used) - How to join everything in a table?
