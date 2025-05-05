@@ -13,6 +13,7 @@
 | `\dt`            | To display all the tables based on the logged-in user          |
 | `\d+ table_name` | Which display detailed schema about the table                  |
 | `\copy`          | To copy data from external file and store it in database table |
+| `\i`             | To read .sql file from the psql server                         |
 | `\q`             | To quit (exit from current user session)                       |
 
 

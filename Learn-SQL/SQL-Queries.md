@@ -24,17 +24,21 @@
     - [Select: COUNT - How to display the results count?](#select-count---how-to-display-the-results-count)
   - [Update](#update)
     - [Update: SET ... WHERE ... - How to update / modify the existing data?](#update-set--where----how-to-update--modify-the-existing-data)
+    - [ALTER TABLE - How to update the table column field(s)?](#alter-table---how-to-update-the-table-column-fields)
   - [Delete](#delete)
     - [Delete: FROM - How to delete all records?](#delete-from---how-to-delete-all-records)
     - [Delete: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
     - [Delete: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
 - [Relation Operations](#relation-operations)
-  - [REFERENCES - How to make relation ship between multiple tables?](#references---how-to-make-relation-ship-between-multiple-tables)
+  - [One-to-One Relationship](#one-to-one-relationship)
+  - [One-to-Many Relationship](#one-to-many-relationship)
+  - [Many-to-Many Relationship](#many-to-many-relationship)
 - [JOIN Operations](#join-operations)
   - [JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...](#join-with-one-to-many-relationship---inner-join--join--on-)
   - [JOIN with Many-to-Many relationship](#join-with-many-to-many-relationship)
   - [CROSS JOIN (Rarely used) - How to join everything in a table?](#cross-join-rarely-used---how-to-join-everything-in-a-table)
 - [Extra](#extra)
+  - [DATES](#dates)
   - [Wildcard](#wildcard)
 
 <br>
@@ -309,6 +313,32 @@ Example
 => UPDATE user SET name='Aravind' WHERE email='ray@gmail.com';
 ```
 
+### ALTER TABLE - How to update the table column field(s)?
+
+- Sometime you make a mistake or your application evolve
+- If we made any error we change the value or data type of a table column with ALTER TABLE statement
+- We can also alter indexes, uniqueness constraints, foreign keys
+- Best thing is that it work / run on live database
+
+Syntax
+```
+-- to remove a column from a table
+ALTER TABLE table_name DROP COLUMN column_name;
+
+-- to alter the datatype of a column (I think there are many other methods and ways)
+ALTER TABLE table_name ALTER COLUMN column_name TYPE new_datatype;
+
+-- to add a new column in a table (can I able to add constrains?)
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE;
+```
+
+Example
+```
+ALTER TABLE fav DROP COLUMN oops;
+ALTER TABLE post ALTER COLUMN content TYPE TEXT;
+ALTER TABLE fav ADD COLUMN howmuch INTEGER;
+```
+
 ## Delete
 
 ### Delete: FROM - How to delete all records?
@@ -360,7 +390,64 @@ Example
 
 # Relation Operations
 
-## REFERENCES - How to make relation ship between multiple tables?
+- For best check out this [article](../Relational-Database-Design/Design-Intro.md), for my remembrance I will repeat it once.
+
+## One-to-One Relationship
+
+## One-to-Many Relationship
+
+- Simple example of One-to-Many is album and songs relationship, because an album my have may songs.
+
+Let's see how to create an song table and make relation with album table.
+
+Query
+```
+-- create album table
+CREATE TABLE album (
+  id SERIAL,
+  name VARCHAR(128) UNIQUE,
+  -- since this is simple example I add the artist directly in album but this is not how it's work, we make artist table separately
+  artist VARCHAR(128)
+  PRIMARY KEY(id)
+);
+
+-- create song table
+CREATE TABLE song (
+  id SERIAL,
+  title VARCHAR(128) UNIQUE,
+  album_id INTEGER REFERENCES album(id) ON DELETE CASCADE,
+  PRIMARY KEY(id)
+);
+```
+
+**REFERENCES** keyword plays a major role between relations.
+
+## Many-to-Many Relationship
+
+- Some of the example to user Many-to-Many relationships are _course - student_, (a student can enroll into multiple student and a course can have n no of student), similarly _book - author_.
+- Technically there is no direct many-to-many relationship we create a intermediate (through, join, junction) table and link both tale primary key into this one.
+
+Query
+```
+-- create a book table
+CREATE TABLE book (
+  id SERIAL,
+  title VARCHAR(128) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE author (
+  id SERIAL,
+  name VARCHAR(128) UNIQUE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE book_author (
+  book_id INTEGER REFERENCES book(id) ON DELETE CASCADE,
+  author_id INTEGER REFERENCES book(id) ON DELETE CASCADE,
+)
+```
+Above tables are now considered as many-to-many relationships
 
 # JOIN Operations
 
@@ -443,6 +530,14 @@ JOIN author ON author_book.author_id = author.id;
 | It also does **not need ON clause**         |                                                  |
 
 # Extra
+
+## DATES
+
+**DataTypes**
+- DATE - 'YYYY-MM-DD'
+- TIME - 'HH:MM:SS'
+- TIMESTAMP - 'YYYY-MM-DD HH:MM:SS'
+- TIMESTAMPTZ - 'YYYY-MM-DD HH:MM:SS 
 
 ## Wildcard
 
