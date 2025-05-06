@@ -36,14 +36,17 @@
 - [JOIN Operations](#join-operations)
   - [JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...](#join-with-one-to-many-relationship---inner-join--join--on-)
   - [JOIN with Many-to-Many relationship](#join-with-many-to-many-relationship)
-  - [CROSS JOIN (Rarely used) - How to join everything in a table?](#cross-join-rarely-used---how-to-join-everything-in-a-table)
-- [Extra](#extra)
+  - [CROSS JOIN (Rarely used)](#cross-join-rarely-used)
+- [Vital](#vital)
   - [DATES](#dates)
       - [TIMESTAMPTZ - Best practice](#timestamptz---best-practice)
       - [CASTING](#casting)
       - [Intervals](#intervals)
       - [DATE\_TRUNC()](#date_trunc)
       - [Performance](#performance)
+  - [DISTINCT](#distinct)
+  - [GROUP BY](#group-by)
+    - [HAVING](#having)
   - [Wildcard](#wildcard)
 
 <br>
@@ -526,7 +529,8 @@ JOIN author ON author_book.author_id = author.id;
 ```
 
 
-## CROSS JOIN (Rarely used) - How to join everything in a table?
+## CROSS JOIN (Rarely used)
+- It joins everything in a table
 
 **Difference between**
 | CROSS JOIN                                  | INNER JOIN                                       |
@@ -534,7 +538,7 @@ JOIN author ON author_book.author_id = author.id;
 | Cross join means take everything that match | Inner join means take the things that only match |
 | It also does **not need ON clause**         |                                                  |
 
-# Extra
+# Vital
 
 ## DATES
 
@@ -546,7 +550,7 @@ JOIN author ON author_book.author_id = author.id;
 
 Data type also have NOW() function
 
-**Basics**
+**Basic Notes**
 - we can save some code by auto populating data field when a row is inserted
 
 #### TIMESTAMPTZ - Best practice
@@ -609,6 +613,38 @@ AND created_at < DATE_TRUNC('day', NOW() + INTERVAL '1 day');
 => SELECT id, content, created_at
 FROM comment
 WHERE created_at::DATE = NOW()::DATE;
+```
+
+## DISTINCT
+
+- DISTINCT only return unique rows in a result set and row will only appear once.
+- **DISTINCT ON (rarely used)** limits duplicate removal to a set of columns
+
+Syntax
+```
+=> SELECT DISTINCT col_name FROM table_name;
+```
+
+## GROUP BY
+
+- GROUP BY is combined with aggregate functions like COUNT(), MAX(), SUM(), AVG()
+
+Example
+```
+=> SELECT COUNT(abbrev), abbrev FROM pg_timezone_names GROUP BY abbrev;
+```
+
+### HAVING
+- WHERE clause reduce the result set before the GROUP BY
+- HAVING is like WHERE clause which filter after the group data
+
+Query
+```
+=> SELECT COUNT(abbrev) AS ct, abbrev
+FROM pg_timezone_names
+WHERE is_dst = 't' -- dst means daylight saving time
+GROUP BY abbrev
+HAVING COUNT(abbrev) > 10;
 ```
 
 ## Wildcard
