@@ -48,6 +48,10 @@
   - [GROUP BY](#group-by)
     - [HAVING](#having)
   - [Wildcard](#wildcard)
+  - [Sub-Queries](#sub-queries)
+  - [Concurrency](#concurrency)
+  - [Transactions](#transactions)
+  - [Stored Procedures](#stored-procedures)
 
 <br>
 
@@ -665,3 +669,84 @@ HAVING COUNT(abbrev) > 10;
 | 'L___on' | starts with 'L' and ends with 'on'                 |
 | 'a__%'   | starts with 'a' and at least 3 character in length |
 | '_r%'    | return all have 'r' in second position             |
+
+## Sub-Queries
+- A Query with in a query
+- Due to performance issue, we use sub-queries rarely
+- It use a value or set of values in a query that are completed by another query
+- It makes performance slow, It work like creating a temp table for inner query and filter the result and display it
+
+```
+-- basic queries
+=> SELECT * FROM account WHERE email='ray@gmail.com';
+=> SELECT content FROM comment WHERE account_id = 7;
+
+-- example of sub-query
+=> SELECT content FROM comment
+WHERE account_id = (SELECT id FROM account WHERE email='ray@gmail.com');
+```
+
+## Concurrency
+- Database are designed to accept SQL commands from a variety of source simultaneously and make them atomically
+
+**Atomicity**
+- To implement atomicity, PostgreSQL 'locks' areas before it start on SQL command that might change an area of the database
+- All other access to that area must wait until the area is unlocked
+
+Example
+```
+=> UPDATE track SET count=count+1 WHERE id=42;
+
+-- behind the process
+=> LOCK ROW 42 OF track
+READ count FROM track ROW 42
+count = count + 1
+WRITE count TO track ROW 42
+UNLOCK ROW 42 OF track
+```
+
+- add 1st point
+- add 2nd point
+- add 3rd point
+
+## Transactions
+
+- The implementation of Transaction makes a big difference in database performance
+  - Lock
+  - Lock Implementation
+- add 2nd point
+- add 3rd point
+
+Syntax
+```
+-- create a transaction and save successfully
+BEGIN
+UPDATE
+COMMIT
+
+-- create a transaction and revert back
+BEGIN
+UPDATE
+ROLLBACK
+```
+
+Example
+```
+=>
+```
+
+## Stored Procedures
+- A stored procedure is a bit of ? code that runs inside the database server
+- There are multiple language but choose - **plpgsql**
+- Generally quite not-portable to other databases
+- Usually the goal is the ? fewer SQL statement
+
+**You should have strong reason to use a stored procedure**
+- Major performance problem
+- Harder to test/modify
+- No database portability
+- Some rules that 'must' be enforced
+
+Actual Query
+```
+```

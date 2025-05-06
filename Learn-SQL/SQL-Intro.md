@@ -50,13 +50,13 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 
 ## Components of SQL System
 
-|                                                           |                            |                                                          |
-| --------------------------------------------------------- | -------------------------- | -------------------------------------------------------- |
-| <li>Database</li>                                         | <li>Table</li>             | <li><a href="../Learn-SQL/SQL-Queries.md">Query</a></li> |
-| <li>Security</li>                                         | <li>Permissions</li>       | <li>Joins</li>                                           |
-| <li><a href="#constraints-in-sql">Constraints</a></li>    | <li>Stored</li> Procedures | <li>Transactions</li>                                    |
-| <li><a href="#data-types-in-sql">Data Type</a></li>       | <li>Indexes</li>           | <li>Views</li>                                           |
-| <li><a href="#functions-in-postgresql">Functions</a></li> |                            |                                                          |
+|                                                               |                                                                         |                                                                   |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| <li>Database</li>                                             | <li>Table</li>                                                          | <li><a href="./SQL-Queries.md">Query</a></li>                     |
+| <li>Security</li>                                             | <li>Permissions</li>                                                    | <li><a href="./SQL-Queries.md#join-operations">Joins</a></li>     |
+| <li><a href="#constraints-in-postgresql">Constraints</a></li> | <li><a href="./SQL-Queries.md#stored-procedures">Stored Procedures</li> | <li><a href="./SQL-Queries.md#concurrency">Concurrency</a></li>   |
+| <li><a href="#data-types-in-postgresql">Data Type</a></li>    | <li>Indexes</li>                                                        | <li>Views</li>                                                    |
+| <li><a href="#functions-in-postgresql">Functions</a></li>     | <li><a href="./SQL-Queries.md#sub-queries">Sub-Queries</a></li>         | <li><a href="./SQL-Queries.md#transactions">Transactions</a></li> |
 
 ## Category of SQL Commands
 
