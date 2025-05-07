@@ -705,9 +705,16 @@ WRITE count TO track ROW 42
 UNLOCK ROW 42 OF track
 ```
 
-- add 1st point
-- add 2nd point
-- add 3rd point
+- Single SQL Statements are Atomic
+  - Not just update statement, insert statement also atomic
+- All the inserts will work and get a unique primary key
+- From below, which account gets which key is not predictable
+
+```
+INSERT INTO account(email) VALUES ('ed@umich.edu');
+INSERT INTO account(email) VALUES ('sue@umich.edu');
+INSERT INTO account(email) VALUES ('shally@umich.edu');
+```
 
 ## Transactions
 
