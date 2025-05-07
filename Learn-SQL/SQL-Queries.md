@@ -50,6 +50,7 @@
   - [Wildcard](#wildcard)
   - [Sub-Queries](#sub-queries)
   - [Concurrency](#concurrency)
+    - [ON CONFLICT](#on-conflict)
   - [Transactions](#transactions)
   - [Stored Procedures](#stored-procedures)
 
@@ -716,13 +717,47 @@ INSERT INTO account(email) VALUES ('sue@umich.edu');
 INSERT INTO account(email) VALUES ('shally@umich.edu');
 ```
 
+**Compound Statements**
+- There are statements which do more than one things in one statement for efficiency and concurrency.
+
+Example (need more explanation)
+```
+INSERT INTO fav (post_id, account_id, howmuch)
+VALUES (1,1,1)
+RETURNING *;
+
+UPDATE fav SET howmuch=howmuch+1
+WHERE post_id = 1 AND account_id = 1
+RETURNING *;
+```
+We use RETURNING feature a lot
+
+### ON CONFLICT
+- Sometimes you "bump into" a constrain on purpose
+- This is same like try and except statement in python
+
+Example
+```
+-- fail statement
+INSERT INTO fav (post_id, account_id, howmuch)
+VALUES (1,1,1)
+RETURNING *;
+
+-- success statement
+INSERT INTO fav (post_id, account_id, howmuch)
+VALUES (1,1,1)
+ON CONFLICT (post_id, account_id)
+DO UPDATE SET howmuch = fav.howmuch + 1
+RETURNING *;
+```
+
 ## Transactions
 
 - The implementation of Transaction makes a big difference in database performance
   - Lock
   - Lock Implementation
-- add 2nd point
-- add 3rd point
+- Lock strength UPDATE, NO KEY UPDATE (explore more - he didn't cover)
+- What to do when encountering a lock (WAIT), NOWAIT, SKIP LOCKED (explore more - he didn't cover)
 
 Syntax
 ```
@@ -739,7 +774,21 @@ ROLLBACK
 
 Example
 ```
-=>
+-- revert scenario
+=> BEGIN;
+SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1 FOR UPDATE OF fav;
+-- Time passes ...
+UPDATE SET howmuch=999 WHERE account_id=1 AND post_id=1;
+ROLLBACK;
+SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
+
+-- commit scenario
+=> BEGIN;
+SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1 FOR UPDATE OF fav;
+-- Time passes ...
+UPDATE SET howmuch=999 WHERE account_id=1 AND post_id=1;
+COMMIT;
+SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 ```
 
 ## Stored Procedures
