@@ -14,6 +14,7 @@
     - [Create: How to create a database?](#create-how-to-create-a-database)
     - [Create: How to create a table?](#create-how-to-create-a-table)
     - [Insert: TABLE ... VALUES - How to add a new item in a table?](#insert-table--values---how-to-add-a-new-item-in-a-table)
+    - [INSERT INTO ... SELECT ... - How to select results from one table and create it in another table?](#insert-into--select----how-to-select-results-from-one-table-and-create-it-in-another-table)
   - [Read](#read)
     - [Select: How to select and display all the results?](#select-how-to-select-and-display-all-the-results)
     - [Select: WHERE - How to select and display particular result(s)?](#select-where---how-to-select-and-display-particular-results)
@@ -198,6 +199,20 @@ Syntax
 Example
 ```
 => INSERT TABLE user (name, email) VALUES ('Ray', 'ray@gmail.com');
+```
+
+### INSERT INTO ... SELECT ... - How to select results from one table and create it in another table?
+
+Consider these 2 tables xy_raw (x, y, y_id - all text field) and y (id - PK, y - text)
+
+Syntax
+```
+=> INSERT INTO new_table(new_col) SELECT DISTINCT old_col FROM old_table;
+```
+
+Example
+```
+=> INSERT INTO y(y) SELECT DISTINCT y FROM xy_raw;
 ```
 
 ## Read
