@@ -779,7 +779,7 @@ Example
 => BEGIN;
 SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1 FOR UPDATE OF fav;
 -- Time passes ...
-UPDATE SET howmuch=999 WHERE account_id=1 AND post_id=1;
+UPDATE fav SET howmuch=999 WHERE account_id=1 AND post_id=1;
 ROLLBACK;
 SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 
@@ -787,7 +787,7 @@ SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 => BEGIN;
 SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1 FOR UPDATE OF fav;
 -- Time passes ...
-UPDATE SET howmuch=999 WHERE account_id=1 AND post_id=1;
+UPDATE fav SET howmuch=999 WHERE account_id=1 AND post_id=1;
 COMMIT;
 SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 ```
