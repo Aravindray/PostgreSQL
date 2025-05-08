@@ -3,6 +3,7 @@
 ## Table of Content
 - [PSQL Commands](#psql-commands)
     - [\\copy - How to copy data from external file and store it in table records in postgres?](#copy---how-to-copy-data-from-external-file-and-store-it-in-table-records-in-postgres)
+    - [\\copy - How to execute sql statements from external file(s)?](#copy---how-to-execute-sql-statements-from-external-files)
 
 
 # PSQL Commands
@@ -30,3 +31,19 @@ Example
 ```
 
 **Note:** The file 'library.csv' must be same directory as the psql terminal running.
+
+### \copy - How to execute sql statements from external file(s)?
+
+The psql \i command will read the sql statement from the file and execute the query.
+
+Syntax
+```
+=> \i filename.ext
+```
+
+Example
+```
+=> \i 03-Technique-load.sql
+```
+
+**Note:** The file '03-Technique-load.sql' must be same directory as the psql terminal running.
