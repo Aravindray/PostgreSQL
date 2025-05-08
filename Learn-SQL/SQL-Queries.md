@@ -81,6 +81,7 @@
 | ALTER TABLE  | Modify table structure          |
 | SERIAL       | Used to mark auto increment key |
 | REFERENCES   | Used to connect tables          |
+| IN           | Used to check element in array  |
 
 
 # OPERATOR
@@ -792,10 +793,10 @@ SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 ```
 
 ## Stored Procedures
-- A stored procedure is a bit of ? code that runs inside the database server
+- A stored procedure is a bit of reusable code that runs inside the database server
 - There are multiple language but choose - **plpgsql**
 - Generally quite not-portable to other databases
-- Usually the goal is the ? fewer SQL statement
+- Usually the goal is to have fewer SQL statements
 
 **You should have strong reason to use a stored procedure**
 - Major performance problem
@@ -803,6 +804,29 @@ SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 - No database portability
 - Some rules that 'must' be enforced
 
-Actual Query
+Actual Query - auto update field (updated_at field)
 ```
+-- consider the table name fav in it we have updated_at field which will update automatically whenever the user modify the data
+
+-- old query before stored procedure
+UPDATE fav SET howmuch = howmuch + 1, updated_at = NOW()
+WHERE post_id = 1 and account_id = 1;
+
+-- using functions and trigger for automate updated_at
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURN TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON fav
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+-- new query after stored procedure
+UPDATE fav SET howmuch=howmuch+1
+WHERE post_id = 1 and account_id = 1;
 ```
