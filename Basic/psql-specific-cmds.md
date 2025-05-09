@@ -3,7 +3,7 @@
 ## Table of Content
 - [PSQL Commands](#psql-commands)
     - [\\copy - How to copy data from external file and store it in table records in postgres?](#copy---how-to-copy-data-from-external-file-and-store-it-in-table-records-in-postgres)
-    - [\\copy - How to execute sql statements from external file(s)?](#copy---how-to-execute-sql-statements-from-external-files)
+    - [\\i - How to execute sql statements from external file(s)?](#i---how-to-execute-sql-statements-from-external-files)
 
 
 # PSQL Commands
@@ -30,9 +30,14 @@ Example
 => \copy track_raw (title, artist, album, count, rating, len) FROM 'library.csv' WITH DELIMITER ',' CSV;
 ```
 
+**Basic**
+
+WITH DELIMITER ',' CSV
+WITH DELIMITER ',' CSV HEADER - header means skip the first row
+
 **Note:** The file 'library.csv' must be same directory as the psql terminal running.
 
-### \copy - How to execute sql statements from external file(s)?
+### \i - How to execute sql statements from external file(s)?
 
 The psql \i command will read the sql statement from the file and execute the query.
 
