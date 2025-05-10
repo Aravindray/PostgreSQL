@@ -16,6 +16,7 @@
 | `\copy`          | To copy data from external file and store it in database table |
 | `\i`             | To read .sql file from the psql server                         |
 | `\q`             | To quit (exit from current user session)                       |
+| `\c`             | To change from one database to another                         |
 
 
 ### \copy - How to copy data from external file and store it in table records in postgres?

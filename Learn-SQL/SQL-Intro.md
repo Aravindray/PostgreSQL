@@ -33,8 +33,25 @@
       - [JOIN](#join)
         - [INNER JOIN / JOIN](#inner-join--join)
         - [CROSS JOIN](#cross-join)
+      - [CASE](#case)
   - [Functions in PostgreSQL](#functions-in-postgresql)
       - [NOW()](#now)
+      - [TRUNC()](#trunc)
+      - [REPEAT()](#repeat)
+      - [GENERATE\_SERIES()](#generate_series)
+      - [RANDOM()](#random)
+    - [Text Functions](#text-functions)
+      - [upper](#upper)
+      - [lower](#lower)
+      - [right](#right)
+      - [left](#left)
+      - [strpos (starting position)](#strpos-starting-position)
+      - [substr (sub string)](#substr-sub-string)
+      - [split\_part](#split_part)
+      - [translate](#translate)
+    - [Vital](#vital)
+      - [pg\_relation\_size](#pg_relation_size)
+      - [pg\_indexes\_size](#pg_indexes_size)
   - [Indexes](#indexes)
 
 <br>
@@ -132,18 +149,86 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 - You must tell the JOIN how to use the keys that make the connection between the tables using an ON clause.
 ##### CROSS JOIN
 - Rarely used
-
+#### CASE
 
 ## Functions in PostgreSQL
 
 #### NOW()
-- for DateTime field NOW() function is used to get to current time stamp
+- DateTime field NOW() function is used to get to current date and time stamp with timezone
+#### TRUNC()
+- It will convert float number to integer
+#### REPEAT()
+- It will take 2 argument string and no of times to repeat the string - ('text', 5)
+- It will generate the result in one line (horizontally)
+#### GENERATE_SERIES()
+- It will take 2 argument starting integer and ending integer - (1, 5)
+- It will generate the results in rows (vertically)
+#### RANDOM()
+- It will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
+### Text Functions
+**Notes:** [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
+#### upper
+- Return the string in all upper case
+- It will both be used in SELECT and WHERE clause as well
+#### lower
+- Return the string in all lower case
+- It will both be used in SELECT and WHERE clause as well
+#### right
+- It will take string and no of character as argument and return the right side of the result - (col_name, no_of_char)
+- It will both be used in SELECT and WHERE clause as well
+Example
+```
+-- text: 'https://www.pg4e.com/LEMONS/150000'
+=> SELECT right(content, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: 0000
+```
+#### left
+- It will take string and no of character as argument and return the left side of the result - (col_name, no_of_char)
+- It will both be used in SELECT and WHERE clause as well
+Example
+```
+-- text: 'https://www.pg4e.com/LEMONS/150000'
+=> SELECT right(content, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: http
+```
+#### strpos (starting position)
+- It will take the 2 arguments like (col_name, 'find_str') and return the position where the character start
+- Index start with 1 (not zero (0) like python)
+Example
+```
+-- text: 'https://www.pg4e.com/LEMONS/150000'
+=> SELECT strpos(content, 'ttps://') FROM textfun WHERE content LIKE '%150000%'; -- answer: 2
+```
+#### substr (sub string)
+- It will take 3 arguments (col_name, start, end) where start and end characters include.
+Example
+```
+-- text: 'https://www.pg4e.com/LEMONS/150000'
+=> SELECT substr(content, 2, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: ttps
+```
+#### split_part
+
+Example
+```
+SELECT split_part('apple,banana,cherry', ',', 1); -- Returns 'apple'
+SELECT split_part('apple,banana,cherry', ',', 2); -- Returns 'banana'
+SELECT split_part('apple,banana,cherry', ',', 3); -- Returns 'cherry'
+```
+#### translate
+
+### Vital
+#### pg_relation_size
+- It will take the table_name as argument - pg_relation_size(table_name)
+- It will return the size of the table (Note in postgres table is also know as relation)
+#### pg_indexes_size
+- It will take the table_name as argument, which index is linked - pg_indexes_size(table_name)
+- It will return the size of the indexes
 
 ## Indexes
 
 Index is a technique used to quickly access the single data from million or billion of record with help of Hash and Tree mechanism (or) algorithms.
 
 - Index automatically created for primary keys, logical keys (mostly have UNIQUE keyword).
+- Index is fast for insert, delete, update and read the data from the table.
+- Index is no good for TEXT field
 
 **Tree**
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.

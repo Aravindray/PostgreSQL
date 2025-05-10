@@ -52,39 +52,42 @@
   - [Wildcard](#wildcard)
   - [Sub-Queries](#sub-queries)
   - [Concurrency](#concurrency)
-    - [ON CONFLICT](#on-conflict)
+    - [ON CONFLICT - Like Try and Expect](#on-conflict---like-try-and-expect)
   - [Transactions](#transactions)
   - [Stored Procedures](#stored-procedures)
+  - [If/Else in Postgres - CASE THEN ELSE END](#ifelse-in-postgres---case-then-else-end)
 
 <br>
 
 # Clauses
 
-| Clause       | Description                     |
-| ------------ | ------------------------------- |
-| SELECT       | Retrieve data                   |
-| FROM         | Choose the table                |
-| WHERE        | Filter rows                     |
-| GROUP BY     | Group rows                      |
-| HAVING       | Filter groups                   |
-| ORDER BY     | Sort results                    |
-| LIMIT        | Limit result rows               |
-| OFFSET       | Skip rows                       |
-| JOIN         | Combine tables                  |
-| ON           | Condition for JOIN              |
-| AS           | Rename column/table             |
-| INSERT INTO  | Add new rows                    |
-| VALUES       | Provide values for insert       |
-| UPDATE       | Modify data                     |
-| SET          | Set new values in update        |
-| DELETE       | Delete rows                     |
-| CREATE TABLE | Define new table                |
-| DROP TABLE   | Remove table                    |
-| ALTER TABLE  | Modify table structure          |
-| SERIAL       | Used to mark auto increment key |
-| REFERENCES   | Used to connect tables          |
-| IN           | Used to check element in array  |
+| Clause        | Description                     |
+| ------------- | ------------------------------- |
+| SELECT        | Retrieve data                   |
+| FROM          | Choose the table                |
+| WHERE         | Filter rows                     |
+| GROUP BY      | Group rows                      |
+| HAVING        | Filter groups                   |
+| ORDER BY      | Sort results                    |
+| LIMIT         | Limit result rows               |
+| OFFSET        | Skip rows                       |
+| JOIN          | Combine tables                  |
+| ON            | Condition for JOIN              |
+| AS            | Rename column/table             |
+| INSERT INTO   | Add new rows                    |
+| VALUES        | Provide values for insert       |
+| UPDATE        | Modify data                     |
+| SET           | Set new values in update        |
+| DELETE        | Delete rows                     |
+| CREATE TABLE  | Define new table                |
+| DROP TABLE    | Remove table                    |
+| DROP DATABASE | Remove database                 |
+| ALTER TABLE   | Modify table structure          |
+| SERIAL        | Used to mark auto increment key |
+| REFERENCES    | Used to connect tables          |
+| IN            | Used to check element in array  |
 
+**Notes:** SELECT() - [article](https://www.postgresql.org/docs/current/sql-select.html)
 
 # OPERATOR
 
@@ -142,6 +145,7 @@
 
 | Operator        | Meaning              |
 | --------------- | -------------------- |
+| \|\|            | Concat strings       |
 | LIKE            | Pattern matching     |
 | IN (...)        | Match any in list    |
 | BETWEEN A AND B | Match range          |
@@ -770,7 +774,7 @@ RETURNING *;
 ```
 We use RETURNING feature a lot
 
-### ON CONFLICT
+### ON CONFLICT - Like Try and Expect
 - Sometimes you "bump into" a constrain on purpose
 - This is same like try and except statement in python
 
@@ -856,7 +860,7 @@ BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$ $ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON fav
@@ -866,4 +870,24 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 -- new query after stored procedure
 UPDATE fav SET howmuch=howmuch+1
 WHERE post_id = 1 and account_id = 1;
+```
+
+## If/Else in Postgres - CASE THEN ELSE END
+
+Syntax
+```
+=> SELECT (CASE WHEN (condition)
+THEN ...
+ELSE ...
+END
+)
+```
+
+Example
+```
+=> SELECT (CASE WHEN (random() < 0.5)
+  THEN 'https://www.pg4e.com/neon/'
+  ELSE 'http://www.pg4e.com/LEMONS/'
+  END
+) || generate_series(100000, 200000)
 ```
