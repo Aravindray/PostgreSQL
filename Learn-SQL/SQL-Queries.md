@@ -48,6 +48,7 @@
   - [DISTINCT](#distinct)
   - [GROUP BY](#group-by)
     - [HAVING](#having)
+  - [Regular Expression](#regular-expression)
   - [Wildcard](#wildcard)
   - [Sub-Queries](#sub-queries)
   - [Concurrency](#concurrency)
@@ -667,6 +668,27 @@ WHERE is_dst = 't' -- dst means daylight saving time
 GROUP BY abbrev
 HAVING COUNT(abbrev) > 10;
 ```
+
+## Regular Expression
+
+**Regular Expression Quick Guide**
+
+| Symbol   | Description                                         |
+| -------- | --------------------------------------------------- |
+| ^        | Matches the beginning of a line                     |
+| $        | Matches the end of the line                         |
+| .        | Matches any character                               |
+| \s       | Matches whitespace                                  |
+| \S       | Matches any non-whitespace character                |
+| *        | Repeats a character zero or more times              |
+| *?       | Repeats a character zero or more times (non-greedy) |
+| +        | Repeats a character one or more times               |
+| +?       | Repeats a character one or more times (non-greedy)  |
+| [aeiou]  | Matches a single character in the listed set        |
+| [^XYZ]   | Matches a single character not in the listed set    |
+| [a-z0-9] | The set of characters can include a range           |
+| (        | Indicates where string extraction is to start       |
+| )        | Indicates where string extraction is to end         |
 
 ## Wildcard
 
