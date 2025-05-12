@@ -8,15 +8,16 @@
 
 # PSQL Commands
 
-| Command          | Description                                                    |
-| ---------------- | -------------------------------------------------------------- |
-| `\l`             | To display all the databases                                   |
-| `\dt`            | To display all the tables based on the logged-in user          |
-| `\d+ table_name` | Which display detailed schema about the table                  |
-| `\copy`          | To copy data from external file and store it in database table |
-| `\i`             | To read .sql file from the psql server                         |
-| `\q`             | To quit (exit from current user session)                       |
-| `\c`             | To change from one database to another                         |
+| Command           | Description                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `\l`              | To display all the databases                                   |
+| `\dt`             | To display all the tables based on the logged-in user          |
+| `\d+ table_name`  | Which display detailed schema about the table                  |
+| `\copy`           | To copy data from external file and store it in database table |
+| `\i`              | To read .sql file from the psql server                         |
+| `\q`              | To quit (exit from current user session)                       |
+| `\c`              | To change from one database to another                         |
+| `EXPLAIN ANALYZE` | To return more details about query                             |
 
 
 ### \copy - How to copy data from external file and store it in table records in postgres?

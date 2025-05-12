@@ -53,6 +53,8 @@
       - [pg\_size\_pretty()](#pg_size_pretty)
       - [pg\_indexes\_size()](#pg_indexes_size)
   - [Indexes](#indexes)
+    - [B-Tree](#b-tree)
+    - [Hashes](#hashes)
 
 <br>
 
@@ -184,7 +186,7 @@ Example
 ```
 
 #### TRUNC()
-- It will convert float number to integer
+- This function will convert float number to integer
 
 Example
 ```
@@ -192,7 +194,7 @@ Example
 ```
 
 #### REPEAT()
-- It will take 2 argument string and no of times to repeat the string - ('text', 5)
+- This function will take 2 argument string and no of times to repeat the string - ('text', 5)
 - It will generate the result in one line (horizontally)
 
 Example
@@ -202,7 +204,7 @@ Example
 ```
 
 #### GENERATE_SERIES()
-- It will take 2 argument starting integer and ending integer - (1, 5)
+- This function will take 2 argument starting integer and ending integer - (1, 5)
 - It will generate the results in rows (vertically)
 
 Example
@@ -216,7 +218,7 @@ Example
 ```
 
 #### RANDOM()
-- It will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
+- This function will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
 
 Example
 ```
@@ -228,7 +230,7 @@ Example
 **Notes:** [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
 
 #### UPPER
-- Return the string in all upper case
+- This function return the string in all upper case
 - It will both be used in SELECT and WHERE clause as well
 
 Example
@@ -237,7 +239,7 @@ Example
 ```
 
 #### LOWER
-- Return the string in all lower case
+- This function return the string in all lower case
 - It will both be used in SELECT and WHERE clause as well
 
 Example
@@ -246,7 +248,7 @@ Example
 ```
 
 #### RIGHT
-- It will take string and no of character as argument and return the right side of the result - (str, no_of_char)
+- This function will take string and no of character as argument and return the right side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
 Example
@@ -256,7 +258,7 @@ Example
 ```
 
 #### LEFT
-- It will take string and no of character as argument and return the left side of the result - (str, no_of_char)
+- This function will take string and no of character as argument and return the left side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
 Example
@@ -265,7 +267,7 @@ Example
 ```
 
 #### STRPOS (Starting Position)
-- It will take the 2 arguments like (str, 'find_str') and return the position where the character start
+- This function will take the 2 arguments like (str, 'find_str') and return the position where the character start
 - Index start with 1 (not zero (0) like python)
 
 Example
@@ -274,7 +276,7 @@ Example
 ```
 
 #### SUBSTR (Sub String)
-- It will take 3 arguments (str, start, end) where start and end characters include.
+- This function will take 3 arguments (str, start, end) where start and end characters include.
 
 Example
 ```
@@ -282,15 +284,24 @@ Example
 ```
 
 #### SPLIT_PART
+- This function will take 3 arguments - (str, delimiter, ele_pos_to_return)
+- It is similar like python split
 
 Example
 ```
 => SELECT SPLIT_PART('apple,banana,cherry', ',', 1); -- 'apple'
-=> SELECT SPLIT_PART('apple,,banana,cherry', ',', 2); -- 'apple'
+=> SELECT SPLIT_PART('apple,,banana,cherry', ',', 2); -- ''
 => SELECT SPLIT_PART('apple,banana,cherry', ',', 2); -- 'banana'
 ```
 
 #### TRANSLATE()
+- This function is similar like find and replace
+- It will take 3 arguments ('str', find, replace)
+- The find and replace part of argument must be similar no_of_character
+
+```
+=> SELECT TRANSLATE('https://www.pg4e.com/LEMONS/150000', 'th.p/', 'TH!P_'); -- HTTPs:__www!Pg4e!com_LEMONS_150000
+```
 
 ### Vital
 
@@ -310,17 +321,24 @@ Example
 
 ## Indexes
 
-Index is a technique used to quickly access the single data from million or billion of record with help of Hash and Tree mechanism (or) algorithms.
+Index is a technique used to quickly access the single data from million or billion of record with help of Hash and B-Tree mechanism (or) algorithms.
 
 - Index automatically created for primary keys, logical keys (mostly have UNIQUE keyword).
 - Index is fast for insert, delete, update and read the data from the table.
 - Index is no good for TEXT field
 
-**Tree**
+### B-Tree
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
 - Tree index is good for exact match lookup, sorting, range lookups, prefix lookup (mostly for strings)
 
-**Hashes**
+**How to check the B-Tree Index performance**
+
+Below query will return the execution time and some details about the performance, It is a psql specific command.
+```
+=> explain analyze SELECT content FROM textfun WHERE content LIKE 'racing%';
+```
+
+### Hashes
 
 > A hash function is any algorithm or subroutine that maps large data sets to smaller data sets, called keys. For example, a single integer can serve as an index to an array (cf. associative array). The values returned by a hash function are called hash values, hash codes, hash sums, checksums, or simply hashes. Hash functions are mostly used to accelerate table lookup or data comparison tasks such as finding items in a database ... - 'Charles Severance'
 - Hashes are so fast and only good for exact match, like Primary Keys, GUID

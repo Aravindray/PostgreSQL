@@ -56,10 +56,12 @@
   - [Transactions](#transactions)
   - [Stored Procedures](#stored-procedures)
   - [If/Else in Postgres - CASE THEN ELSE END](#ifelse-in-postgres---case-then-else-end)
-- [How to? Questions - Beyond CRUD](#how-to-questions---beyond-crud)
+- [How to Questions? - Beyond CRUD](#how-to-questions---beyond-crud)
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
     - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
   - [How to make an index for a table?](#how-to-make-an-index-for-a-table)
+  - [How to check table size in database?](#how-to-check-table-size-in-database)
+  - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
 
 <br>
 
@@ -151,7 +153,7 @@
 | --------------- | ----------------------- |
 | \|\|            | Concat strings          |
 | LIKE            | Pattern matching        |
-| ILIKE           |                         |
+| ILIKE           | Ignore case             |
 | NOT LIKE        |                         |
 | NOT iLIKE       |                         |
 | IN (...)        | Match any in list       |
@@ -901,7 +903,7 @@ Example
 ) || generate_series(100000, 200000)
 ```
 
-# How to? Questions - Beyond CRUD
+# How to Questions? - Beyond CRUD
 
 ## How to generate random data(s) in Database?
 
@@ -935,6 +937,7 @@ SELECT (CASE WHEN (random() < 0.5)
 ```
 
 ## How to make an index for a table?
+- First create a table and then create a index and link the table with index
 
 ```
 -- Consider we have a table with text field
@@ -945,3 +948,24 @@ CREATE TABLE textfun (
 -- To create index
 CREATE INDEX textfun_b ON textfun (content);
 ```
+
+## How to check table size in database?
+- Enter the table name in string
+
+```
+=> SELECT pg_relation_size('table_name'), pg_indexes_size('table_name');
+=> SELECT pg_relation_size('textfun'), pg_indexes_size('textfun'), pg_size_pretty(pg_relation_size('textfun'));
+```
+
+## How to optimize the SQL queries?
+- For **B-Tree** we can commend the sequence search to **stop**, after it read the one and only data in a table with **LIMIT** clause
+
+```
+- Worst performance (If we know there are seq records from 1 to 200, below query will execute after it find value (in 150 row) since it don't know)
+=> explain analyze select content from textfun where content like '%150%';
+
+- Best performance (If we know there are seq records from 1 to 200, below query will stop after it find value (in 150 row) since it we know)
+=> explain analyze select content from textfun where content like '%150%' LIMIT 1;
+```
+
+- Don't use sub-queries and sub-select while running
