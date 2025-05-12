@@ -33,7 +33,6 @@
       - [JOIN](#join)
         - [INNER JOIN / JOIN](#inner-join--join)
         - [CROSS JOIN](#cross-join)
-      - [CASE](#case)
   - [Functions in PostgreSQL](#functions-in-postgresql)
       - [NOW()](#now)
       - [TRUNC()](#trunc)
@@ -41,17 +40,18 @@
       - [GENERATE\_SERIES()](#generate_series)
       - [RANDOM()](#random)
     - [Text Functions](#text-functions)
-      - [upper](#upper)
-      - [lower](#lower)
-      - [right](#right)
-      - [left](#left)
-      - [strpos (starting position)](#strpos-starting-position)
-      - [substr (sub string)](#substr-sub-string)
-      - [split\_part](#split_part)
-      - [translate](#translate)
+      - [UPPER](#upper)
+      - [LOWER](#lower)
+      - [RIGHT](#right)
+      - [LEFT](#left)
+      - [STRPOS (Starting Position)](#strpos-starting-position)
+      - [SUBSTR (Sub String)](#substr-sub-string)
+      - [SPLIT\_PART](#split_part)
+      - [TRANSLATE()](#translate)
     - [Vital](#vital)
-      - [pg\_relation\_size](#pg_relation_size)
-      - [pg\_indexes\_size](#pg_indexes_size)
+      - [pg\_relation\_size()](#pg_relation_size)
+      - [pg\_size\_pretty()](#pg_size_pretty)
+      - [pg\_indexes\_size()](#pg_indexes_size)
   - [Indexes](#indexes)
 
 <br>
@@ -88,33 +88,46 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 #### CHAR(n)
 - If CHAR(64) - it allocate entire 64 bit space (which means 64 character), we need to store entire 64 bit space
 - Best for storing GUID (Global Unique Identifier - format is numbers and letter (A-Z))
+
 #### VARCHAR(n)
 - If VARCHAR(128) - depend on the data length it will store the from 1 character to 128 character
+
 #### TEXT
 - Get as much space as you need to store paragraph or HTML page
 - Not used for Index and Sorting (which means no ORDER BY and WHERE clause used with this data type)
+
 #### BINARY (rarely used)
 - Not used for Index and Sorting
 - Store small size image
+
 #### SMALLINT
 - This type store -32766 to +32766
+
 #### INTEGER
 - This type stores up to 2 Billion numbers
+
 #### BIGINT
 - This stores 10^18 length of data
+
 #### REAL
 - 32-bit [10^38]
+
 #### DOUBLE PRECISION
 - 64-bit [10^308]
+
 #### NUMERIC
 - This holds accuracy values
 - Used for to store money
+
 #### TIMESTAMP
 - Format is 'YYYY-MM-DD HH:MM:SS'
+
 #### DATE
 - Format is 'YYYY-MM-DD'
+
 #### TIME
 - Format is 'HH:MM:SS'
+
 #### SERIAL
 - It creates an auto increment integer column
 - It used as Primary Key which postgres automatically generate unique sequential value
@@ -124,103 +137,176 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 
 ## Constraints in PostgreSQL
 
+
 #### UNIQUE / UNIQUE()
 **UNIQUE**
 - It make sure that every record (row) value will be unique, and postgres automatically create index for this field.
 **UNIQUE(field1, field2)**
 - UNIQUE(title, album) - This make suer that the combination of field 1 (song name) and field 2 (album) must to be unique, for example if the song name 'Thank, Thank' have presented in 2 different albums like 'Vol 25', 'Vol 35'
+
 #### ON DELETE
+
 ##### CASCADE
 - Basically says if parent/reference entry is deleted, delete everything belong to that id from this table also.
+
 ##### RESTRICT
 - This is the default operation
 - Don't allow the change that break the constrain
+
 ##### SET NULL
 - Set the foreign key column in the child rows to null.
 - If you decide to set null in tell postgres that this column in integer or integer null.
+
 #### PRIMARY KEY / PRIMARY KEY()
 - Primary key says make this field as auto increment integer field and index it and reference it
+
 #### REFERENCES table_name(primary_key)
 - References keyword makes the relationship between table.
 - Check out this Example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
+
 #### JOIN
+
 ##### INNER JOIN / JOIN
 - The JOIN operation links across several tables as part of a SELECT operation.
 - You must tell the JOIN how to use the keys that make the connection between the tables using an ON clause.
+
 ##### CROSS JOIN
 - Rarely used
-#### CASE
 
 ## Functions in PostgreSQL
 
 #### NOW()
 - DateTime field NOW() function is used to get to current date and time stamp with timezone
+
+Example
+```
+=> SELECT NOW(); -- 2025-05-12 10:23:53.684396+05:30
+```
+
 #### TRUNC()
 - It will convert float number to integer
+
+Example
+```
+=> SELECT TRUNC(RANDOM() * 100); -- 17
+```
+
 #### REPEAT()
 - It will take 2 argument string and no of times to repeat the string - ('text', 5)
 - It will generate the result in one line (horizontally)
+
+Example
+```
+=> SELECT REPEAT('ABC', 3); -- ABCABCABC
+=> SELECT REPEAT('ABC ', 3); -- ABC ABC ABC
+```
+
 #### GENERATE_SERIES()
 - It will take 2 argument starting integer and ending integer - (1, 5)
 - It will generate the results in rows (vertically)
+
+Example
+```
+=> SELECT GENERATE_SERIES(1, 5);
+-- 1
+-- 2
+-- 3
+-- 4
+-- 5
+```
+
 #### RANDOM()
 - It will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
+
+Example
+```
+=> SELECT RANDOM(); -- 0.6359592059634787
+```
+
 ### Text Functions
+
 **Notes:** [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
-#### upper
+
+#### UPPER
 - Return the string in all upper case
 - It will both be used in SELECT and WHERE clause as well
-#### lower
+
+Example
+```
+=> SELECT UPPER('aravind'); -- ARAVIND
+```
+
+#### LOWER
 - Return the string in all lower case
 - It will both be used in SELECT and WHERE clause as well
-#### right
-- It will take string and no of character as argument and return the right side of the result - (col_name, no_of_char)
-- It will both be used in SELECT and WHERE clause as well
-Example
-```
--- text: 'https://www.pg4e.com/LEMONS/150000'
-=> SELECT right(content, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: 0000
-```
-#### left
-- It will take string and no of character as argument and return the left side of the result - (col_name, no_of_char)
-- It will both be used in SELECT and WHERE clause as well
-Example
-```
--- text: 'https://www.pg4e.com/LEMONS/150000'
-=> SELECT right(content, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: http
-```
-#### strpos (starting position)
-- It will take the 2 arguments like (col_name, 'find_str') and return the position where the character start
-- Index start with 1 (not zero (0) like python)
-Example
-```
--- text: 'https://www.pg4e.com/LEMONS/150000'
-=> SELECT strpos(content, 'ttps://') FROM textfun WHERE content LIKE '%150000%'; -- answer: 2
-```
-#### substr (sub string)
-- It will take 3 arguments (col_name, start, end) where start and end characters include.
-Example
-```
--- text: 'https://www.pg4e.com/LEMONS/150000'
-=> SELECT substr(content, 2, 4) FROM textfun WHERE content LIKE '%150000%'; -- answer: ttps
-```
-#### split_part
 
 Example
 ```
-SELECT split_part('apple,banana,cherry', ',', 1); -- Returns 'apple'
-SELECT split_part('apple,banana,cherry', ',', 2); -- Returns 'banana'
-SELECT split_part('apple,banana,cherry', ',', 3); -- Returns 'cherry'
+=> SELECT LOWER('ARAVIND'); -- aravind
 ```
-#### translate
+
+#### RIGHT
+- It will take string and no of character as argument and return the right side of the result - (str, no_of_char)
+- It will both be used in SELECT and WHERE clause as well
+
+Example
+```
+-- text:
+=> SELECT RIGHT('https://www.pg4e.com/LEMONS/150000', 4); -- 0000
+```
+
+#### LEFT
+- It will take string and no of character as argument and return the left side of the result - (str, no_of_char)
+- It will both be used in SELECT and WHERE clause as well
+
+Example
+```
+=> SELECT LEFT('https://www.pg4e.com/LEMONS/150000', 4); -- http
+```
+
+#### STRPOS (Starting Position)
+- It will take the 2 arguments like (str, 'find_str') and return the position where the character start
+- Index start with 1 (not zero (0) like python)
+
+Example
+```
+=> SELECT STRPOS('https://www.pg4e.com/LEMONS/150000', 'ttps://'); -- 2
+```
+
+#### SUBSTR (Sub String)
+- It will take 3 arguments (str, start, end) where start and end characters include.
+
+Example
+```
+=> SELECT SUBSTR('https://www.pg4e.com/LEMONS/150000', 2, 4); -- ttps
+```
+
+#### SPLIT_PART
+
+Example
+```
+=> SELECT SPLIT_PART('apple,banana,cherry', ',', 1); -- 'apple'
+=> SELECT SPLIT_PART('apple,,banana,cherry', ',', 2); -- 'apple'
+=> SELECT SPLIT_PART('apple,banana,cherry', ',', 2); -- 'banana'
+```
+
+#### TRANSLATE()
 
 ### Vital
-#### pg_relation_size
+
+#### pg_relation_size()
+- This will answer the question - How much data is in this currently in the relation / table taking?
 - It will take the table_name as argument - pg_relation_size(table_name)
-- It will return the size of the table (Note in postgres table is also know as relation)
-#### pg_indexes_size
+- It will return the size of the table in bytes (Note in postgres table is also know as relation)
+
+#### pg_size_pretty()
+- Converts the size from bytes to a more readable format (e.g., KB, MB, GB).
+- for example `pg_size_pretty(pg_relation_size('table_name'));`
+
+#### pg_indexes_size()
+- This will answer the question - How much data is in this currently in the index taking?
 - It will take the table_name as argument, which index is linked - pg_indexes_size(table_name)
-- It will return the size of the indexes
+- It will return the size of the indexes in bytes
 
 ## Indexes
 

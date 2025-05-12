@@ -56,6 +56,10 @@
   - [Transactions](#transactions)
   - [Stored Procedures](#stored-procedures)
   - [If/Else in Postgres - CASE THEN ELSE END](#ifelse-in-postgres---case-then-else-end)
+- [How to? Questions - Beyond CRUD](#how-to-questions---beyond-crud)
+  - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
+    - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
+  - [How to make an index for a table?](#how-to-make-an-index-for-a-table)
 
 <br>
 
@@ -143,18 +147,23 @@
 
 ## Special Operators
 
-| Operator        | Meaning              |
-| --------------- | -------------------- |
-| \|\|            | Concat strings       |
-| LIKE            | Pattern matching     |
-| IN (...)        | Match any in list    |
-| BETWEEN A AND B | Match range          |
-| IS NULL         | Check for NULL value |
-| EXISTS          | Subquery return rows |
-| ALL             |                      |
-| ANY             |                      |
-| SOME            |                      |
-| UNIQUE          |                      |
+| Operator        | Meaning                 |
+| --------------- | ----------------------- |
+| \|\|            | Concat strings          |
+| LIKE            | Pattern matching        |
+| ILIKE           |                         |
+| NOT LIKE        |                         |
+| NOT iLIKE       |                         |
+| IN (...)        | Match any in list       |
+| BETWEEN A AND B | Match range             |
+| IS NULL         | Check for NULL value    |
+| EXISTS          | Subquery return rows    |
+| ALL             |                         |
+| ANY             |                         |
+| SOME            |                         |
+| UNIQUE          |                         |
+| SIMILAR TO      | Like Regular expression |
+| NOT SIMILAR TO  |                         |
 
 # CRUD Operations - Create | Read | Update | Delete
 
@@ -890,4 +899,49 @@ Example
   ELSE 'http://www.pg4e.com/LEMONS/'
   END
 ) || generate_series(100000, 200000)
+```
+
+# How to? Questions - Beyond CRUD
+
+## How to generate random data(s) in Database?
+
+```
+=> SELECT 'https://pg4e.com/neon/' || TRUNC(RANDOM() * 1000000) || REPEAT('LEMON', 5) || GENERATE_SERIES(1, 5);
+-- https://pg4e.com/neon/706794LEMONLEMONLEMONLEMONLEMON1
+-- https://pg4e.com/neon/937655LEMONLEMONLEMONLEMONLEMON2
+-- https://pg4e.com/neon/977594LEMONLEMONLEMONLEMONLEMON3
+-- https://pg4e.com/neon/721555LEMONLEMONLEMONLEMONLEMON4
+-- https://pg4e.com/neon/16917LEMONLEMONLEMONLEMONLEMON5
+```
+
+### How to generate random data(s) and insert into on table with if/else condition in Database?
+
+```
+-- Syntax
+=> INSERT INTO table_name(col_name)
+SELECT (CASE WHEN (condition)
+        THEN 'text_1'
+        ELSE 'text_2'
+        END
+) || GENERATE_SERIES(start, end);
+
+-- Example
+=> INSERT INTO textfun(content)
+SELECT (CASE WHEN (random() < 0.5)
+        THEN 'https://www.pg4e.com/neon'
+        ELSE 'https://www.pg4e.com/lemon'
+        END
+) || GENERATE_SERIES(100000, 200000);
+```
+
+## How to make an index for a table?
+
+```
+-- Consider we have a table with text field
+CREATE TABLE textfun (
+  content TEXT
+);
+
+-- To create index
+CREATE INDEX textfun_b ON textfun (content);
 ```
