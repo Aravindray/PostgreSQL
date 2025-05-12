@@ -60,8 +60,13 @@
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
     - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
   - [How to make an index for a table?](#how-to-make-an-index-for-a-table)
+    - [How to create a unique index?](#how-to-create-a-unique-index)
+    - [How to delete a index?](#how-to-delete-a-index)
   - [How to check table size in database?](#how-to-check-table-size-in-database)
   - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
+      - [How to optimize the B-tree index for better performance?](#how-to-optimize-the-b-tree-index-for-better-performance)
+      - [How to optimize the Hash index for better performance?](#how-to-optimize-the-hash-index-for-better-performance)
+  - [What is this?](#what-is-this)
 
 <br>
 
@@ -152,6 +157,7 @@
 | Operator        | Meaning                 |
 | --------------- | ----------------------- |
 | \|\|            | Concat strings          |
+| ::              | Casting                 |
 | LIKE            | Pattern matching        |
 | ILIKE           | Ignore case             |
 | NOT LIKE        |                         |
@@ -949,6 +955,21 @@ CREATE TABLE textfun (
 CREATE INDEX textfun_b ON textfun (content);
 ```
 
+### How to create a unique index?
+
+Syntax
+```
+=> CREATE UNIQUE INDEX index_name ON table(field);
+```
+Example
+```
+=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
+```
+
+### How to delete a index?
+
+Just like to drop a table - `DROP INDEX index_name;`
+
 ## How to check table size in database?
 - Enter the table name in string
 
@@ -958,6 +979,7 @@ CREATE INDEX textfun_b ON textfun (content);
 ```
 
 ## How to optimize the SQL queries?
+
 - For **B-Tree** we can commend the sequence search to **stop**, after it read the one and only data in a table with **LIMIT** clause
 
 ```
@@ -968,4 +990,42 @@ CREATE INDEX textfun_b ON textfun (content);
 => explain analyze select content from textfun where content like '%150%' LIMIT 1;
 ```
 
-- Don't use sub-queries and sub-select while running
+- Don't use sub-queries and sub-select
+
+#### How to optimize the B-tree index for better performance?
+
+- Create a index for the table with md5 hash fields
+- Then query the result with md5 hash function in WHERE clause
+
+Example
+```
+=> CREATE UNIQUE INDEX crl_md5 ON CRL(MD5(url));
+-- now check the size of table and index (which is much more smaller)
+
+-- bad performance - Check with Explain
+=> SELECT * FROM crl WHERE url='lemons'; -- take full table scan
+
+-- good performance - Check with Explain
+=> SELECT * FROM crl WHERE MD5(url)=MD5('lemons'); -- takes index scan and much faster
+```
+
+#### How to optimize the Hash index for better performance?
+
+```
+=> CRATE TABLE crl_4 (
+  id SERIAL
+  url TEXT
+  content TEXT
+);
+
+=> CREATE INDEX crl_4_hash ON crl_4 USING has(url);
+
+-- check the table and index size
+-- check the explain analyze
+```
+
+## What is this?
+
+```
+=> SELECT char_length('学习管理'), octet_length('学习管理'), bit_length('学习管理'), ascii('学');
+```

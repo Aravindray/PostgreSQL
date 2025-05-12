@@ -48,6 +48,11 @@
       - [SUBSTR (Sub String)](#substr-sub-string)
       - [SPLIT\_PART](#split_part)
       - [TRANSLATE()](#translate)
+      - [ASCII()](#ascii)
+      - [CHR()](#chr)
+    - [Hash Functions](#hash-functions)
+      - [MD5](#md5)
+      - [SHA256](#sha256)
     - [Vital](#vital)
       - [pg\_relation\_size()](#pg_relation_size)
       - [pg\_size\_pretty()](#pg_size_pretty)
@@ -227,7 +232,9 @@ Example
 
 ### Text Functions
 
-**Notes:** [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
+**Notes:**
+- [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
+- '8 bit of Memory' as a 'byte' of memory
 
 #### UPPER
 - This function return the string in all upper case
@@ -299,8 +306,49 @@ Example
 - It will take 3 arguments ('str', find, replace)
 - The find and replace part of argument must be similar no_of_character
 
+Example
 ```
 => SELECT TRANSLATE('https://www.pg4e.com/LEMONS/150000', 'th.p/', 'TH!P_'); -- HTTPs:__www!Pg4e!com_LEMONS_150000
+```
+
+#### ASCII()
+- This function tell us the numeric value of single ASCII character
+
+Example
+```
+=> SELECT ASCII('H'), ASCII('E'), ASCII('L'), ASCII('h'), ASCII('e'), ASCII('l');
+ ascii | ascii | ascii | ascii | ascii | ascii
+-------+-------+-------+-------+-------+-------
+    72 |    69 |    76 |   104 |   101 |   108
+```
+
+#### CHR()
+- This function maps from Integer to ASCII character
+
+Example
+```
+=> SELECT CHR(72), CHR(42), CHR(1), CHR(231), CHR(20013);
+ chr | chr | chr  | chr | chr
+-----+-----+------+-----+----
+ H   | *   | \x01 |  ç  | 中
+```
+
+### Hash Functions
+
+#### MD5
+- This function convert the given string into MD5 Hash
+
+Example
+```
+=> SELECT MD5('hello'); -  5d41402abd4b2r76bs719d91101xxxxx
+```
+
+#### SHA256
+- This function convert the given string into SHA256 Hash
+
+Example
+```
+=> SELECT SHA256('hello'); -  \x2cf24dba5fb0axx26exb2axxb9e29e1c161e5cxx425ed30r336d93xb98x4
 ```
 
 ### Vital
@@ -329,7 +377,7 @@ Index is a technique used to quickly access the single data from million or bill
 
 ### B-Tree
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
-- Tree index is good for exact match lookup, sorting, range lookups, prefix lookup (mostly for strings)
+- Tree index is good for exact match lookup, sorting, (compare) - <, >,  range lookups, prefix lookup (mostly for strings)
 
 **How to check the B-Tree Index performance**
 
@@ -341,7 +389,23 @@ Below query will return the execution time and some details about the performanc
 ### Hashes
 
 > A hash function is any algorithm or subroutine that maps large data sets to smaller data sets, called keys. For example, a single integer can serve as an index to an array (cf. associative array). The values returned by a hash function are called hash values, hash codes, hash sums, checksums, or simply hashes. Hash functions are mostly used to accelerate table lookup or data comparison tasks such as finding items in a database ... - 'Charles Severance'
-- Hashes are so fast and only good for exact match, like Primary Keys, GUID
+
+- Hashes are so fast and only **good for exact match**, like Primary Keys, GUID
 - Hashes is **not** good for prefix matching, sorting
+
+A hash function is any function that can be used to map data of arbitrary size onto data of a fixed size.
+
+> A hash function is a function that takes an input (or 'message') and returns a fixed-size string of bytes. The output, typically a number, is called the hash code or hash value. The main purpose of a hash function is to efficiently map data of arbitrary size to fixed-size values, which are often used as indexes in hash tables - 'MS Copilot'
+
+**Uses of Hashes**
+- Checksum
+- Cryptography / Signature
+- Fast lookup of data - Python Dictionaries and Database Tables
+
+**Hash functions**
+- Deterministic - There can be no randomness - must get the same output for the same input
+- Uniform Distribution - Should have an equal chance of generating any value with the range of its outputs - values don't cluster or collide
+- Sensitive - Any change in input should provide a change in output
+- One-way - You should not be able to derive the input from the output (cannot reverse)
 
 [Learn SQL Queries >>](./SQL-Queries.md)

@@ -17,8 +17,10 @@
 | `\i`              | To read .sql file from the psql server                         |
 | `\q`              | To quit (exit from current user session)                       |
 | `\c`              | To change from one database to another                         |
-| `EXPLAIN ANALYZE` | To return more details about query                             |
+| `EXPLAIN`         | To return details about query                                  |
+| `EXPLAIN ANALYZE` | To return more details about query with runtime                |
 
+**Notes:** [for more](https://www.postgresql.org/docs/current/app-psql.html)
 
 ### \copy - How to copy data from external file and store it in table records in postgres?
 
