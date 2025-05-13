@@ -53,6 +53,8 @@
       - [CHAR\_LENGTH()](#char_length)
       - [OCTET\_LENGTH()](#octet_length)
       - [BIT\_LENGTH()](#bit_length)
+      - [SUBSTRING()](#substring)
+      - [REGEXP\_MATCHES()](#regexp_matches)
     - [Hash Functions](#hash-functions)
       - [MD5](#md5)
       - [SHA256](#sha256)
@@ -345,6 +347,24 @@ Example
 
 #### BIT_LENGTH()
 - This function return result of OCTET_LENGTH() * 8 (times 8) (because 8 bit - 1 byte)
+
+#### SUBSTRING()
+- This function return the substring of the column
+- It gets and return the first match in a text column
+
+Example
+```
+=> SELECT DISTINCT SUBSTRING(email FROM '.+@(.*)$') FROM em; -- return all the characters after @ symbol
+```
+
+#### REGEXP_MATCHES()
+- This function gets and return the array of matches
+- It will take 3 arguments (col_name, 'expression', 'flag')
+
+Example
+```
+=> SELECT REGEXP_MATCHES(tweet, '#([A-Za-z0-9_]+)', 'g') FROM tw; -- return all the character after # symbol
+```
 
 ### Hash Functions
 

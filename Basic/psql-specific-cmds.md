@@ -34,10 +34,12 @@ Example
 => \copy track_raw (title, artist, album, count, rating, len) FROM 'library.csv' WITH DELIMITER ',' CSV;
 ```
 
-**Basic**
+**Flags**
 
 WITH DELIMITER ',' CSV
 WITH DELIMITER ',' CSV HEADER - header means skip the first row
+WITH DELIMITER E'\007'; - E'\007' is a BEL character -- need more info - insert each row in a one column?
+
 
 **Note:** The file 'library.csv' must be same directory as the psql terminal running.
 

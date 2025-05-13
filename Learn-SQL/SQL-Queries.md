@@ -59,8 +59,8 @@
 - [How to Questions? - Beyond CRUD](#how-to-questions---beyond-crud)
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
     - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
-  - [How to make an index for a table?](#how-to-make-an-index-for-a-table)
-    - [How to create a unique index?](#how-to-create-a-unique-index)
+  - [Index - How to make an index for a table?](#index---how-to-make-an-index-for-a-table)
+    - [Index - How to create a unique index?](#index---how-to-create-a-unique-index)
     - [How to delete a index?](#how-to-delete-a-index)
   - [How to check table size in database?](#how-to-check-table-size-in-database)
   - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
@@ -692,6 +692,14 @@ HAVING COUNT(abbrev) > 10;
 
 ## Regular Expression
 
+- A text based programming language
+- Clever wild-card strings for matching and parsing text
+- Widely available
+- Unix commands like "grep"
+- Virtually every programming language
+- Subtle differences across implementations
+- PostgreSQL uses the POSIX variant
+
 **Regular Expression Quick Guide**
 
 | Symbol   | Description                                         |
@@ -710,6 +718,10 @@ HAVING COUNT(abbrev) > 10;
 | [a-z0-9] | The set of characters can include a range           |
 | (        | Indicates where string extraction is to start       |
 | )        | Indicates where string extraction is to end         |
+| ~        | Matches                                             |
+| ~*       | Matches case insensitive                            |
+| !~       | Does not match                                      |
+| !~*      | Does not match case insensitive                     |
 
 ## Wildcard
 
@@ -942,8 +954,9 @@ SELECT (CASE WHEN (random() < 0.5)
 ) || GENERATE_SERIES(100000, 200000);
 ```
 
-## How to make an index for a table?
+## Index - How to make an index for a table?
 - First create a table and then create a index and link the table with index
+- This will create B-Tree index but it **allows duplicate**
 
 ```
 -- Consider we have a table with text field
@@ -955,7 +968,9 @@ CREATE TABLE textfun (
 CREATE INDEX textfun_b ON textfun (content);
 ```
 
-### How to create a unique index?
+### Index - How to create a unique index?
+- First create a table and then create a index and link the table with index
+- This will create B-Tree index but it **does not allows duplicate**
 
 Syntax
 ```
@@ -992,6 +1007,8 @@ Just like to drop a table - `DROP INDEX index_name;`
 
 - Don't use sub-queries and sub-select
 
+**Notes:** Check out _6. Index Choices and Index Techniques_ from Postgres for Everybody course
+
 #### How to optimize the B-tree index for better performance?
 
 - Create a index for the table with md5 hash fields
@@ -1010,6 +1027,8 @@ Example
 ```
 
 #### How to optimize the Hash index for better performance?
+- hash index cannot be unique
+- only good for exact match
 
 ```
 => CRATE TABLE crl_4 (
@@ -1018,7 +1037,7 @@ Example
   content TEXT
 );
 
-=> CREATE INDEX crl_4_hash ON crl_4 USING has(url);
+=> CREATE INDEX crl_4_hash ON crl_4 USING hash (url);
 
 -- check the table and index size
 -- check the explain analyze
