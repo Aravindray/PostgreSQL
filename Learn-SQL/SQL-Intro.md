@@ -64,6 +64,7 @@
     - [B-Tree](#b-tree)
     - [Hashes](#hashes)
   - [Text in Postgres](#text-in-postgres)
+    - [Python and Unicode](#python-and-unicode)
 
 <br>
 
@@ -412,7 +413,7 @@ A hash function is any function that can be used to map data of arbitrary size o
 **Uses of Hashes**
 - Checksum
 - Cryptography / Signature
-- Fast lookup of data - Python Dictionaries and Database Tables
+- Fast lookup of data - Python Dictionaries and Database Tables, indexes
 
 **Hash functions**
 - Deterministic - There can be no randomness - must get the same output for the same input
@@ -427,5 +428,23 @@ A hash function is any function that can be used to map data of arbitrary size o
   - Represents 21 bits in 8-32 bits
   - 0-128 are ASCII
   - 128-255 are signals
+
+### Python and Unicode
+- Strings in memory are Unicode
+- The "bytes" type is for 8-bit characters
+- Strings "at rest" are generally stored UTF-8 for space and interoperability
+  - Files - tell explicit when opening a file in encoding=None[UTF8] argument
+  - Network resources - use decode() method
+  - Database tables - psycopg2 automatically decode
+
+Example
+```py
+>>> x = b'abc'
+>>> type (x) # <class 'bytes'>
+>>> x = '이광춘'
+>>> type (x) # <class 'str'>
+>>> x = u'이광춘'
+>>> type (x) # <class 'str'>
+```
 
 [Learn SQL Queries >>](./SQL-Queries.md)
