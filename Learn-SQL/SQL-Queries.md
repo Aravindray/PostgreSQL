@@ -1028,4 +1028,6 @@ Example
 
 ```
 => SELECT char_length('学习管理'), octet_length('学习管理'), bit_length('学习管理'), ascii('学');
+
+=> SHOW SERVER_ENCODING;
 ```

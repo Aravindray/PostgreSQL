@@ -50,6 +50,9 @@
       - [TRANSLATE()](#translate)
       - [ASCII()](#ascii)
       - [CHR()](#chr)
+      - [CHAR\_LENGTH()](#char_length)
+      - [OCTET\_LENGTH()](#octet_length)
+      - [BIT\_LENGTH()](#bit_length)
     - [Hash Functions](#hash-functions)
       - [MD5](#md5)
       - [SHA256](#sha256)
@@ -60,6 +63,7 @@
   - [Indexes](#indexes)
     - [B-Tree](#b-tree)
     - [Hashes](#hashes)
+  - [Text in Postgres](#text-in-postgres)
 
 <br>
 
@@ -143,7 +147,6 @@ Notes: ... <br>
 Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/datatype.html)
 
 ## Constraints in PostgreSQL
-
 
 #### UNIQUE / UNIQUE()
 **UNIQUE**
@@ -333,6 +336,15 @@ Example
  H   | *   | \x01 |  ç  | 中
 ```
 
+#### CHAR_LENGTH()
+- This function return the character length
+
+#### OCTET_LENGTH()
+- This function return the values in byte that actually stored in database
+
+#### BIT_LENGTH()
+- This function return result of OCTET_LENGTH() * 8 (times 8) (because 8 bit - 1 byte)
+
 ### Hash Functions
 
 #### MD5
@@ -407,5 +419,13 @@ A hash function is any function that can be used to map data of arbitrary size o
 - Uniform Distribution - Should have an equal chance of generating any value with the range of its outputs - values don't cluster or collide
 - Sensitive - Any change in input should provide a change in output
 - One-way - You should not be able to derive the input from the output (cannot reverse)
+
+## Text in Postgres
+
+**Character Set** - we can't afford 32 bit characters
+- UTF-8 is a compression scheme for Unicode
+  - Represents 21 bits in 8-32 bits
+  - 0-128 are ASCII
+  - 128-255 are signals
 
 [Learn SQL Queries >>](./SQL-Queries.md)
