@@ -1,10 +1,3 @@
-## Table of Content
-- [PostgreSQL](#postgresql)
-  - [Naming Conventions](#naming-conventions)
-  - [Terminology](#terminology)
-  - [Notations](#notations)
-  - [Helpful articles](#helpful-articles)
-
 # PostgreSQL
 PostgreSQL - Learning Doc, Tips &amp; Tricks
 
