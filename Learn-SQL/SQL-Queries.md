@@ -884,7 +884,7 @@ WHERE post_id = 1 and account_id = 1;
 
 -- using functions and trigger for automate updated_at
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
-RETURN TRIGGER AS $$
+RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
