@@ -14,6 +14,7 @@
     - [Create: How to create a database?](#create-how-to-create-a-database)
     - [Create: How to create a table?](#create-how-to-create-a-table)
     - [Insert: TABLE ... VALUES - How to add a new item in a table?](#insert-table--values---how-to-add-a-new-item-in-a-table)
+    - [INSERT: TABLE ... VALUES - How to insert multiple items in a table?](#insert-table--values---how-to-insert-multiple-items-in-a-table)
     - [INSERT INTO ... SELECT ... - How to select results from one table and create it in another table?](#insert-into--select----how-to-select-results-from-one-table-and-create-it-in-another-table)
   - [Read](#read)
     - [Select: How to select and display all the results?](#select-how-to-select-and-display-all-the-results)
@@ -221,6 +222,18 @@ Syntax
 Example
 ```
 => INSERT TABLE user (name, email) VALUES ('Ray', 'ray@gmail.com');
+```
+
+### INSERT: TABLE ... VALUES - How to insert multiple items in a table?
+
+Syntax
+```
+=> INSERT INTO table_name (col) VALUES (val1), (val2), (val);
+```
+
+Example
+```
+=> INSERT INTO user (name) VALUES ('Aravind'), ('Ray'), ('Raj');
 ```
 
 ### INSERT INTO ... SELECT ... - How to select results from one table and create it in another table?

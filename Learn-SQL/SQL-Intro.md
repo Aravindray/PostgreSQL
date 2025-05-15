@@ -55,6 +55,8 @@
       - [BIT\_LENGTH()](#bit_length)
       - [SUBSTRING()](#substring)
       - [REGEXP\_MATCHES()](#regexp_matches)
+      - [STRING\_TO\_ARRAY()](#string_to_array)
+      - [UNNEST()](#unnest)
     - [Hash Functions](#hash-functions)
       - [MD5](#md5)
       - [SHA256](#sha256)
@@ -366,6 +368,24 @@ Example
 => SELECT REGEXP_MATCHES(tweet, '#([A-Za-z0-9_]+)', 'g') FROM tw; -- return all the character after # symbol
 ```
 
+#### STRING_TO_ARRAY()
+- Like python split function
+
+Example
+```
+=> SELECT STRING_TO_ARRAY('Hello World', ' '); -- {Hello,World}
+```
+
+#### UNNEST()
+- Similar to generate_series()
+- It takes an array and expands it to rows
+- Keyname: Horizontal to Vertical
+
+Example
+```
+=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' ')); -- {Hello,World}
+```
+
 ### Hash Functions
 
 #### MD5
@@ -408,9 +428,28 @@ Index is a technique used to quickly access the single data from million or bill
 - Index is fast for insert, delete, update and read the data from the table.
 - Index is no good for TEXT field
 
+**Types of Indexes**
+- B-Tree
+  - default for many application
+  - automatically balanced as it grows
+- BRIN
+  - Block Range INdex
+  - Smaller / faster if data is mostly sorted
+- Hash
+  - Quick look up for long key strings
+- GIN
+  - Generalized Inverted Index
+  - Multiple values in a column
+- GiST
+  - Generated Search Tree
+- SP-GiST
+  - Space Partitioned Generated Search Tree
+
 ### B-Tree
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
 - Tree index is good for exact match lookup, sorting, (compare) - <, >,  range lookups, prefix lookup (mostly for strings)
+- It good for String, Number and Date Keys
+- It great balance for cost of insert and update
 
 **How to check the B-Tree Index performance**
 
