@@ -124,3 +124,5 @@ CREATE TABLE author_book (
   author_id INTEGER REFERENCES author(id) ON DELETE CASCADE,
 )
 ```
+
+[Full Text Search Lecture Notes >>](./PG4E%20-%20Full%20Text%20Search%20-%20Lecture%20Notes.pdf)
