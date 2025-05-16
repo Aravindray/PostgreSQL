@@ -24,7 +24,6 @@ Postgres work like a client-server relationship like a web browser and server co
 
 There are many types of database: Document Database, NewSQL Database, Key-Value Database, Columnar Database, Graph Database, Time-series Database, Object-oriented Database, Hierarchical Databases, Network Databases, Cloud Database, Centralized Database, Operational Database, but these are the common one (source: AI Generated)
 
-
 **Relational Databases** are the most widely used type of database. They store data in tables, which consist of rows and columns. Each table has a unique key that identifies its rows. SQL (Structured Query Language) is used to manage and query data in relational databases. Examples include MySQL, PostgreSQL, and Oracle.
 
 **NoSQL Databases** are designed to handle unstructured or semi-structured data. They do not use tables like relational databases. Instead, they use various data models such as document, key-value, column-family, and graph. NoSQL databases are highly scalable and can handle large volumes of data. Examples include MongoDB, Cassandra, and Redis.
@@ -39,9 +38,7 @@ Like every app, Postgres have <abbr title='default is postgres'>superuser</abbr>
 
 ## How to login with SQL Server as a admin with PSQL?
 
-Okay, how to login with gmail account what are the things you need?, like you need URL, username and password.
-
-Similarly to login with Postgres client we need Host, Port, Database, User and Password
+Okay, how to login with gmail account what are the things you need?, like you need URL, username and password. Similarly to login with Postgres client we need Host, Port, Database, User and Password
 
 `$> psql -U postgres` <br>
 `-U` stand for user.
@@ -58,7 +55,9 @@ from the above command replace the database_name and  user_name with actual one 
 
 To create a new user, we must need to log in with superuser account, once logged in execute this command in the terminal
 
-Syntax: `=> CREATE USER user_name WITH PASSWORD 'password';`
+```sql
+syntax=> CREATE USER user_name WITH PASSWORD 'password';
+```
 
 replace user_name and actual_password with real username and password.
 

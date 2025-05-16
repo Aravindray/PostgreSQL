@@ -24,22 +24,18 @@
 
 ### \copy - How to copy data from external file and store it in table records in postgres?
 
-Syntax
-```
-=> \copy table_name (col_1, ...) FROM 'file_name.ext' WITH DELIMITER ',' CSV;
+```sql
+syntax=> \copy table_name (col_1, ...) FROM 'file_name.ext' WITH DELIMITER ',' CSV;
 ```
 
-Example
-```
-=> \copy track_raw (title, artist, album, count, rating, len) FROM 'library.csv' WITH DELIMITER ',' CSV;
+```sql
+example=> \copy track_raw (title, artist, album, count, rating, len) FROM 'library.csv' WITH DELIMITER ',' CSV;
 ```
 
 **Flags**
-
 WITH DELIMITER ',' CSV
 WITH DELIMITER ',' CSV HEADER - header means skip the first row
 WITH DELIMITER E'\007'; - E'\007' is a BEL character -- need more info - insert each row in a one column?
-
 
 **Note:** The file 'library.csv' must be same directory as the psql terminal running.
 
@@ -47,14 +43,12 @@ WITH DELIMITER E'\007'; - E'\007' is a BEL character -- need more info - insert 
 
 The psql \i command will read the sql statement from the file and execute the query.
 
-Syntax
-```
-=> \i filename.ext
+```sql
+syntax=> \i filename.ext
 ```
 
-Example
-```
-=> \i 03-Technique-load.sql
+```sql
+example=> \i 03-Technique-load.sql
 ```
 
 **Note:** The file '03-Technique-load.sql' must be same directory as the psql terminal running.

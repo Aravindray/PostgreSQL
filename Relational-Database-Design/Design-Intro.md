@@ -74,22 +74,23 @@ Above image is the example of Many-to-One relationship, Think like many songs be
 
 Let consider this scenario where we want to store track (song) details, like song name (title), artist, album. Instead of storing all artist and album value repeating itself, we store each detail in separate table and link with them as foreign key in track table.
 
-```
+```sql
 -- artist table
-CREATE TABLE artist(
+query=> CREATE TABLE artist(
   id SERIAL,
   name VARCHAR(128),
   PRIMARY KEY(id)
 );
 
 -- album table
-CREATE TABLE album(
+query=> CREATE TABLE album(
   id SERIAL,
   title VARCHAR(200) UNIQUE,
   artist_id INTEGER REFERENCES artist(id) ON DELETE CASCADE,
   PRIMARY KEY(id)
 );
 ```
+
 From above example we see that the album table storing the id of artist table with REFERENCES keyword, this is called as foreign key relation.
 
 ## Power of Relational Database
@@ -102,24 +103,23 @@ From above example we see that the album table storing the id of artist table wi
 - Best example of many to many relations is books and authors table, A author can write many books and A book was written by many authors.
 - Many-to-Many is a technical name, there is no direct connection between 2 tables, instead we create the intermediate table, (through table, junction table, join table) and link the primary key of 2 tables.
 
-Example
-```
+```sql
 -- book table
-CREATE TABLE book (
+query=> CREATE TABLE book (
   id SERIAL,
   title VARCHAR(128),
   PRIMARY KEY(id)
 )
 
 -- author table
-CREATE TABLE author (
+query=> CREATE TABLE author (
   id SERIAL,
   name VARCHAR(128),
   PRIMARY KEY(id)
 )
 
 -- intermediate table
-CREATE TABLE author_book (
+query=> CREATE TABLE author_book (
   book_id INTEGER REFERENCES book(id) ON DELETE CASCADE,
   author_id INTEGER REFERENCES author(id) ON DELETE CASCADE,
 )
