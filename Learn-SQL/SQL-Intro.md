@@ -24,6 +24,8 @@
       - [SERIAL](#serial)
   - [Constraints in PostgreSQL](#constraints-in-postgresql)
       - [UNIQUE / UNIQUE()](#unique--unique)
+        - [UNIQUE](#unique)
+        - [UNIQUE(field1, field2)](#uniquefield1-field2)
       - [ON DELETE](#on-delete)
         - [CASCADE](#cascade)
         - [RESTRICT](#restrict)
@@ -40,13 +42,13 @@
       - [GENERATE\_SERIES()](#generate_series)
       - [RANDOM()](#random)
     - [Text Functions](#text-functions)
-      - [UPPER](#upper)
-      - [LOWER](#lower)
-      - [RIGHT](#right)
-      - [LEFT](#left)
-      - [STRPOS (Starting Position)](#strpos-starting-position)
-      - [SUBSTR (Sub String)](#substr-sub-string)
-      - [SPLIT\_PART](#split_part)
+      - [UPPER()](#upper)
+      - [LOWER()](#lower)
+      - [RIGHT()](#right)
+      - [LEFT()](#left)
+      - [STRPOS() - Starting Position](#strpos---starting-position)
+      - [SUBSTR() - Sub String](#substr---sub-string)
+      - [SPLIT\_PART()](#split_part)
       - [TRANSLATE()](#translate)
       - [ASCII()](#ascii)
       - [CHR()](#chr)
@@ -58,8 +60,8 @@
       - [STRING\_TO\_ARRAY()](#string_to_array)
       - [UNNEST()](#unnest)
     - [Hash Functions](#hash-functions)
-      - [MD5](#md5)
-      - [SHA256](#sha256)
+      - [MD5()](#md5)
+      - [SHA256()](#sha256)
     - [Vital](#vital)
       - [pg\_relation\_size()](#pg_relation_size)
       - [pg\_size\_pretty()](#pg_size_pretty)
@@ -67,6 +69,7 @@
   - [Indexes](#indexes)
     - [B-Tree](#b-tree)
     - [Hashes](#hashes)
+    - [GIN - Generalized Inverted Index](#gin---generalized-inverted-index)
   - [Text in Postgres](#text-in-postgres)
     - [Python and Unicode](#python-and-unicode)
 
@@ -154,9 +157,11 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 ## Constraints in PostgreSQL
 
 #### UNIQUE / UNIQUE()
-**UNIQUE**
+
+##### UNIQUE
 - It make sure that every record (row) value will be unique, and postgres automatically create index for this field.
-**UNIQUE(field1, field2)**
+
+##### UNIQUE(field1, field2)
 - UNIQUE(title, album) - This make suer that the combination of field 1 (song name) and field 2 (album) must to be unique, for example if the song name 'Thank, Thank' have presented in 2 different albums like 'Vol 25', 'Vol 35'
 
 #### ON DELETE
@@ -177,7 +182,7 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 
 #### REFERENCES table_name(primary_key)
 - References keyword makes the relationship between table.
-- Check out this Example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
+- Check out this example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
 
 #### JOIN
 
@@ -193,36 +198,32 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 #### NOW()
 - DateTime field NOW() function is used to get to current date and time stamp with timezone
 
-Example
-```
-=> SELECT NOW(); -- 2025-05-12 10:23:53.684396+05:30
+```sql
+example=> SELECT NOW(); -- 2025-05-12 10:23:53.684396+05:30
 ```
 
 #### TRUNC()
 - This function will convert float number to integer
 
-Example
-```
-=> SELECT TRUNC(RANDOM() * 100); -- 17
+```sql
+example=> SELECT TRUNC(RANDOM() * 100); -- 17
 ```
 
 #### REPEAT()
 - This function will take 2 argument string and no of times to repeat the string - ('text', 5)
 - It will generate the result in one line (horizontally)
 
-Example
-```
-=> SELECT REPEAT('ABC', 3); -- ABCABCABC
-=> SELECT REPEAT('ABC ', 3); -- ABC ABC ABC
+```sql
+examplesql=> SELECT REPEAT('ABC', 3); -- ABCABCABC
+example=> SELECT REPEAT('ABC ', 3); -- ABC ABC ABC
 ```
 
 #### GENERATE_SERIES()
 - This function will take 2 argument starting integer and ending integer - (1, 5)
 - It will generate the results in rows (vertically)
 
-Example
-```
-=> SELECT GENERATE_SERIES(1, 5);
+```sql
+example=> SELECT GENERATE_SERIES(1, 5);
 -- 1
 -- 2
 -- 3
@@ -233,9 +234,8 @@ Example
 #### RANDOM()
 - This function will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
 
-Example
-```
-=> SELECT RANDOM(); -- 0.6359592059634787
+```sql
+example=> SELECT RANDOM(); -- 0.6359592059634787
 ```
 
 ### Text Functions
@@ -244,69 +244,61 @@ Example
 - [Official Doc](https://www.postgresql.org/docs/current/functions-string.html)
 - '8 bit of Memory' as a 'byte' of memory
 
-#### UPPER
+#### UPPER()
 - This function return the string in all upper case
 - It will both be used in SELECT and WHERE clause as well
 
-Example
-```
-=> SELECT UPPER('aravind'); -- ARAVIND
+```sql
+example=> SELECT UPPER('aravind'); -- ARAVIND
 ```
 
-#### LOWER
+#### LOWER()
 - This function return the string in all lower case
 - It will both be used in SELECT and WHERE clause as well
 
-Example
-```
-=> SELECT LOWER('ARAVIND'); -- aravind
+```sql
+example=> SELECT LOWER('ARAVIND'); -- aravind
 ```
 
-#### RIGHT
+#### RIGHT()
 - This function will take string and no of character as argument and return the right side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
-Example
-```
--- text:
-=> SELECT RIGHT('https://www.pg4e.com/LEMONS/150000', 4); -- 0000
+```sql
+example=> SELECT RIGHT('https://www.pg4e.com/LEMONS/150000', 4); -- 0000
 ```
 
-#### LEFT
+#### LEFT()
 - This function will take string and no of character as argument and return the left side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
-Example
-```
-=> SELECT LEFT('https://www.pg4e.com/LEMONS/150000', 4); -- http
+```sql
+example=> SELECT LEFT('https://www.pg4e.com/LEMONS/150000', 4); -- http
 ```
 
-#### STRPOS (Starting Position)
+#### STRPOS() - Starting Position
 - This function will take the 2 arguments like (str, 'find_str') and return the position where the character start
 - Index start with 1 (not zero (0) like python)
 
-Example
-```
-=> SELECT STRPOS('https://www.pg4e.com/LEMONS/150000', 'ttps://'); -- 2
+```sql
+example=> SELECT STRPOS('https://www.pg4e.com/LEMONS/150000', 'ttps://'); -- 2
 ```
 
-#### SUBSTR (Sub String)
+#### SUBSTR() - Sub String
 - This function will take 3 arguments (str, start, end) where start and end characters include.
 
-Example
-```
-=> SELECT SUBSTR('https://www.pg4e.com/LEMONS/150000', 2, 4); -- ttps
+```sql
+example=> SELECT SUBSTR('https://www.pg4e.com/LEMONS/150000', 2, 4); -- ttps
 ```
 
-#### SPLIT_PART
+#### SPLIT_PART()
 - This function will take 3 arguments - (str, delimiter, ele_pos_to_return)
 - It is similar like python split
 
-Example
-```
-=> SELECT SPLIT_PART('apple,banana,cherry', ',', 1); -- 'apple'
-=> SELECT SPLIT_PART('apple,,banana,cherry', ',', 2); -- ''
-=> SELECT SPLIT_PART('apple,banana,cherry', ',', 2); -- 'banana'
+```sql
+example=> SELECT SPLIT_PART('apple,banana,cherry', ',', 1); -- 'apple'
+example=> SELECT SPLIT_PART('apple,,banana,cherry', ',', 2); -- ''
+example=> SELECT SPLIT_PART('apple,banana,cherry', ',', 2); -- 'banana'
 ```
 
 #### TRANSLATE()
@@ -314,17 +306,15 @@ Example
 - It will take 3 arguments ('str', find, replace)
 - The find and replace part of argument must be similar no_of_character
 
-Example
-```
-=> SELECT TRANSLATE('https://www.pg4e.com/LEMONS/150000', 'th.p/', 'TH!P_'); -- HTTPs:__www!Pg4e!com_LEMONS_150000
+```sql
+example=> SELECT TRANSLATE('https://www.pg4e.com/LEMONS/150000', 'th.p/', 'TH!P_'); -- HTTPs:__www!Pg4e!com_LEMONS_150000
 ```
 
 #### ASCII()
 - This function tell us the numeric value of single ASCII character
 
-Example
-```
-=> SELECT ASCII('H'), ASCII('E'), ASCII('L'), ASCII('h'), ASCII('e'), ASCII('l');
+```sql
+example=> SELECT ASCII('H'), ASCII('E'), ASCII('L'), ASCII('h'), ASCII('e'), ASCII('l');
  ascii | ascii | ascii | ascii | ascii | ascii
 -------+-------+-------+-------+-------+-------
     72 |    69 |    76 |   104 |   101 |   108
@@ -333,9 +323,8 @@ Example
 #### CHR()
 - This function maps from Integer to ASCII character
 
-Example
-```
-=> SELECT CHR(72), CHR(42), CHR(1), CHR(231), CHR(20013);
+```sql
+example=> SELECT CHR(72), CHR(42), CHR(1), CHR(231), CHR(20013);
  chr | chr | chr  | chr | chr
 -----+-----+------+-----+----
  H   | *   | \x01 |  ç  | 中
@@ -354,26 +343,23 @@ Example
 - This function return the substring of the column
 - It gets and return the first match in a text column
 
-Example
-```
-=> SELECT DISTINCT SUBSTRING(email FROM '.+@(.*)$') FROM em; -- return all the characters after @ symbol
+```sql
+example=> SELECT DISTINCT SUBSTRING(email FROM '.+@(.*)$') FROM em; -- return all the characters after @ symbol
 ```
 
 #### REGEXP_MATCHES()
 - This function gets and return the array of matches
 - It will take 3 arguments (col_name, 'expression', 'flag')
 
-Example
-```
-=> SELECT REGEXP_MATCHES(tweet, '#([A-Za-z0-9_]+)', 'g') FROM tw; -- return all the character after # symbol
+```sql
+example=> SELECT REGEXP_MATCHES(tweet, '#([A-Za-z0-9_]+)', 'g') FROM tw; -- return all the character after # symbol
 ```
 
 #### STRING_TO_ARRAY()
 - Like python split function
 
-Example
-```
-=> SELECT STRING_TO_ARRAY('Hello World', ' '); -- {Hello,World}
+```sql
+example=> SELECT STRING_TO_ARRAY('Hello World', ' '); -- {Hello,World}
 ```
 
 #### UNNEST()
@@ -381,27 +367,24 @@ Example
 - It takes an array and expands it to rows
 - Keyname: Horizontal to Vertical
 
-Example
-```
-=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' ')); -- {Hello,World}
+```sql
+example=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' ')); -- {Hello,World}
 ```
 
 ### Hash Functions
 
-#### MD5
+#### MD5()
 - This function convert the given string into MD5 Hash
 
-Example
-```
-=> SELECT MD5('hello'); -  5d41402abd4b2r76bs719d91101xxxxx
+```sql
+example=> SELECT MD5('hello'); -  5d41402abd4b2r76bs719d91101xxxxx
 ```
 
-#### SHA256
+#### SHA256()
 - This function convert the given string into SHA256 Hash
 
-Example
-```
-=> SELECT SHA256('hello'); -  \x2cf24dba5fb0axx26exb2axxb9e29e1c161e5cxx425ed30r336d93xb98x4
+```sql
+example=> SELECT SHA256('hello'); -  \x2cf24dba5fb0axx26exb2axxb9e29e1c161e5cxx425ed30r336d93xb98x4
 ```
 
 ### Vital
@@ -454,8 +437,8 @@ Index is a technique used to quickly access the single data from million or bill
 **How to check the B-Tree Index performance**
 
 Below query will return the execution time and some details about the performance, It is a psql specific command.
-```
-=> explain analyze SELECT content FROM textfun WHERE content LIKE 'racing%';
+```sql
+example=> explain analyze SELECT content FROM textfun WHERE content LIKE 'racing%';
 ```
 
 ### Hashes
@@ -480,6 +463,8 @@ A hash function is any function that can be used to map data of arbitrary size o
 - Sensitive - Any change in input should provide a change in output
 - One-way - You should not be able to derive the input from the output (cannot reverse)
 
+### GIN - Generalized Inverted Index
+
 ## Text in Postgres
 
 **Character Set** - we can't afford 32 bit characters
@@ -496,8 +481,9 @@ A hash function is any function that can be used to map data of arbitrary size o
   - Network resources - use decode() method
   - Database tables - psycopg2 automatically decode
 
-Example
 ```py
+# Example
+
 >>> x = b'abc'
 >>> type (x) # <class 'bytes'>
 >>> x = '이광춘'
