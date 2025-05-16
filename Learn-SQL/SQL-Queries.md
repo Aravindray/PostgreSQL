@@ -181,12 +181,15 @@
 ### Create: How to create a database?
 
 Logged in with a <a title="How to login with SQL Server with PSQL?" href="../Basic/Intro.md#how-to-login-with-sql-server-with-psql">superuser account</a> and <a title='How to create a user?' href="../Basic/pg-specific-cmds.md#how-to-create-a-user">create a new user</a> for the owner of this newly creating database and then execute the below cmd
+
 ```sql
 admin_syntax=# CREATE DATABASE database_name WITH OWNER 'user_name' ENCODING 'UTF8';
 ```
+
 ```sql
 admin_example=# CREATE DATABASE people WITH OWNER 'pg4e' ENCODING 'UTF8';
 ```
+
 Replace the database_name with actual database and name the database with singular noun. And replace the 'user_name' with new user which you are created from superuser.
 
 ### Create: How to create a table?
@@ -198,6 +201,7 @@ syntax=> CREATE TABLE table_name(
     col_3_name datatype,
 );
 ```
+
 ```sql
 example=> CREATE TABLE user(
     name VARCHAR(128),
@@ -211,6 +215,7 @@ example=> CREATE TABLE user(
 ```sql
 syntax=> INSERT TABLE table_name (col_1, col_2) VALUES (col_1_value, col_2_value);
 ```
+
 ```sql
 example=> INSERT TABLE user (name, email) VALUES ('Ray', 'ray@gmail.com');
 ```
@@ -220,6 +225,7 @@ example=> INSERT TABLE user (name, email) VALUES ('Ray', 'ray@gmail.com');
 ```sql
 syntax=> INSERT INTO table_name (col) VALUES (val1), (val2), (val);
 ```
+
 ```sql
 example=> INSERT INTO user (name) VALUES ('Aravind'), ('Ray'), ('Raj');
 ```
@@ -227,9 +233,11 @@ example=> INSERT INTO user (name) VALUES ('Aravind'), ('Ray'), ('Raj');
 ### INSERT: INTO ... SELECT ... - How to select results from one table and create it in another table?
 
 Consider these 2 tables xy_raw (x, y, y_id - all text field) and y (id - PK, y - text)
+
 ```sql
 syntax=> INSERT INTO new_table(new_col) SELECT DISTINCT old_col FROM old_table;
 ```
+
 ```sql
 example=> INSERT INTO y(y) SELECT DISTINCT y FROM xy_raw;
 ```
@@ -239,9 +247,11 @@ example=> INSERT INTO y(y) SELECT DISTINCT y FROM xy_raw;
 ### Select: How to select and display all the results?
 
 Retrieves a group of records.
+
 ```sql
 syntax=> SELECT * FROM table_name;
 ```
+
 ```sql
 example=> SELECT * FROM user;
 ```
@@ -249,24 +259,31 @@ example=> SELECT * FROM user;
 ### Select: WHERE - How to select and display particular result(s)?
 
 You can either retrieve all the records or a subset of the record with the help of WHERE Clause.
+
 ```sql
 syntax=> SELECT * FROM table_name WHERE condition;
 syntax=> SELECT * FROM table_name WHERE condition_1 AND condition_2;
 syntax=> SELECT * FROM table_name WHERE condition_1 OR condition_2;
 ```
+
 From above AND, and OR operators is used to add multiple conditions. AND statement only execute if both the condition is True and OR statement execute if either one condition is True.
+
 ```sql
 example=> SELECT * FROM user WHERE email='ray@gmail.com';
 ```
+
 The above query return one or more results if one or more rows have the same email id.
 
 ### Select: WHERE ... LIKE ... - How to select and display particular result(s) with matching patterns (wildcard)?
 
 With the combination of WHERE clause and LIKE operation we can search for results in particular patterns, this method also known as wildcard.
+
 ```sql
 syntax=> SELECT * FROM table_name WHERE column_name LIKE '%a%';
 ```
+
 Above method will take more time since this is linear process, so be careful while using this method.
+
 ```sql
 example=> SELECT * FROM user WHERE name LIKE '%e%';
 ```
@@ -274,6 +291,7 @@ example=> SELECT * FROM user WHERE name LIKE '%e%';
 ### Select: WHERE - How to select and display only one result?
 
 For every table there will be a unique identifier (primary key) for each row (record) and it's field name is `id`, with **id** we can access only one single result.
+
 ```
 syntax=> SELECT * FROM table_name WHERE id=1;
 ```
@@ -281,11 +299,13 @@ syntax=> SELECT * FROM table_name WHERE id=1;
 ### Select: ORDER BY - How to select and display result in different orders (sorted)?
 
 With the ORDER BY clause we can get the result sorted in ascending or descending order.
+
 ```sql
 syntax=> SELECT * FROM table_name ORDER BY column_name; --default order is ascending
 syntax=> SELECT * FROM table_name ORDER BY col_1, col_2;
 syntax=> SELECT * FROM table_name ORDER BY column_name DESC;
 ```
+
 ```sql
 example=> SELECT * FROM user ORDER BY email;
 example=> SELECT * FROM user ORDER BY email DESC;
@@ -296,10 +316,12 @@ example=> SELECT * FROM user ORDER BY email DESC;
 - We can request to server to return first 'n' rows, or the first 'n' rows after skipping some rows
 - The WHERE and ORDER BY clause happen 'before' the LIMIT / OFFSET are applied
 - OFFSET starts from 0 (zero), like Python list index
+
 ```sql
 syntax=> SELECT * FROM table_name ORDER BY column_name DESC LIMIT 2;
 syntax=> SELECT * FROM table_name ORDER BY column_name OFFSET 1 LIMIT 2;
 ```
+
 ```sql
 example=> SELECT * FROM user ORDER BY email DESC LIMIT 2;
 example=> SELECT * FROM user ORDER BY email OFFSET 1 LIMIT 2;
@@ -311,7 +333,9 @@ example=> SELECT * FROM user ORDER BY email OFFSET 1 LIMIT 2;
 syntax=> SELECT COUNT(*) FROM table_name;
 syntax=> SELECT COUNT(*) FROM table_name WHERE condition;
 ```
+
 Above statement return the count of the query
+
 ```sql
 example=> SELECT COUNT(*) FROM user;
 example=> SELECT COUNT(*) FROM user WHERE email='ray@gmail.com';
@@ -325,7 +349,9 @@ example=> SELECT COUNT(*) FROM user WHERE email='ray@gmail.com';
 syntax=> UPDATE table_name SET col_1='new_value', col_2='new_value' WHERE condition;
 syntax=> UPDATE table_name SET col_1='new_value', col_2='new_value' WHERE condition_1 AND condition_2;
 ```
+
 Above statement will update one or more records if multiple rows met the same conditions, so be careful while updating.
+
 ```sql
 example=> UPDATE user SET name='Aravind' WHERE email='ray@gmail.com';
 ```
@@ -336,6 +362,7 @@ example=> UPDATE user SET name='Aravind' WHERE email='ray@gmail.com';
 - If we made any error we change the value or data type of a table column with ALTER TABLE statement
 - We can also alter indexes, uniqueness constraints, foreign keys
 - Best thing is that it work / run on live database
+
 ```sql
 -- to remove a column from a table
 syntax=> ALTER TABLE table_name DROP COLUMN column_name;
@@ -346,6 +373,7 @@ syntax=> ALTER TABLE table_name ALTER COLUMN column_name TYPE new_datatype;
 -- to add a new column in a table (can I able to add constrains?)
 syntax=> ALTER TABLE table_name ADD COLUMN column_name DATATYPE;
 ```
+
 ```sql
 example=> ALTER TABLE fav DROP COLUMN oops;
 example=> ALTER TABLE post ALTER COLUMN content TYPE TEXT;
@@ -359,7 +387,9 @@ example=> ALTER TABLE fav ADD COLUMN howmuch INTEGER;
 ```sql
 syntax=> DELETE FROM table_name;
 ```
+
 Be careful while deleting or updating record, this process can not be undone.
+
 ```sql
 example=> DELETE FROM user;
 ```
@@ -367,11 +397,14 @@ example=> DELETE FROM user;
 ### Delete: FROM ... WHERE ... - How to delete particular record(s)?
 
 With the help of WHERE clause we can check the conditions and delete the records.
+
 ```sql
 syntax=> DELETE FROM table_name WHERE condition;
 syntax=> DELETE FROM table_name WHERE condition AND condition;
 ```
+
 Be careful while deleting if many records satisfy the conditions all of them will be deleted.
+
 ```sql
 example=> DELETE FROM user WHERE email='ray@gmail.com';
 ```
@@ -379,10 +412,13 @@ example=> DELETE FROM user WHERE email='ray@gmail.com';
 ### Delete: FROM ... WHERE ... - How to delete a single record?
 
 To delete a single retrieve the particular row with primary key and delete the record.
+
 ```sql
 syntax=> DELETE FROM table_name WHERE id=1;
 ```
+
 Be careful while deleting or updating record, this process can not be undone.
+
 ```sql
 example=> DELETE FROM user WHERE id=1;
 ```
@@ -397,6 +433,7 @@ example=> DELETE FROM user WHERE id=1;
 
 - Simple example of One-to-Many is album and songs relationship, because an album my have may songs.
 Let's see how to create an song table and make relation with album table.
+
 ```sql
 -- create album table
 query=> CREATE TABLE album (
@@ -415,12 +452,14 @@ query=> CREATE TABLE song (
   PRIMARY KEY(id)
 );
 ```
+
 **REFERENCES** keyword plays a major role between relations.
 
 ## Many-to-Many Relationship
 
 - Some of the example to user Many-to-Many relationships are _course - student_, (a student can enroll into multiple student and a course can have n no of student), similarly _book - author_.
 - Technically there is no direct many-to-many relationship we create a intermediate (through, join, junction) table and link both tale primary key into this one.
+
 ```sql
 -- create a book table
 query=> CREATE TABLE book (
@@ -449,9 +488,11 @@ Above tables are now considered as many-to-many relationships
 This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-one-to-many-relationship)
 
 **How to query all the album which published by artist**
+
 ```sql
 syntax=> SELECT tab_1.col_nam, tab_2.col_nam FROM tab_1 JOIN tab_2 ON tab_1.foreign_key_filed = tab_2.primary_key;
 ```
+
 ```sql
 query=> SELECT artist.name, album.title
 FROM artist
@@ -468,6 +509,7 @@ INNER JOIN album ON album.artist_id = artist.id;
 This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-many-to-many-relationship)
 
 **How to display all the books written by particular author**
+
 ```sql
 syntax=> SELECT pk_table_1.field_name, pk_table_2.field_name
 FROM pk_table_1
@@ -475,6 +517,7 @@ JOIN intermediate_table ON intermediate_table.pk_table_1_id = pk_table_1.id
 JOIN pk_table_2 ON intermediate_table.pk_table_2_id = pk_table_2.id
 WHERE pk_table_2.filter_field = 'author_name';
 ```
+
 ```sql
 query=> SELECT book.title, author.name
 FROM book
@@ -482,7 +525,9 @@ JOIN author_book ON author_book.book_id = book.id
 JOIN author ON author_book.author_id = author.id
 WHERE author.name = 'Aravind';
 ```
+
 **How to find this book(s) written by which author**
+
 ```sql
 -- Similar as above query instead of filtering by author, use book
 query=> SELECT book.title, author.name
@@ -491,7 +536,9 @@ JOIN author_book ON author_book.book_id = book.id
 JOIN author ON author_book.author_id = author.id
 WHERE book.title = 'How to do it?';
 ```
+
 **Map every book buy it author(s)**
+
 ```sql
 -- Same as above, without filter
 query=> SELECT book.title, author.name
@@ -573,13 +620,16 @@ query=> SELECT date_trunc('hour', '2025-05-05 15:30:00'::timestamp); -- Output: 
 - Full table scan is bad performance
 
 **This is a fast query and better performance**
+
 ```sql
 query=> SELECT id, content, created_at
 FROM comment
 WHERE crated_at >= DATE_TRUNC('day', NOW())
 AND created_at < DATE_TRUNC('day', NOW() + INTERVAL '1 day');
 ```
+
 **Equivalent query but slow performance**
+
 ```sql
 query=> SELECT id, content, created_at
 FROM comment
@@ -713,6 +763,7 @@ example=> INSERT INTO account(email) VALUES ('ed@umich.edu');
 example=> INSERT INTO account(email) VALUES ('sue@umich.edu');
 example=> INSERT INTO account(email) VALUES ('shally@umich.edu');
 ```
+
 **Compound Statements**
 - There are statements which do more than one things in one statement for efficiency and concurrency.
 
@@ -726,6 +777,7 @@ example=> UPDATE fav SET howmuch=howmuch+1
 WHERE post_id = 1 AND account_id = 1
 RETURNING *;
 ```
+
 We use RETURNING feature a lot
 
 ### ON CONFLICT - Like Try and Expect
@@ -800,6 +852,7 @@ SELECT howmuch FROM fav WHERE account_id=1 AND post_id=1;
 - Some rules that 'must' be enforced
 
 Actual Query - auto update field (updated_at field)
+
 ```sql
 -- consider the table name fav in it we have updated_at field which will update automatically whenever the user modify the data
 
@@ -814,7 +867,7 @@ BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$ $ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 query=> CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON fav
@@ -835,6 +888,7 @@ ELSE ...
 END
 )
 ```
+
 ```sql
 example=> SELECT (CASE WHEN (random() < 0.5)
   THEN 'https://www.pg4e.com/neon/'
@@ -866,6 +920,7 @@ SELECT (CASE WHEN (condition)
         END
 ) || GENERATE_SERIES(start, end);
 ```
+
 ```sql
 example=> INSERT INTO textfun(content)
 SELECT (CASE WHEN (random() < 0.5)
@@ -898,6 +953,7 @@ query=> CREATE INDEX textfun_b ON textfun (content);
 ```sql
 syntax=> CREATE UNIQUE INDEX index_name ON table(field);
 ```
+
 ```sql
 example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
 ```
@@ -913,6 +969,7 @@ Just like to drop a table - `DROP INDEX index_name;`
 ```sql
 syntax=> SELECT pg_relation_size('table_name'), pg_indexes_size('table_name');
 ```
+
 ```sql
 example=> SELECT pg_relation_size('textfun'), pg_indexes_size('textfun'), pg_size_pretty(pg_relation_size('textfun'));
 ```

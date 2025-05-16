@@ -105,49 +105,63 @@ SQL stands for Structured Query Language. SQL let you efficiently access and man
 ## Data Types in PostgreSQL
 
 #### CHAR(n)
+
 - If CHAR(64) - it allocate entire 64 bit space (which means 64 character), we need to store entire 64 bit space
 - Best for storing GUID (Global Unique Identifier - format is numbers and letter (A-Z))
 
 #### VARCHAR(n)
+
 - If VARCHAR(128) - depend on the data length it will store the from 1 character to 128 character
 
 #### TEXT
+
 - Get as much space as you need to store paragraph or HTML page
 - Not used for Index and Sorting (which means no ORDER BY and WHERE clause used with this data type)
 
 #### BINARY (rarely used)
+
 - Not used for Index and Sorting
 - Store small size image
 
 #### SMALLINT
+
 - This type store -32766 to +32766
 
 #### INTEGER
+
 - This type stores up to 2 Billion numbers
 
 #### BIGINT
+
 - This stores 10^18 length of data
 
 #### REAL
+
 - 32-bit [10^38]
 
 #### DOUBLE PRECISION
+
 - 64-bit [10^308]
 
 #### NUMERIC
+
 - This holds accuracy values
 - Used for to store money
 
 #### TIMESTAMP
+
 - Format is 'YYYY-MM-DD HH:MM:SS'
 
 #### DATE
+
 - Format is 'YYYY-MM-DD'
 
 #### TIME
+
 - Format is 'HH:MM:SS'
 
 #### SERIAL
+
 - It creates an auto increment integer column
 - It used as Primary Key which postgres automatically generate unique sequential value
 
@@ -159,43 +173,53 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 #### UNIQUE / UNIQUE()
 
 ##### UNIQUE
+
 - It make sure that every record (row) value will be unique, and postgres automatically create index for this field.
 
 ##### UNIQUE(field1, field2)
+
 - UNIQUE(title, album) - This make suer that the combination of field 1 (song name) and field 2 (album) must to be unique, for example if the song name 'Thank, Thank' have presented in 2 different albums like 'Vol 25', 'Vol 35'
 
 #### ON DELETE
 
 ##### CASCADE
+
 - Basically says if parent/reference entry is deleted, delete everything belong to that id from this table also.
 
 ##### RESTRICT
+
 - This is the default operation
 - Don't allow the change that break the constrain
 
 ##### SET NULL
+
 - Set the foreign key column in the child rows to null.
 - If you decide to set null in tell postgres that this column in integer or integer null.
 
 #### PRIMARY KEY / PRIMARY KEY()
+
 - Primary key says make this field as auto increment integer field and index it and reference it
 
 #### REFERENCES table_name(primary_key)
+
 - References keyword makes the relationship between table.
 - Check out this example: [SQL Query to build the relationship](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-the-relationship)
 
 #### JOIN
 
 ##### INNER JOIN / JOIN
+
 - The JOIN operation links across several tables as part of a SELECT operation.
 - You must tell the JOIN how to use the keys that make the connection between the tables using an ON clause.
 
 ##### CROSS JOIN
+
 - Rarely used
 
 ## Functions in PostgreSQL
 
 #### NOW()
+
 - DateTime field NOW() function is used to get to current date and time stamp with timezone
 
 ```sql
@@ -203,6 +227,7 @@ example=> SELECT NOW(); -- 2025-05-12 10:23:53.684396+05:30
 ```
 
 #### TRUNC()
+
 - This function will convert float number to integer
 
 ```sql
@@ -210,6 +235,7 @@ example=> SELECT TRUNC(RANDOM() * 100); -- 17
 ```
 
 #### REPEAT()
+
 - This function will take 2 argument string and no of times to repeat the string - ('text', 5)
 - It will generate the result in one line (horizontally)
 
@@ -219,6 +245,7 @@ example=> SELECT REPEAT('ABC ', 3); -- ABC ABC ABC
 ```
 
 #### GENERATE_SERIES()
+
 - This function will take 2 argument starting integer and ending integer - (1, 5)
 - It will generate the results in rows (vertically)
 
@@ -232,6 +259,7 @@ example=> SELECT GENERATE_SERIES(1, 5);
 ```
 
 #### RANDOM()
+
 - This function will generate random float number with 17 digit decimal place from 0 (inclusive) to 1 (exclusive)
 
 ```sql
@@ -245,6 +273,7 @@ example=> SELECT RANDOM(); -- 0.6359592059634787
 - '8 bit of Memory' as a 'byte' of memory
 
 #### UPPER()
+
 - This function return the string in all upper case
 - It will both be used in SELECT and WHERE clause as well
 
@@ -253,6 +282,7 @@ example=> SELECT UPPER('aravind'); -- ARAVIND
 ```
 
 #### LOWER()
+
 - This function return the string in all lower case
 - It will both be used in SELECT and WHERE clause as well
 
@@ -261,6 +291,7 @@ example=> SELECT LOWER('ARAVIND'); -- aravind
 ```
 
 #### RIGHT()
+
 - This function will take string and no of character as argument and return the right side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
@@ -269,6 +300,7 @@ example=> SELECT RIGHT('https://www.pg4e.com/LEMONS/150000', 4); -- 0000
 ```
 
 #### LEFT()
+
 - This function will take string and no of character as argument and return the left side of the result - (str, no_of_char)
 - It will both be used in SELECT and WHERE clause as well
 
@@ -277,6 +309,7 @@ example=> SELECT LEFT('https://www.pg4e.com/LEMONS/150000', 4); -- http
 ```
 
 #### STRPOS() - Starting Position
+
 - This function will take the 2 arguments like (str, 'find_str') and return the position where the character start
 - Index start with 1 (not zero (0) like python)
 
@@ -285,6 +318,7 @@ example=> SELECT STRPOS('https://www.pg4e.com/LEMONS/150000', 'ttps://'); -- 2
 ```
 
 #### SUBSTR() - Sub String
+
 - This function will take 3 arguments (str, start, end) where start and end characters include.
 
 ```sql
@@ -292,6 +326,7 @@ example=> SELECT SUBSTR('https://www.pg4e.com/LEMONS/150000', 2, 4); -- ttps
 ```
 
 #### SPLIT_PART()
+
 - This function will take 3 arguments - (str, delimiter, ele_pos_to_return)
 - It is similar like python split
 
@@ -302,6 +337,7 @@ example=> SELECT SPLIT_PART('apple,banana,cherry', ',', 2); -- 'banana'
 ```
 
 #### TRANSLATE()
+
 - This function is similar like find and replace
 - It will take 3 arguments ('str', find, replace)
 - The find and replace part of argument must be similar no_of_character
@@ -311,6 +347,7 @@ example=> SELECT TRANSLATE('https://www.pg4e.com/LEMONS/150000', 'th.p/', 'TH!P_
 ```
 
 #### ASCII()
+
 - This function tell us the numeric value of single ASCII character
 
 ```sql
@@ -321,6 +358,7 @@ example=> SELECT ASCII('H'), ASCII('E'), ASCII('L'), ASCII('h'), ASCII('e'), ASC
 ```
 
 #### CHR()
+
 - This function maps from Integer to ASCII character
 
 ```sql
@@ -331,15 +369,19 @@ example=> SELECT CHR(72), CHR(42), CHR(1), CHR(231), CHR(20013);
 ```
 
 #### CHAR_LENGTH()
+
 - This function return the character length
 
 #### OCTET_LENGTH()
+
 - This function return the values in byte that actually stored in database
 
 #### BIT_LENGTH()
+
 - This function return result of OCTET_LENGTH() * 8 (times 8) (because 8 bit - 1 byte)
 
 #### SUBSTRING()
+
 - This function return the substring of the column
 - It gets and return the first match in a text column
 
@@ -348,6 +390,7 @@ example=> SELECT DISTINCT SUBSTRING(email FROM '.+@(.*)$') FROM em; -- return al
 ```
 
 #### REGEXP_MATCHES()
+
 - This function gets and return the array of matches
 - It will take 3 arguments (col_name, 'expression', 'flag')
 
@@ -356,6 +399,7 @@ example=> SELECT REGEXP_MATCHES(tweet, '#([A-Za-z0-9_]+)', 'g') FROM tw; -- retu
 ```
 
 #### STRING_TO_ARRAY()
+
 - Like python split function
 
 ```sql
@@ -363,6 +407,7 @@ example=> SELECT STRING_TO_ARRAY('Hello World', ' '); -- {Hello,World}
 ```
 
 #### UNNEST()
+
 - Similar to generate_series()
 - It takes an array and expands it to rows
 - Keyname: Horizontal to Vertical
@@ -374,6 +419,7 @@ example=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' ')); -- {Hello,World}
 ### Hash Functions
 
 #### MD5()
+
 - This function convert the given string into MD5 Hash
 
 ```sql
@@ -381,6 +427,7 @@ example=> SELECT MD5('hello'); -  5d41402abd4b2r76bs719d91101xxxxx
 ```
 
 #### SHA256()
+
 - This function convert the given string into SHA256 Hash
 
 ```sql
@@ -390,15 +437,18 @@ example=> SELECT SHA256('hello'); -  \x2cf24dba5fb0axx26exb2axxb9e29e1c161e5cxx4
 ### Vital
 
 #### pg_relation_size()
+
 - This will answer the question - How much data is in this currently in the relation / table taking?
 - It will take the table_name as argument - pg_relation_size(table_name)
 - It will return the size of the table in bytes (Note in postgres table is also know as relation)
 
 #### pg_size_pretty()
+
 - Converts the size from bytes to a more readable format (e.g., KB, MB, GB).
 - for example `pg_size_pretty(pg_relation_size('table_name'));`
 
 #### pg_indexes_size()
+
 - This will answer the question - How much data is in this currently in the index taking?
 - It will take the table_name as argument, which index is linked - pg_indexes_size(table_name)
 - It will return the size of the indexes in bytes
@@ -429,6 +479,7 @@ Index is a technique used to quickly access the single data from million or bill
   - Space Partitioned Generated Search Tree
 
 ### B-Tree
+
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
 - Tree index is good for exact match lookup, sorting, (compare) - <, >,  range lookups, prefix lookup (mostly for strings)
 - It good for String, Number and Date Keys
@@ -474,6 +525,7 @@ A hash function is any function that can be used to map data of arbitrary size o
   - 128-255 are signals
 
 ### Python and Unicode
+
 - Strings in memory are Unicode
 - The "bytes" type is for 8-bit characters
 - Strings "at rest" are generally stored UTF-8 for space and interoperability
