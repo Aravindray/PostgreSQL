@@ -71,6 +71,7 @@
       - [Hashes](#hashes)
     - [Inverted Index](#inverted-index)
       - [GIN - Generalized Inverted Index](#gin---generalized-inverted-index)
+      - [GiST](#gist)
   - [Text in Postgres](#text-in-postgres)
     - [Python and Unicode](#python-and-unicode)
 
@@ -456,11 +457,13 @@ example=> SELECT SHA256('hello'); -  \x2cf24dba5fb0axx26exb2axxb9e29e1c161e5cxx4
 
 ## Indexes
 
-Index is a technique used to quickly access the single data from million or billion of record with help of Hash and B-Tree mechanism (or) algorithms.
+Index is a technique used to quickly access the single data from million or billion of record with help of algorithms like Hash and B-Tree mechanism.
 
 - Index automatically created for primary keys, logical keys (mostly have UNIQUE keyword).
 - Index is fast for insert, delete, update and read the data from the table.
 - Index is no good for TEXT field
+- **The goal of the index is to ultimately reduce the Sequence scan** - Sequence scan means you are failed
+- Heap scan, index scan, recheck - good things to see while running _explain analyze_
 
 **Types of Indexes**
 - B-Tree
@@ -487,7 +490,6 @@ Index is a technique used to quickly access the single data from million or bill
 - It great balance for cost of insert and update
 
 **How to check the B-Tree Index performance**
-
 Below query will return the execution time and some details about the performance, It is a psql specific command.
 ```sql
 example=> explain analyze SELECT content FROM textfun WHERE content LIKE 'racing%';
@@ -521,11 +523,24 @@ There are 2 types of Inverted Index
 - GIN - Generalized Inverted Index
 - GiST - Generalized Search Tree
 
+**Basic**
+- It uses "<@" operator
+- It works with array
+
 #### GIN - Generalized Inverted Index
 
-- The preferred text search type index is GIN
-- Very efficient for lookup and search
-- This is costly when inserting or updating data
+- The preferred text search type index
+- Very efficient for lookup and search for exact match
+- It never look more rows than it needs to
+- Can be costly when inserting or updating data
+
+#### GiST
+
+- It sort of reduced size (it uses hashing)
+- Smaller and quicker for update
+- If you query once a while, then GiST is better idea
+
+**Downside** - It might read more block then necessary
 
 ## Text in Postgres
 

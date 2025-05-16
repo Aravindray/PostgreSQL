@@ -60,9 +60,10 @@
 - [How to Questions? - Beyond CRUD](#how-to-questions---beyond-crud)
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
     - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
-  - [Index - How to make an index for a table?](#index---how-to-make-an-index-for-a-table)
-    - [Index - How to create a unique index?](#index---how-to-create-a-unique-index)
-    - [How to delete a index?](#how-to-delete-a-index)
+  - [INDEX - How to make an index for a table?](#index---how-to-make-an-index-for-a-table)
+    - [INDEX - How to create a unique index?](#index---how-to-create-a-unique-index)
+    - [INDEX - How to make GIN index?](#index---how-to-make-gin-index)
+    - [INDEX - How to delete a index?](#index---how-to-delete-a-index)
   - [How to check table size in database?](#how-to-check-table-size-in-database)
   - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
       - [How to optimize the B-tree index for better performance?](#how-to-optimize-the-b-tree-index-for-better-performance)
@@ -173,6 +174,7 @@
 | UNIQUE          |                                                   |
 | SIMILAR TO      | Like Regular expression                           |
 | NOT SIMILAR TO  |                                                   |
+| <@              | Return Intersection between 2 arrays              |
 
 # CRUD Operations - Create | Read | Update | Delete
 
@@ -930,7 +932,7 @@ SELECT (CASE WHEN (random() < 0.5)
 ) || GENERATE_SERIES(100000, 200000);
 ```
 
-## Index - How to make an index for a table?
+## INDEX - How to make an index for a table?
 
 - First create a table and then create a index and link the table with index
 - This will create B-Tree index but it **allows duplicate**
@@ -945,7 +947,7 @@ query=> CREATE TABLE textfun (
 query=> CREATE INDEX textfun_b ON textfun (content);
 ```
 
-### Index - How to create a unique index?
+### INDEX - How to create a unique index?
 
 - First create a table and then create a index and link the table with index
 - This will create B-Tree index but it **does not allows duplicate**
@@ -958,7 +960,19 @@ syntax=> CREATE UNIQUE INDEX index_name ON table(field);
 example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
 ```
 
-### How to delete a index?
+### INDEX - How to make GIN index?
+
+- The index expression must be exact match with where clause.
+
+```sql
+-- use lecture 5 docs table
+query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops);
+-- to use with WHERE clause
+query=> SELECT id, doc FROM docs WHERE {learn} <@ string_to_array(doc, ' ');
+-- run explain analyze to check the performance
+```
+
+### INDEX - How to delete a index?
 
 Just like to drop a table - `DROP INDEX index_name;`
 
