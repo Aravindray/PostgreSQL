@@ -67,9 +67,10 @@
       - [pg\_size\_pretty()](#pg_size_pretty)
       - [pg\_indexes\_size()](#pg_indexes_size)
   - [Indexes](#indexes)
-    - [B-Tree](#b-tree)
-    - [Hashes](#hashes)
-    - [GIN - Generalized Inverted Index](#gin---generalized-inverted-index)
+      - [B-Tree](#b-tree)
+      - [Hashes](#hashes)
+    - [Inverted Index](#inverted-index)
+      - [GIN - Generalized Inverted Index](#gin---generalized-inverted-index)
   - [Text in Postgres](#text-in-postgres)
     - [Python and Unicode](#python-and-unicode)
 
@@ -478,7 +479,7 @@ Index is a technique used to quickly access the single data from million or bill
 - SP-GiST
   - Space Partitioned Generated Search Tree
 
-### B-Tree
+#### B-Tree
 
 - Binary Trees (B-Trees) works log amortized time, It optimized for system that read and write large block / amount of data.
 - Tree index is good for exact match lookup, sorting, (compare) - <, >,  range lookups, prefix lookup (mostly for strings)
@@ -492,7 +493,7 @@ Below query will return the execution time and some details about the performanc
 example=> explain analyze SELECT content FROM textfun WHERE content LIKE 'racing%';
 ```
 
-### Hashes
+#### Hashes
 
 > A hash function is any algorithm or subroutine that maps large data sets to smaller data sets, called keys. For example, a single integer can serve as an index to an array (cf. associative array). The values returned by a hash function are called hash values, hash codes, hash sums, checksums, or simply hashes. Hash functions are mostly used to accelerate table lookup or data comparison tasks such as finding items in a database ... - 'Charles Severance'
 
@@ -514,7 +515,17 @@ A hash function is any function that can be used to map data of arbitrary size o
 - Sensitive - Any change in input should provide a change in output
 - One-way - You should not be able to derive the input from the output (cannot reverse)
 
-### GIN - Generalized Inverted Index
+### Inverted Index
+
+There are 2 types of Inverted Index
+- GIN - Generalized Inverted Index
+- GiST - Generalized Search Tree
+
+#### GIN - Generalized Inverted Index
+
+- The preferred text search type index is GIN
+- Very efficient for lookup and search
+- This is costly when inserting or updating data
 
 ## Text in Postgres
 
