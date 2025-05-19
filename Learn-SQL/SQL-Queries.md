@@ -58,13 +58,15 @@
   - [Transactions](#transactions)
   - [Stored Procedures](#stored-procedures)
   - [If/Else in Postgres - CASE THEN ELSE END](#ifelse-in-postgres---case-then-else-end)
+  - [INDEX](#index)
+    - [INDEX - How to make an index for a table?](#index---how-to-make-an-index-for-a-table)
+    - [INDEX - How to make an unique index?](#index---how-to-make-an-unique-index)
+    - [INDEX - How to make a GIN index?](#index---how-to-make-a-gin-index)
+    - [INDEX - How to make an Natural Language Inverted Index with Postgres?](#index---how-to-make-an-natural-language-inverted-index-with-postgres)
+    - [INDEX - How to delete a index?](#index---how-to-delete-a-index)
 - [How to Questions? - Beyond CRUD](#how-to-questions---beyond-crud)
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
     - [How to generate random data(s) and insert into on table with if/else condition in Database?](#how-to-generate-random-datas-and-insert-into-on-table-with-ifelse-condition-in-database)
-  - [INDEX - How to make an index for a table?](#index---how-to-make-an-index-for-a-table)
-    - [INDEX - How to create a unique index?](#index---how-to-create-a-unique-index)
-    - [INDEX - How to make GIN index?](#index---how-to-make-gin-index)
-    - [INDEX - How to delete a index?](#index---how-to-delete-a-index)
   - [How to check table size in database?](#how-to-check-table-size-in-database)
   - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
       - [How to optimize the B-tree index for better performance?](#how-to-optimize-the-b-tree-index-for-better-performance)
@@ -101,6 +103,7 @@
 | REFERENCES    | Used to connect tables          |
 | IN            | Used to check element in array  |
 | LEFT JOIN     | Join tables even if no matches  |
+| USING         | Make condition in Index         |
 
 **Notes:** SELECT() - [article](https://www.postgresql.org/docs/current/sql-select.html)
 
@@ -177,6 +180,7 @@
 | SIMILAR TO      | Like Regular expression                           |
 | NOT SIMILAR TO  |                                                   |
 | <@              | Return Intersection between 2 arrays              |
+| @@              | Return result of to_tsquery and to_tsvector       |
 
 # CRUD Operations - Create | Read | Update | Delete
 
@@ -912,6 +916,72 @@ example=> SELECT (CASE WHEN (random() < 0.5)
 ) || generate_series(100000, 200000)
 ```
 
+## INDEX
+
+- Index are used for reduce the query time with the help of algorithms like B-Tree, Hash, GIN and so on
+- For Natural Language we need efficient index method with stemming, casing, eliminating stop-words, weighting and ranking
+
+### INDEX - How to make an index for a table?
+
+- First create a table and then create a index and link the table with index
+- This will create B-Tree index but it **allows duplicate**
+
+```sql
+-- Consider we have a table with text field
+query=> CREATE TABLE textfun (
+  content TEXT
+);
+
+-- To create index
+query=> CREATE INDEX textfun_b ON textfun (content);
+```
+
+### INDEX - How to make an unique index?
+
+- First create a table and then create a index and link the table with index
+- This will create B-Tree index but it **does not allows duplicate**
+
+```sql
+syntax=> CREATE UNIQUE INDEX index_name ON table(field);
+```
+
+```sql
+example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
+```
+
+### INDEX - How to make a GIN index?
+
+- The index expression must be exact match with where clause.
+
+```sql
+-- use lecture 5 docs table
+query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops);
+-- to use with WHERE clause
+query=> SELECT id, doc FROM docs WHERE {learn} <@ string_to_array(doc, ' ');
+-- run explain analyze to check the performance
+```
+
+**Notes:**
+
+- The query expression must be same as index expression like string_to_array('string', 'DELIMITER')
+- Use **<@** operator
+- GiST and GIN index are same, explore the google while making GiST index
+
+### INDEX - How to make an Natural Language Inverted Index with Postgres?
+
+- With the help of to_tsvector() and to_tsquery() functions and @@ operator
+
+```sql
+query=> CREATE INDEX gin ON docs USING gin(to_tsvector('english', doc));
+-- to query
+query=> SELECT id, doc FROM docs WHERE to_tsquery('english', 'teaching') @@ to_tsvector('english', doc);
+-- run explain analyze
+```
+
+### INDEX - How to delete a index?
+
+Just like to drop a table - `DROP INDEX index_name;`
+
 # How to Questions? - Beyond CRUD
 
 ## How to generate random data(s) in Database?
@@ -944,50 +1014,6 @@ SELECT (CASE WHEN (random() < 0.5)
         END
 ) || GENERATE_SERIES(100000, 200000);
 ```
-
-## INDEX - How to make an index for a table?
-
-- First create a table and then create a index and link the table with index
-- This will create B-Tree index but it **allows duplicate**
-
-```sql
--- Consider we have a table with text field
-query=> CREATE TABLE textfun (
-  content TEXT
-);
-
--- To create index
-query=> CREATE INDEX textfun_b ON textfun (content);
-```
-
-### INDEX - How to create a unique index?
-
-- First create a table and then create a index and link the table with index
-- This will create B-Tree index but it **does not allows duplicate**
-
-```sql
-syntax=> CREATE UNIQUE INDEX index_name ON table(field);
-```
-
-```sql
-example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
-```
-
-### INDEX - How to make GIN index?
-
-- The index expression must be exact match with where clause.
-
-```sql
--- use lecture 5 docs table
-query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops);
--- to use with WHERE clause
-query=> SELECT id, doc FROM docs WHERE {learn} <@ string_to_array(doc, ' ');
--- run explain analyze to check the performance
-```
-
-### INDEX - How to delete a index?
-
-Just like to drop a table - `DROP INDEX index_name;`
 
 ## How to check table size in database?
 
