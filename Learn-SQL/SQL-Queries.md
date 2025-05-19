@@ -36,9 +36,10 @@
   - [One-to-Many Relationship](#one-to-many-relationship)
   - [Many-to-Many Relationship](#many-to-many-relationship)
 - [JOIN Operations](#join-operations)
-  - [JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...](#join-with-one-to-many-relationship---inner-join--join--on-)
-  - [JOIN with Many-to-Many relationship](#join-with-many-to-many-relationship)
+  - [INNER JOIN / JOIN ... ON ... - With One-to-Many Relationship](#inner-join--join--on----with-one-to-many-relationship)
+  - [JOIN...ON... - With Many-to-Many Relationship](#joinon---with-many-to-many-relationship)
   - [CROSS JOIN (Rarely used)](#cross-join-rarely-used)
+  - [LEFT JOIN...ON...](#left-joinon)
 - [Vital](#vital)
   - [DATES](#dates)
       - [TIMESTAMPTZ - Best practice](#timestamptz---best-practice)
@@ -99,6 +100,7 @@
 | SERIAL        | Used to mark auto increment key |
 | REFERENCES    | Used to connect tables          |
 | IN            | Used to check element in array  |
+| LEFT JOIN     | Join tables even if no matches  |
 
 **Notes:** SELECT() - [article](https://www.postgresql.org/docs/current/sql-select.html)
 
@@ -485,7 +487,7 @@ Above tables are now considered as many-to-many relationships
 
 # JOIN Operations
 
-## JOIN with One-to-Many relationship - INNER JOIN / JOIN ... ON ...
+## INNER JOIN / JOIN ... ON ... - With One-to-Many Relationship
 
 This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-one-to-many-relationship)
 
@@ -506,7 +508,7 @@ FROM artist
 INNER JOIN album ON album.artist_id = artist.id;
 ```
 
-## JOIN with Many-to-Many relationship
+## JOIN...ON... - With Many-to-Many Relationship
 
 This example is based on these table from this [article](../Relational-Database-Design/Design-Intro.md#sql-query-to-build-many-to-many-relationship)
 
@@ -558,6 +560,17 @@ JOIN author ON author_book.author_id = author.id;
 | ------------------------------------------- | ------------------------------------------------ |
 | Cross join means take everything that match | Inner join means take the things that only match |
 | It also does **not need ON clause**         |                                                  |
+
+## LEFT JOIN...ON...
+
+**How to join words with their stem words** - example form Chapter 5. Natural Language
+
+```sql
+query=> SELECT id, keyword, stem FROM (
+  SELECT DISTINCT d.id, s.keyword from docs as d, unnest(string_to_array(lower(d.doc) ' ')) s(keyword) WHERE s.keyword NOT IN (SELECT word FROM stop_words)
+) as k
+LEFT JOIN docs_stem AS s ON k.keyword = s.word;
+```
 
 # Vital
 
