@@ -180,7 +180,7 @@
 | SIMILAR TO      | Like Regular expression                           |
 | NOT SIMILAR TO  |                                                   |
 | <@              | Return Intersection between 2 arrays              |
-| @@              | Return result of to_tsquery and to_tsvector       |
+| @@              | Return t/f result of to_tsquery and to_tsvector   |
 
 # CRUD Operations - Create | Read | Update | Delete
 

@@ -64,6 +64,9 @@
       - [UNNEST()](#unnest)
       - [to\_tsvector()](#to_tsvector)
       - [to\_tsquery()](#to_tsquery)
+      - [plainto\_tsquery()](#plainto_tsquery)
+      - [pharseto\_tsquery()](#pharseto_tsquery)
+      - [websearch\_to\_tsquery()](#websearch_to_tsquery)
     - [COALESCE()](#coalesce)
     - [Hash Functions](#hash-functions)
       - [MD5()](#md5)
@@ -453,6 +456,23 @@ example=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' '));
 - ts_query also take 2 arguments same as above like language and string
 - It used to query the index which created from ts_vector()
 - It uses **@@** operator
+
+```sql
+query=> SELECT to_tsquery('english', 'teaching'); -- teach
+query=> SELECT to_tsquery('english', 'teaches'); -- teach
+query=> SELECT to_tsquery('english', 'and'); -- report error
+query=> SELECT to_tsquery('english', 'SQL'); -- sql (return lower case sql since it is not a stop word, or no stem for it)
+query=> SELECT to_tsquery('english', 'Teach | teaches | teaching | and | the | if');
+         to_tsquery
+-----------------------------
+ 'teach' | 'teach' | 'teach'
+```
+
+#### plainto_tsquery()
+
+#### pharseto_tsquery()
+
+#### websearch_to_tsquery()
 
 ### COALESCE()
 
