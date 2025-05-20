@@ -38,6 +38,7 @@
         - [CROSS JOIN](#cross-join)
         - [LEFT JOIN](#left-join)
       - [\_text\_ops](#_text_ops)
+      - [array\_ops](#array_ops)
   - [Functions in PostgreSQL](#functions-in-postgresql)
       - [NOW()](#now)
       - [TRUNC()](#trunc)
@@ -241,7 +242,12 @@ Articles: [Data Types in PostgreSQL](https://www.postgresql.org/docs/current/dat
 #### _text_ops
 
 - _text_pos means Text Operator
-- Used as constrain while make GIN index
+- Used as constrain while make GIN index if postgres version is less than 11
+
+#### array_ops
+
+- array_ops means Array Operator
+- If postgres version >= 11 we use this constrain while making gin index
 
 ## Functions in PostgreSQL
 

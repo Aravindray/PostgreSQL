@@ -74,6 +74,7 @@
   - [How to optimize the SQL queries?](#how-to-optimize-the-sql-queries)
       - [How to optimize the B-tree index for better performance?](#how-to-optimize-the-b-tree-index-for-better-performance)
       - [How to optimize the Hash index for better performance?](#how-to-optimize-the-hash-index-for-better-performance)
+  - [How to check postgres version?](#how-to-check-postgres-version)
   - [What is this?](#what-is-this)
 
 <br>
@@ -970,8 +971,8 @@ example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
 
 ```sql
 -- use lecture 5 docs table
-query?=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops); -- it says _text_ops not for gin
-query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') array_ops);
+query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops); -- for postgres 9
+query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') array_ops); -- for postgres >= 11
 -- to use with WHERE clause
 query=> SELECT id, doc FROM docs WHERE {learn} <@ string_to_array(doc, ' ');
 -- run explain analyze to check the performance
@@ -1117,6 +1118,12 @@ example=> CREATE INDEX crl_4_hash ON crl_4 USING hash (url);
 
 -- check the table and index size
 -- check the explain analyze
+```
+
+## How to check postgres version?
+
+```sql
+query=> SELECT version();
 ```
 
 ## What is this?
