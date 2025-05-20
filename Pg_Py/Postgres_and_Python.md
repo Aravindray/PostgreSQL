@@ -6,6 +6,10 @@
       - [Run the Query](#run-the-query)
       - [Make a Commit](#make-a-commit)
       - [Close the Connection](#close-the-connection)
+  - [How to do it?](#how-to-do-it)
+    - [How to make a connection using psycopg2 to local server?](#how-to-make-a-connection-using-psycopg2-to-local-server)
+    - [How to replace the query with variable?](#how-to-replace-the-query-with-variable)
+    - [How to select and display record(s) from the table?](#how-to-select-and-display-records-from-the-table)
 
 # Postgres & Python
 
@@ -60,4 +64,45 @@
 ```py
 >>> cur.close()
 >>> conn.close()
+```
+
+## How to do it?
+
+### How to make a connection using psycopg2 to local server?
+
+- These are the parameters needed host, port, user, password, database
+
+```py
+>>> import psycopg2
+>>> conn = psycopg2.connect(
+    host = 'localhost',
+    port = 5432,
+    user = 'pg4e',
+    password = 'secret',
+    database = 'music'
+)
+```
+
+### How to replace the query with variable?
+
+- Use `(%s)` for substitution parameter in query, which take tuple as a input
+
+```py
+>>> for i in range(10):
+        txt = 'Have a nice day' + str(i)
+        sql = 'INSERT INTO pythonfun (line) VALUES (%s);'
+        cur.execute(sql, (txt, ))
+>>> conn.commit()
+# It is wired in python this is how to create one element tuple - ('Aravind', )
+```
+
+### How to select and display record(s) from the table?
+
+- Use `fetchone() | fetchall() | fetchmany()`, we can select the records from database, the select statement return the record set (tuple), else it return `None`
+
+```py
+>>> cur.execute('SELECT * FROM table_name LIMIT 10')
+>>> print(cur.fetchall())
+# >>> print(cur.fetchone())
+# >>> print(cur.fetchmany(size=3))
 ```
