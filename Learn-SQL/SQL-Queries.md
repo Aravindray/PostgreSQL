@@ -955,7 +955,8 @@ example=> CREATE UNIQUE INDEX cr2_md5 ON cr2(md5(url));
 
 ```sql
 -- use lecture 5 docs table
-query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops);
+query?=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') _text_ops); -- it says _text_ops not for gin
+query=> CREATE INDEX gin1 ON docs USING gin(string_to_array(doc, ' ') array_ops);
 -- to use with WHERE clause
 query=> SELECT id, doc FROM docs WHERE {learn} <@ string_to_array(doc, ' ');
 -- run explain analyze to check the performance
