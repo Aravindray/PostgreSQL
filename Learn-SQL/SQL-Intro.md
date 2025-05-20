@@ -66,7 +66,7 @@
       - [to\_tsvector()](#to_tsvector)
       - [to\_tsquery()](#to_tsquery)
       - [plainto\_tsquery()](#plainto_tsquery)
-      - [pharseto\_tsquery()](#pharseto_tsquery)
+      - [phraseto\_tsquery()](#phraseto_tsquery)
       - [websearch\_to\_tsquery()](#websearch_to_tsquery)
     - [COALESCE()](#coalesce)
     - [Hash Functions](#hash-functions)
@@ -456,6 +456,7 @@ example=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' '));
 - ts_vector means text string vector
 - It take 2 arguments the Language and the string
 - It process all the necessary steps like, stemming, removing stop-word and so on
+- It also checks ordering of the function like sql followed by python
 
 #### to_tsquery()
 
@@ -476,9 +477,34 @@ query=> SELECT to_tsquery('english', 'Teach | teaches | teaching | and | the | i
 
 #### plainto_tsquery()
 
-#### pharseto_tsquery()
+- ? Need more information
+- It implies _and | &_ between all of the operator
+
+```sql
+query=> SELECT plainto_tsquery('english', 'SQL Python');
+ plainto_tsquery
+------------------
+ 'sql' & 'python'
+```
+
+#### phraseto_tsquery()
+
+- ? Need more information
+- If you want to see the character followed after another use it
+- For example, if you want to query and see 'python' followed by 'sql' use it
+
+```sql
+query=> SELECT phraseto_tsquery('english', 'SQL Python');
+  phraseto_tsquery
+--------------------
+ 'sql' <-> 'python'
+```
 
 #### websearch_to_tsquery()
+
+- ? Need more information
+
+**Notes:** Check out this official doc [12.3. Controlling Text Search](https://www.postgresql.org/docs/current/textsearch-controls.html)
 
 ### COALESCE()
 
