@@ -10,6 +10,7 @@
     - [How to make a connection using psycopg2 to local server?](#how-to-make-a-connection-using-psycopg2-to-local-server)
     - [How to replace the query with variable?](#how-to-replace-the-query-with-variable)
     - [How to select and display record(s) from the table?](#how-to-select-and-display-records-from-the-table)
+    - [How to handle insert with return statement?](#how-to-handle-insert-with-return-statement)
 
 # Postgres & Python
 
@@ -90,7 +91,7 @@
 ```py
 >>> for i in range(10):
         txt = 'Have a nice day' + str(i)
-        sql = 'INSERT INTO pythonfun (line) VALUES (%s);'
+        sql = 'INSERT INTO pythonfun(line) VALUES (%s);'
         cur.execute(sql, (txt, ))
 >>> conn.commit()
 # It is wired in python this is how to create one element tuple - ('Aravind', )
@@ -105,4 +106,14 @@
 >>> print(cur.fetchall())
 # >>> print(cur.fetchone())
 # >>> print(cur.fetchmany(size=3))
+```
+
+### How to handle insert with return statement?
+
+- Just run the insert statement and fetch the return value
+
+```py
+>>> cur.execute('INSERT INTO pythonfun(line) VALUES ("Hello World") RETURNING id;')
+>>> id = cur.fetchone()[0]
+>>> print('New id', id)
 ```
