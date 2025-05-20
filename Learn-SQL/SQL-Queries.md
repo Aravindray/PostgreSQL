@@ -28,9 +28,11 @@
     - [Update: SET ... WHERE ... - How to update / modify the existing data?](#update-set--where----how-to-update--modify-the-existing-data)
     - [ALTER TABLE - How to update the table column field(s)?](#alter-table---how-to-update-the-table-column-fields)
   - [Delete](#delete)
-    - [Delete: FROM - How to delete all records?](#delete-from---how-to-delete-all-records)
-    - [Delete: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
-    - [Delete: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
+    - [DELETE: FROM - How to delete all records?](#delete-from---how-to-delete-all-records)
+    - [DELETE: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
+    - [DELETE: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
+    - [DELETE: How to delete a table?](#delete-how-to-delete-a-table)
+    - [DELETE: How to delete a database?](#delete-how-to-delete-a-database)
 - [Relation Operations](#relation-operations)
   - [One-to-One Relationship](#one-to-one-relationship)
   - [One-to-Many Relationship](#one-to-many-relationship)
@@ -63,6 +65,7 @@
     - [INDEX - How to make an unique index?](#index---how-to-make-an-unique-index)
     - [INDEX - How to make a GIN index?](#index---how-to-make-a-gin-index)
     - [INDEX - How to make an Natural Language Inverted Index with Postgres?](#index---how-to-make-an-natural-language-inverted-index-with-postgres)
+    - [INDEX - Index Maintenance!](#index---index-maintenance)
     - [INDEX - How to delete a index?](#index---how-to-delete-a-index)
 - [How to Questions? - Beyond CRUD](#how-to-questions---beyond-crud)
   - [How to generate random data(s) in Database?](#how-to-generate-random-datas-in-database)
@@ -390,7 +393,7 @@ example=> ALTER TABLE fav ADD COLUMN howmuch INTEGER;
 
 ## Delete
 
-### Delete: FROM - How to delete all records?
+### DELETE: FROM - How to delete all records?
 
 ```sql
 syntax=> DELETE FROM table_name;
@@ -402,7 +405,7 @@ Be careful while deleting or updating record, this process can not be undone.
 example=> DELETE FROM user;
 ```
 
-### Delete: FROM ... WHERE ... - How to delete particular record(s)?
+### DELETE: FROM ... WHERE ... - How to delete particular record(s)?
 
 With the help of WHERE clause we can check the conditions and delete the records.
 
@@ -417,7 +420,7 @@ Be careful while deleting if many records satisfy the conditions all of them wil
 example=> DELETE FROM user WHERE email='ray@gmail.com';
 ```
 
-### Delete: FROM ... WHERE ... - How to delete a single record?
+### DELETE: FROM ... WHERE ... - How to delete a single record?
 
 To delete a single retrieve the particular row with primary key and delete the record.
 
@@ -429,6 +432,18 @@ Be careful while deleting or updating record, this process can not be undone.
 
 ```sql
 example=> DELETE FROM user WHERE id=1;
+```
+
+### DELETE: How to delete a table?
+
+```sql
+query=> DROP TABLE table_name;
+```
+
+### DELETE: How to delete a database?
+
+```sql
+query=> DROP DATABASE database_name;
 ```
 
 # Relation Operations
@@ -977,6 +992,32 @@ query=> CREATE INDEX gin ON docs USING gin(to_tsvector('english', doc));
 -- to query
 query=> SELECT id, doc FROM docs WHERE to_tsquery('english', 'teaching') @@ to_tsvector('english', doc);
 -- run explain analyze
+```
+
+### INDEX - Index Maintenance!
+
+- Check out this official doc of [Index Maintenance](https://wiki.postgresql.org/wiki/Index_Maintenance)
+
+**Sample query to pull the number of rows, indexes, and some info about those indexes for each table**
+
+```sql
+query=> SELECT
+    pg_class.relname,
+    pg_size_pretty(pg_class.reltuples::bigint)            AS rows_in_bytes,
+    pg_class.reltuples                                    AS num_rows,
+    COUNT(*)                                              AS total_indexes,
+    COUNT(*) FILTER ( WHERE indisunique)                  AS unique_indexes,
+    COUNT(*) FILTER ( WHERE indnatts = 1 )                AS single_column_indexes,
+    COUNT(*) FILTER ( WHERE indnatts IS DISTINCT FROM 1 ) AS multi_column_indexes
+FROM
+    pg_namespace
+    LEFT JOIN pg_class ON pg_namespace.oid = pg_class.relnamespace
+    LEFT JOIN pg_index ON pg_class.oid = pg_index.indrelid
+WHERE
+    pg_namespace.nspname = 'public' AND
+    pg_class.relkind = 'r'
+GROUP BY pg_class.relname, pg_class.reltuples
+ORDER BY pg_class.reltuples DESC;
 ```
 
 ### INDEX - How to delete a index?
