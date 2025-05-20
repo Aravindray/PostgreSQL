@@ -32,6 +32,7 @@
     - [DELETE: FROM ... WHERE ... - How to delete particular record(s)?](#delete-from--where----how-to-delete-particular-records)
     - [DELETE: FROM ... WHERE ... - How to delete a single record?](#delete-from--where----how-to-delete-a-single-record)
     - [DELETE: How to delete a table?](#delete-how-to-delete-a-table)
+    - [DELETE: How to delete a table if you are unsure about whether if it exists or not?](#delete-how-to-delete-a-table-if-you-are-unsure-about-whether-if-it-exists-or-not)
     - [DELETE: How to delete a database?](#delete-how-to-delete-a-database)
 - [Relation Operations](#relation-operations)
   - [One-to-One Relationship](#one-to-one-relationship)
@@ -439,6 +440,12 @@ example=> DELETE FROM user WHERE id=1;
 
 ```sql
 query=> DROP TABLE table_name;
+```
+
+### DELETE: How to delete a table if you are unsure about whether if it exists or not?
+
+```sql
+query=> DROP TABLE IF EXISTS table_name;
 ```
 
 ### DELETE: How to delete a database?
