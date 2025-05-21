@@ -15,6 +15,7 @@
       - [How to make B-Tree index?](#how-to-make-b-tree-index)
       - [How to make GIN index?](#how-to-make-gin-index)
       - [How to make GIN\_PATH\_OPS index?](#how-to-make-gin_path_ops-index)
+  - [Assignment](#assignment)
 
 # Postgres and JSON
 
@@ -152,4 +153,66 @@ query=> CREATE INDEX jtrack_gin_path_ops ON jtrack USING GIN(body jsonb_path_ops
 -- create key-value pair index
 -- it uses @> contains operator in WHERE clause
 -- run EXPLAIN ANALYZE
+```
+
+## Assignment
+
+```py
+import psycopg2
+from psycopg2.extras import Json
+import requests
+
+conn = psycopg2.connect(
+    host='pg.pg4e.com',
+    port=5432,
+    user='pg4e_e8bc7beb32',
+    password='pg4e_p_9f757c6c42db703',
+    database='pg4e_e8bc7beb32',
+)
+print('connected')
+
+cur = conn.cursor()
+
+
+for i in range(1, 101):
+    url = f'https://pokeapi.co/api/v2/pokemon/{i}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        new_data = Json(data)
+        sql = "INSERT INTO pokeapi(body) VALUES (%s);"
+        cur.execute(sql, (new_data, ))
+        conn.commit()
+        print(f'Inserted {i} into database from {type(data)} to {type(new_data)}')
+
+cur.close()
+conn.close()
+print('disconnected')
+```
+
+```py
+# simple / sample
+import psycopg2
+from psycopg2.extras import Json
+
+conn = psycopg2.connect(
+    host="localhost", port=5432, user="pg4e", password="secret", database="music"
+)
+print("connected")
+
+cur = conn.cursor()
+
+data = {"name": "Aravind", "age": 26}
+print(type(data))
+
+sql = "INSERT INTO sample_jsonb(info) VALUES (%s);"
+
+new_data = Json(data)
+print(type(new_data))
+cur.execute(sql, (new_data,))
+
+conn.commit()
+cur.close()
+conn.close()
+print("disconnected")
 ```

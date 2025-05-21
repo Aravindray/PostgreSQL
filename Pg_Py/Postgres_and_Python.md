@@ -32,6 +32,7 @@
 >>> from hidden import secret
 >>> conn = psycopg2.connect(
     host = secret['host'],
+    port = 5432,
     database = secret['database'],
     user = secret['user'],
     password = secret['password'],
