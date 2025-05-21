@@ -166,26 +166,29 @@
 
 ## Special Operators
 
-| Operator        | Meaning                                           |
-| --------------- | ------------------------------------------------- |
-| \|\|            | Concat strings                                    |
-| ::              | Casting                                           |
-| LIKE            | Pattern matching                                  |
-| ILIKE           | Ignore case                                       |
-| NOT LIKE        |                                                   |
-| NOT iLIKE       |                                                   |
-| IN (...)        | Match any values in list or subquery, =           |
-| BETWEEN A AND B | Match range                                       |
-| IS NULL         | Check for NULL value                              |
-| EXISTS          | Subquery return rows                              |
-| ALL             |                                                   |
-| ANY             | Compare a values to any element of array, =, <, > |
-| SOME            |                                                   |
-| UNIQUE          |                                                   |
-| SIMILAR TO      | Like Regular expression                           |
-| NOT SIMILAR TO  |                                                   |
-| <@              | Return Intersection between 2 arrays              |
-| @@              | Return t/f result of to_tsquery and to_tsvector   |
+| Operator        | Meaning                                                          |
+| --------------- | ---------------------------------------------------------------- |
+| \|\|            | Concat strings                                                   |
+| ::              | Casting                                                          |
+| LIKE            | Pattern matching                                                 |
+| ILIKE           | Ignore case                                                      |
+| NOT LIKE        |                                                                  |
+| NOT iLIKE       |                                                                  |
+| IN (...)        | Match any values in list or subquery, =                          |
+| BETWEEN A AND B | Match range                                                      |
+| IS NULL         | Check for NULL value                                             |
+| EXISTS          | Subquery return rows                                             |
+| ALL             |                                                                  |
+| ANY             | Compare a values to any element of array, =, <, >                |
+| SOME            |                                                                  |
+| UNIQUE          |                                                                  |
+| SIMILAR TO      | Like Regular expression                                          |
+| NOT SIMILAR TO  |                                                                  |
+| <@              | Return Intersection between 2 arrays                             |
+| @@              | Return t/f result of to_tsquery and to_tsvector                  |
+| q & q           | to_tsquery special operators - combine operation (q means query) |
+| q <-> q         | to_tsquery special operators - first_appear <-> second_appear    |
+| ! q & q         | to_tsquery special operators - first_appear <-> second_appear    |
 
 # CRUD Operations - Create | Read | Update | Delete
 

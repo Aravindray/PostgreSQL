@@ -65,6 +65,8 @@
       - [UNNEST()](#unnest)
       - [to\_tsvector()](#to_tsvector)
       - [to\_tsquery()](#to_tsquery)
+      - [ts\_rank()](#ts_rank)
+      - [ts\_rank\_cd()](#ts_rank_cd)
       - [plainto\_tsquery()](#plainto_tsquery)
       - [phraseto\_tsquery()](#phraseto_tsquery)
       - [websearch\_to\_tsquery()](#websearch_to_tsquery)
@@ -462,7 +464,7 @@ example=> SELECT UNNEST(STRING_TO_ARRAY('Hello World', ' '));
 
 - ts_query also take 2 arguments same as above like language and string
 - It used to query the index which created from ts_vector()
-- It uses **@@** operator
+- It uses **@@** operator to check with to_tsvector()
 
 ```sql
 query=> SELECT to_tsquery('english', 'teaching'); -- teach
@@ -475,12 +477,34 @@ query=> SELECT to_tsquery('english', 'Teach | teaches | teaching | and | the | i
  'teach' | 'teach' | 'teach'
 ```
 
+```sql
+-- this function also take the special operators
+query=> SELECT to_tsquery('english', 'learn & teach'); -- must both words in the sentences
+query=> SELECT to_tsquery('english', 'pearson <-> learning'); -- person should comes first before learning (ordering)
+query=> SELECT to_tsquery('english', '! learn & teach'); -- works as not operator, no learn but search teach only
+query=> SELECT to_tsquery('english', '(learn & teach'); -- ( produce a syntax error - to overcome this we use plainto_query
+```
+
+#### ts_rank()
+
+- Calculating a ranking is really cheap
+- ts_rank is goes into SELECT clause not the WHERE clause
+- It take 2 arguments which are to_tsvector and to_tsquery
+- It check how close the vector and query they are
+- ? Need more information
+
+#### ts_rank_cd()
+
+- It is same as above which use different calculation
+
+**Note:** There are many ranking system, lookup on those in official postgres documentation
+
 #### plainto_tsquery()
 
-- ? Need more information
-- It implies _and | &_ between all of the operator
+- It is similar to `to_tsquery('english', 'q & q')`, but this query will get input from user (while search), which they didn't know the fancy operators
 
 ```sql
+-- It implies & between all of the query
 query=> SELECT plainto_tsquery('english', 'SQL Python');
  plainto_tsquery
 ------------------
@@ -491,18 +515,24 @@ query=> SELECT plainto_tsquery('english', 'SQL Python');
 
 - ? Need more information
 - If you want to see the character followed after another use it
-- For example, if you want to query and see 'python' followed by 'sql' use it
+- For example, if user (search) want to see 'python' followed by 'sql' use it
 
 ```sql
 query=> SELECT phraseto_tsquery('english', 'SQL Python');
   phraseto_tsquery
 --------------------
  'sql' <-> 'python'
+-- above query is same as SELECT to_tsquery('english', 'pearson <-> learning');
 ```
 
 #### websearch_to_tsquery()
 
 - ? Need more information
+
+```sql
+query=> SELECT to_tsquery('english', '! learn & teach'); -- works as not operator, no learn but search teach only
+query=> SELECT websearch_to_tsquery('english', '-learn teach') -- this web search query is exactly same as above, but use google syntax - (minus) operator instead of ! (exclamation) operator
+```
 
 **Notes:** Check out this official doc [12.3. Controlling Text Search](https://www.postgresql.org/docs/current/textsearch-controls.html)
 
