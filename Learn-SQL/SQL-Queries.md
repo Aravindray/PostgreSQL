@@ -2,13 +2,14 @@
 
 ## Table of Content
 - [Clauses](#clauses)
-- [OPERATOR](#operator)
+- [OPERATORS](#operators)
   - [Arithmetic Operators](#arithmetic-operators)
   - [Bitwise Operators](#bitwise-operators)
   - [Comparison Operators](#comparison-operators)
   - [Compound Operators](#compound-operators)
   - [Logical Operators](#logical-operators)
   - [Special Operators](#special-operators)
+  - [JSONB Operators](#jsonb-operators)
 - [CRUD Operations - Create | Read | Update | Delete](#crud-operations---create--read--update--delete)
   - [Create](#create)
     - [Create: How to create a database?](#create-how-to-create-a-database)
@@ -112,7 +113,7 @@
 
 **Notes:** SELECT() - [article](https://www.postgresql.org/docs/current/sql-select.html)
 
-# OPERATOR
+# OPERATORS
 
 ## Arithmetic Operators
 
@@ -189,6 +190,13 @@
 | q & q           | to_tsquery special operators - combine operation (q means query) |
 | q <-> q         | to_tsquery special operators - first_appear <-> second_appear    |
 | ! q & q         | to_tsquery special operators - first_appear <-> second_appear    |
+
+## JSONB Operators
+
+| Operator | Meaning           |
+| -------- | ----------------- |
+| ->>      |                   |
+| @>       | Contains Operator |
 
 # CRUD Operations - Create | Read | Update | Delete
 
