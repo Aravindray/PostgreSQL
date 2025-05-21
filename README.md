@@ -25,3 +25,7 @@ This is a Postgres normal user prompt `=>`
 ## Helpful articles
 
 1. [Database, Table, and Column Naming Conventions](https://www.baeldung.com/sql/database-table-column-naming-conventions)
+
+## Credits
+
+> I've enrolled the **Postgres for Everybody** course, so don't be surprise if all note have strong influence Charles Lecture.

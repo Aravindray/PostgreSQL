@@ -2,6 +2,19 @@
 - [Postgres and JSON](#postgres-and-json)
   - [Python and JSON](#python-and-json)
   - [JSONB OPERATORS](#jsonb-operators)
+  - [How to do it?](#how-to-do-it)
+    - [CREATE: How to create a jsonb table?](#create-how-to-create-a-jsonb-table)
+    - [CREATE: How to populate the database from external json like files?](#create-how-to-populate-the-database-from-external-json-like-files)
+    - [READ: How to select the JSONB value of the given key?](#read-how-to-select-the-jsonb-value-of-the-given-key)
+    - [How to convert jsonb type to other type(s)?](#how-to-convert-jsonb-type-to-other-types)
+    - [READ: How to retrieve jsonb column and displays the record(s)?](#read-how-to-retrieve-jsonb-column-and-displays-the-records)
+    - [UPDATE: How to update the json in jsonb column?](#update-how-to-update-the-json-in-jsonb-column)
+      - [How to add new key-value pair in the jsonb column?](#how-to-add-new-key-value-pair-in-the-jsonb-column)
+      - [How to update jsonb column with jsonb\_set() function?](#how-to-update-jsonb-column-with-jsonb_set-function)
+    - [INDEX: How to make indexes for jsonb type?](#index-how-to-make-indexes-for-jsonb-type)
+      - [How to make B-Tree index?](#how-to-make-b-tree-index)
+      - [How to make GIN index?](#how-to-make-gin-index)
+      - [How to make GIN\_PATH\_OPS index?](#how-to-make-gin_path_ops-index)
 
 # Postgres and JSON
 
@@ -36,7 +49,107 @@ There was a default library in python which handle all the necessary for json
 
 ## JSONB OPERATORS
 
-| Operator | Meaning           |
-| -------- | ----------------- |
-| ->>      |                   |
-| @>       | Contains Operator |
+| Operator | Meaning           | Description                 |
+| -------- | ----------------- | --------------------------- |
+| ->>      | Text Operator     | return jsonb as text        |
+| @>       | Contains Operator | looking key-value pair      |
+| ->       | JSONB Operator    | return jsonb                |
+| ?        | Tag Operator      | To check if key is present? |
+
+## How to do it?
+
+### CREATE: How to create a jsonb table?
+
+```sql
+query=> CREATE TABLE IF NOT EXISTS jtrack (
+  id SERIAL,
+  body JSONB
+);
+```
+
+### CREATE: How to populate the database from external json like files?
+
+- Use postgres `\copy` command
+
+```sql
+query=> \copy jtrack(body) from 'library.jstxt' WITH CSV QUOTE E'\01' DELIMITER E'\02';
+-- QUOTE, DELIMITER E'\01' - says ignore irrelevant non printable characters
+```
+
+### READ: How to select the JSONB value of the given key?
+
+- Use ->> double arrow syntax | which convert the jsonb and the result as text
+
+```sql
+query=> SELECT body->>'name' FROM jtrack LIMIT 5;
+-- 'name' is key of the json array, place with key with quotation
+-- above query translate as - search for the 'name' key in the body column and return the value as text
+```
+
+### How to convert jsonb type to other type(s)?
+
+| JSONB to TEXT                          | JSONB to TEXT | JSONB to INT |
+| -------------------------------------- | ------------- | ------------ |
+| Use **->>** double arrow text operator | jsonb::text   | jsonb::int   |
+
+**Extra** If you want to find the max of the 'count' key's value, use MAX() function, if not it treated as lexical order
+
+### READ: How to retrieve jsonb column and displays the record(s)?
+
+```sql
+-- looking into JSONB for a value
+query=> SELECT id, body FROM jtrack WHERE body ->> 'name' = 'Summer';
+
+-- looking into key/value pair
+query=> SELECT id, body FROM jtrack WHERE body @> '{"name": "summer"}';
+-- @> translate as - does this body contains this jsonb fragment?
+
+-- using ? operator
+query=> SELECT COUNT(*) FROM jtrack WHERE body ? 'favorite';
+-- it checks whether the key present or not and return the all the true rows
+```
+
+### UPDATE: How to update the json in jsonb column?
+
+#### How to add new key-value pair in the jsonb column?
+
+```sql
+query=> UPDATE jtrack SET body = body || '{"favorite": "yes"}' WHERE id = 1;
+```
+
+#### How to update jsonb column with jsonb_set() function?
+
+- take more steps at the time of lecture, check the official doc for more info
+
+```sql
+query=> UPDATE jtrack SET body = jsonb_set(body, '{count}', ((body->>'count')::int + 1)::text::jsonb) WHERE id = 1;
+```
+
+### INDEX: How to make indexes for jsonb type?
+
+#### How to make B-Tree index?
+
+```sql
+query=> CREATE INDEX jtrack_btree ON jtrack USING BTREE((body->>'name'));
+-- create the index for body 'name' key only
+-- as you the WHERE clause express must be same as index expression
+-- run EXPLAIN ANALYZE
+```
+
+#### How to make GIN index?
+
+```sql
+query=> CREATE INDEX jtrack_gin ON jtrack USING GIN(body);
+-- create index for all the keys in the body for every row
+-- it uses ? operator for checking the tag / key in WHERE clause
+-- run EXPLAIN ANALYZE
+```
+
+#### How to make GIN_PATH_OPS index?
+
+```sql
+query=> CREATE INDEX jtrack_gin_path_ops ON jtrack USING GIN(body jsonb_path_ops);
+-- create key-value pair index
+-- it uses @> contains operator in WHERE clause
+-- run EXPLAIN ANALYZE
+```
