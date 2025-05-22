@@ -1,5 +1,5 @@
 ## Table of Content
-- [Relational Database Design](#relational-database-design)
+- [Relational Database Design from Michigan Charles](#relational-database-design-from-michigan-charles)
   - [Building a Data Model](#building-a-data-model)
   - [Keys](#keys)
     - [Primary Key](#primary-key)
@@ -10,7 +10,7 @@
   - [Power of Relational Database](#power-of-relational-database)
   - [SQL Query to build Many-to-Many relationship](#sql-query-to-build-many-to-many-relationship)
 
-# Relational Database Design
+# Relational Database Design from Michigan Charles
 
 ## Building a Data Model
 
