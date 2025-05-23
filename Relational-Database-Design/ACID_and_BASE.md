@@ -7,6 +7,11 @@ For RDBMS (Relational Database Management System) Architectures we learned about
 
 But the problem with ACID like RDB is scaling.
 
+- Master / Read only replica is similar to BASE like features
+- Multi Master / 2 master database are linked coordinated together
+- Multiple Store type - 2 database one for relation database and another for file system
+- Multi Tenant / 'pretend cloud'
+
 While designing the database for the application ask: ACID or BASE?
 
 ACID stand for Atomicity, Consistency, Isolation, Durability
