@@ -4,6 +4,17 @@
   - [Physical and Logical Models](#physical-and-logical-models)
   - [Schema Diagram](#schema-diagram)
     - [Schema Diagram with Foreign Keys](#schema-diagram-with-foreign-keys)
+  - [Basics](#basics)
+  - [Entity Relationship Model](#entity-relationship-model)
+    - [Entity, Entity Set and Entity Type](#entity-entity-set-and-entity-type)
+    - [Entity Relationship](#entity-relationship)
+    - [Relationship Types](#relationship-types)
+    - [Mandatory Relationship Types](#mandatory-relationship-types)
+  - [1st and 2nd Normal Form](#1st-and-2nd-normal-form)
+    - [Normal Form Background](#normal-form-background)
+    - [Defining Normal Form](#defining-normal-form)
+    - [Normal Form Overview](#normal-form-overview)
+      - [1st Normal Form](#1st-normal-form)
 
 # Relational Database Design from Maryland
 
@@ -68,3 +79,181 @@ This diagram shows that there will be a table called Customers.  It will have 2 
 Referential integrity constraints are rules that the database enforces so that data does not get messed up.
 
 We can add our referential integrity constraints to the diagram by showing where the foreign keys will be.  This is shown by arrow points from the attribute that has the foreign key to the attribute of where possible values can come from.
+
+## Basics
+
+If user requests you to create the database for an application, identify the major nouns of each sentences
+
+Ask yourself
+- Is this an entity?
+  - What is Entity: A major collection of data
+- Is this an attribute (i.e. characteristics) of an entity?
+  - ask a question _has a_ Eg. has a book have title, has a book have price
+- Is this a value for an attribute of an entity?
+
+**Cardinality** : In database, is the count of elements in a relationship between entities
+Eg. 1-to-1, 1-to-many, many-to-many
+Eg for each
+1. Bank account and bank transactions is 1-to-many
+2. students to classes - many-to-many
+3. In multiple player video game - level to player is 1-to-many
+4. Baby to Parents is 1-to-2
+
+## Entity Relationship Model
+
+The entity relationship (ER) data model has existed for over 35 years. It is well suited to data modelling for use with databases because it is fairly abstract and is easy to discuss and explain. ER models are readily translated to relations. ER models, also called an ER schema, are represented by ER diagrams.
+
+ER modelling is based on two concepts:
+- Entities, defined as tables that hold specific information (data)
+- Relationships, defined as the associations or interactions between entities
+
+Here is an example of how these two concepts might be combined in an ER data model: Prof. Ba (entity) teaches (relationship) the Database Systems course (entity).
+
+For the rest of this chapter, we will use a sample database called the COMPANY database to illustrate the concepts of the ER model. This database contains information about employees, departments and projects. Important points to note
+
+include:
+- There are several departments in the company. Each department has a unique identification, a name, location of the office and a particular employee who manages the department.
+- A department controls a number of projects, each of which has a unique name, a unique number and a budget.
+- Each employee has a name, identification number, address, salary and birthdate. An employee is assigned to one department but can join in several projects. We need to record the start date of the employee in each project. We also need to know the direct supervisor of each employee.
+- We want to keep track of the dependents for each employee. Each dependent has a name, birthdate and relationship with the employee.
+
+### Entity, Entity Set and Entity Type
+
+An entity is an object in the real world with an independent existence that can be differentiated from other objects. An entity might be
+
+- An object with physical existence (e.g., a lecturer, a student, a car)
+- An object with conceptual existence (e.g., a course, a job, a position)
+
+They are tables in relational databases.
+
+**Representing a Tables in an ERD**
+Tables are represented as rectangles in ERDs.  The table has 1 horizontal line.  Above the line is the name of the tables.  Below the line are the columns in the table.  Here is an example.  The table name is animals.  This table will have columns for Name, Age and Health. (I intentionally left out the image)
+
+**Representing a Column in an ERD**
+As shown before, columns are rows of the table below the main horizontal line.  Often we note the columns that make up a Primary Key with a PK beside them.  In some cases, we draw a second horizontal line separating the primary key columns from the other columns.  For each column, we place the column name and then the datatype.  If there are any constraints, we note them after the datatype.   In the example above Name is of varchar(20), and the column cannot be null.
+
+### Entity Relationship
+
+Next, we can design the relationships between entities.  This is normally done through foreign keys.  We can document the cardinality between tables.
+
+The cardinality of Entity Relationships
+Business rules are used to determine cardinality and connectivity. Cardinality describes the relationship between two data tables by expressing the minimum and a maximum number of entity occurrences associated with one occurrence of a related entity. In the following figure, you can see that cardinality is represented by the innermost markings on the relationship symbol. In this figure, the cardinality is 0 (zero) on the right and 1 (one) on the left.
+
+![cardinality](../assets/cardinality.png)
+Figure Position of connectivity and cardinality on a relationship symbol, by A. Watt.
+
+The outermost symbol of the relationship symbol, on the other hand, represents the connectivity between the two tables. Connectivity is the relationship between two tables, e.g., one-to-one or one-to-many. The only time it is zero is when the FK can be null. When it comes to participation, there are three options to the relationship between these entities: either 0 (zero), 1 (one) or many. In the figure above, for example, the connectivity is 1 (one) on the outer, left-hand side of this line and many on the outer, right-hand side.
+
+This figure shows the symbol that represents a one-to-many relationship.
+![one-to-many](../assets/1-to-many.png)
+
+In this figure, both inner (representing cardinality) and outer (representing connectivity) markers are shown. The left side of this symbol is read as minimum 1 and maximum 1. On the right side, it is read as: minimum 1 and maximum many.
+![one-to-many](../assets/cardinality-connectivity.png)
+
+### Relationship Types
+
+The line that connects two tables in an ERD indicates the relationship type between the tables: either identifying or non-identifying. An identifying relationship will have a solid line (where the PK contains the FK). A non-identifying relationship is indicated by a broken line and does not contain the FK in the PK.
+
+Optional relationships
+In an optional relationship, the FK can be null, or the parent table does not need to have a corresponding child table occurrence. The symbol, shown in Figure 9.6, illustrates one type with a zero and three prongs (indicating many) which is interpreted as zero OR many.
+
+For example, if you look at the Order table on the right-hand side of the figure above, you’ll notice that a customer doesn’t need to place an order to be a customer. In other words, the many sides is optional.
+
+The relationship symbol in the figure can also be read as follows:
+
+- Left side: The ordering entity must contain a minimum of one related entity in the Customer table and a maximum of one related entity.
+- Right side: A customer can place a minimum of zero orders or a maximum of many orders.
+
+Note: Image are left intentionally
+
+### Mandatory Relationship Types
+
+In a mandatory relationship, one entity occurrence requires a corresponding entity occurrence. The symbol for this relationship shows one and only one, as shown in Figure 9.10. The one side is mandatory.
+
+So far, we have seen that the innermost side of a relationship symbol (on the left side of the symbol) can have a 0 (zero) cardinality and connectivity of many (shown on the right side of the symbol) or one (not shown).
+
+However, it cannot have connectivity of 0 (zero), as displayed in this figure. The connectivity can only be 1.
+
+## 1st and 2nd Normal Form
+
+### Normal Form Background
+
+Normalization should be part of the database design process. However, it isn't easy to separate the normalization process from the ER modelling process, so the two techniques should be used concurrently.
+
+Use an entity relation diagram (ERD) to provide the big picture, or macro view, of an organization’s data requirements and operations. This is created through an iterative process that involves identifying relevant entities, their attributes and their relationships.
+
+The normalization procedure focuses on the characteristics of specific entities and represents the micro view of entities within the ERD.
+
+### Defining Normal Form
+
+Normalization is the branch of the relational theory that provides design insights. It is the process of determining how much redundancy exists in a table. The goals of normalization are to:
+- Be able to characterize the level of redundancy in a relational schema
+- Provide mechanisms for transforming schemas in order to remove redundancy
+Normalization theory draws heavily on the theory of functional dependencies. Normalization theory defines six normal forms (NF). Each normal form involves a set of dependency properties that a schema must satisfy and each normal form gives guarantees about the presence and/or absence of update anomalies. This means that higher normal forms have less redundancy, and as a result, fewer update problems.
+
+### Normal Form Overview
+
+All the tables in any database can be in one of the normal forms we will discuss next.  Ideally, we only want minimal redundancy for PK to FK. Everything else should be derived from other tables.  There are six normal forms, but we will only look in detail at the first four, which are:
+
+- First normal form (1NF)
+- Second normal form (2NF)
+- Third normal form (3NF)
+- Boyce-Codd normal form (BCNF)
+
+BCNF is rarely used.
+
+There is a 4th and 5th Normal Forms, but these are seldom used.  So, we will cover them but not go into too much detail. Additionally, few people use 1st and 2nd Normal Forms, but you need to understand them in order to understand the 3rd Normal Form and BCNF.
+
+#### 1st Normal Form
+
+In the first normal form, only single values are permitted at the intersection of each row and column; hence, there are no repeating groups.
+
+To normalize a relation that contains a repeating group, remove the repeating group and form two new relations.
+
+The PK of the new relation is a combination of the PK of the original relation plus an attribute from the newly created relation for unique identification.
+
+**Process for 1st Normal Form**
+
+We will use the Student_Grade_Report table below, from a School database, as our example to explain the process for 1NF.
+
+Table: Student_Grade_Report
+
+| StudentNo | StudentName  | Major     | CourseNo | CourseName    |
+| --------- | ------------ | --------- | -------- | ------------- |
+| 123       | Salley Smith | Chemistry | CHM 101  | Intro to Chm. |
+
+| InstructorNo | InstructorName | InstructorLocation | Grade |
+| ------------ | -------------- | ------------------ | ----- |
+| 456          | Dr. Brown      | Old Main, Rm 100   | A     |
+
+- In the Student Grade Report table, the repeating group is the course information. A student can take many courses.
+- Remove the repeating group. In this case, it’s the course information for each student.
+- Identify the PK for your new table.
+- The PK must uniquely identify the attribute value (StudentNo and CourseNo).
+- After removing all the attributes related to the course and student, you are left with the student course table (StudentCourse).
+- The Student table (Student) is now in first normal form with the repeating group removed.
+
+The two new tables are shown below.
+
+Table: Student
+
+| StudentNo | StudentName  | Major     |
+| --------- | ------------ | --------- |
+| 123       | Salley Smith | Chemistry |
+
+Table: StudentCourse
+
+| StudentNo | CourseNo | CourseName    | InstructorNo |
+| --------- | -------- | ------------- | ------------ |
+| 123       | CHM 101  | Intro to Chm. | 123          |
+
+| InstructorName | InstructorLocation | Grade |
+| -------------- | ------------------ | ----- |
+| Dr. Brown      | Old Main, Rm 100   | A     |
+
+**How to update 1NF anomalies**
+StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, InstructorLocation, Grade)
+
+- To add a new course, we need a student.
+- When course information needs to be updated, we may have inconsistencies.
+- To delete a student, we might also delete critical information about a course.
