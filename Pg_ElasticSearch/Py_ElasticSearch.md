@@ -77,3 +77,55 @@ In this example instead of using the elasticsearch library, we will use the pyth
 >>> queryurl = url + '/_doc/' + user_keyword + '?pretty'
 >>> res = request.get(queryurl)
 ```
+
+## Assignment
+
+```py
+# Bookload
+from elasticsearch import Elasticsearch
+import hidden
+
+secrets = hidden.elastic()
+
+# create connections
+es = Elasticsearch(
+    [secrets["host"]],
+    http_auth=(secrets["user"], secrets["pass"]),
+    url_prefix=secrets["prefix"],
+    scheme=secrets["scheme"],
+    port=secrets["port"],
+)
+print("connected to server")
+
+indexname = secrets["user"]
+
+# drop an index
+res = es.indices.delete(index=indexname, ignore=[400, 404])
+print("index deleted")
+print(res)
+
+# create an index
+res = es.indices.create(index=indexname)
+print("index created")
+print(res)
+
+# adding a doc
+phara = ""
+pcount = 0
+with open("pg14091.txt", "r", encoding="utf-8") as file:
+    for line in file:
+        if line != "\n":
+            phara += line.strip() + " "
+        else:
+            if phara != "":
+                pcount += 1
+                phara = phara.strip()
+                res = es.index(index=indexname, id=pcount, body={"content": phara})
+                phara = ""
+                if pcount % 50 == 0:
+                    print(pcount, res["result"])
+                    res = es.indices.refresh(index=indexname)
+                    print(res)
+
+print("loaded", pcount, " paragraphs")
+```
