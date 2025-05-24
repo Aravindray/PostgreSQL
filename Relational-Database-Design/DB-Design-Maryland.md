@@ -218,13 +218,9 @@ We will use the Student_Grade_Report table below, from a School database, as our
 
 Table: Student_Grade_Report
 
-| StudentNo | StudentName  | Major     | CourseNo | CourseName    |
-| --------- | ------------ | --------- | -------- | ------------- |
-| 123       | Salley Smith | Chemistry | CHM 101  | Intro to Chm. |
-
-| InstructorNo | InstructorName | InstructorLocation | Grade |
-| ------------ | -------------- | ------------------ | ----- |
-| 456          | Dr. Brown      | Old Main, Rm 100   | A     |
+| StudentNo | StudentName  | Major     | CourseNo | CourseName    | InstructorNo | InstructorName | InstructorLocation | Grade |
+| --------- | ------------ | --------- | -------- | ------------- | ------------ | -------------- | ------------------ | ----- |
+| 123       | Salley Smith | Chemistry | CHM 101  | Intro to Chm. | 456          | Dr. Brown      | Old Main, Rm 100   | A     |
 
 - In the Student Grade Report table, the repeating group is the course information. A student can take many courses.
 - Remove the repeating group. In this case, it’s the course information for each student.
@@ -243,13 +239,9 @@ Table: Student
 
 Table: StudentCourse
 
-| StudentNo | CourseNo | CourseName    | InstructorNo |
-| --------- | -------- | ------------- | ------------ |
-| 123       | CHM 101  | Intro to Chm. | 123          |
-
-| InstructorName | InstructorLocation | Grade |
-| -------------- | ------------------ | ----- |
-| Dr. Brown      | Old Main, Rm 100   | A     |
+| StudentNo | CourseNo | CourseName    | InstructorNo | InstructorName | InstructorLocation | Grade |
+| --------- | -------- | ------------- | ------------ | -------------- | ------------------ | ----- |
+| 123       | CHM 101  | Intro to Chm. | 123          | Dr. Brown      | Old Main, Rm 100   | A     |
 
 **How to update 1NF anomalies**
 StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, InstructorLocation, Grade)
