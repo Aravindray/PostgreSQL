@@ -15,7 +15,7 @@
       - [How to make B-Tree index?](#how-to-make-b-tree-index)
       - [How to make GIN index?](#how-to-make-gin-index)
       - [How to make GIN\_PATH\_OPS index?](#how-to-make-gin_path_ops-index)
-- [simple / sample](#simple--sample)
+  - [Assignment](#assignment)
 
 # Postgres and JSON
 
@@ -155,9 +155,9 @@ query=> CREATE INDEX jtrack_gin_path_ops ON jtrack USING GIN(body jsonb_path_ops
 -- run EXPLAIN ANALYZE
 ```
 
-<p> Assignment
+## Assignment
 
-<code>
+```py
 import psycopg2
 from psycopg2.extras import Json
 import requests
@@ -188,9 +188,9 @@ for i in range(1, 101):
 cur.close()
 conn.close()
 print('disconnected')
-</code>
+```
 
-<code>
+```py
 # simple / sample
 import psycopg2
 from psycopg2.extras import Json
@@ -215,12 +215,4 @@ conn.commit()
 cur.close()
 conn.close()
 print("disconnected")
-</code>
-
-</p>
-
-<style>
- code {
-  display: none;
- }
-</style>
+```
