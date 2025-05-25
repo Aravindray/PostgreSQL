@@ -28,5 +28,6 @@ This is a Postgres normal user prompt `=>`
 
 ## Credits
 
-> I've enrolled the **Postgres for Everybody** course, so don't be surprise if all note have strong influence Charles Lecture. Published at 2019
-> 2nd I've enrolled the course named **Relational Database Design** from University of Maryland. Published at 2022
+> I've enrolled the **Postgres for Everybody** course, so don't be surprise if all note have strong influence Charles Lecture. Published at 2019.
+
+> 2nd I've enrolled the course named **Relational Database Design** from University of Maryland. Published at 2022. This course based on this book **Database Design - 2nd Edition** 
