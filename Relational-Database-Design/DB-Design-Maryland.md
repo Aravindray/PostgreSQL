@@ -15,8 +15,12 @@
     - [Defining Normal Form](#defining-normal-form)
     - [Normal Form Overview](#normal-form-overview)
       - [1st Normal Form](#1st-normal-form)
+      - [2nd Normal Form](#2nd-normal-form)
+      - [3rd Normal Form](#3rd-normal-form)
 
 # Relational Database Design from Maryland
+
+Note: Most of this material is adopted from 'Database Design - 2nd Edition' book
 
 ##  What you need to know
 
@@ -233,15 +237,15 @@ The two new tables are shown below.
 
 Table: Student
 
-| StudentNo | StudentName  | Major     |
-| --------- | ------------ | --------- |
-| 123       | Salley Smith | Chemistry |
+| <u>StudentNo</u> | StudentName  | Major     |
+| ---------------- | ------------ | --------- |
+| 123              | Salley Smith | Chemistry |
 
 Table: StudentCourse
 
-| StudentNo | CourseNo | CourseName    | InstructorNo | InstructorName | InstructorLocation | Grade |
-| --------- | -------- | ------------- | ------------ | -------------- | ------------------ | ----- |
-| 123       | CHM 101  | Intro to Chm. | 123          | Dr. Brown      | Old Main, Rm 100   | A     |
+| <u>StudentNo</u> | <u>CourseNo</u> | CourseName    | InstructorNo | InstructorName | InstructorLocation | Grade |
+| ---------------- | --------------- | ------------- | ------------ | -------------- | ------------------ | ----- |
+| 123              | CHM 101         | Intro to Chm. | 123          | Dr. Brown      | Old Main, Rm 100   | A     |
 
 **How to update 1NF anomalies**
 StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, InstructorLocation, Grade)
@@ -249,3 +253,79 @@ StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, In
 - To add a new course, we need a student.
 - When course information needs to be updated, we may have inconsistencies.
 - To delete a student, we might also delete critical information about a course.
+
+#### 2nd Normal Form
+
+For the second normal form, the relation must first be in 1NF. The relation is automatically in 2NF if, and only if, the PK comprises a single attribute.
+
+If the relation has a composite PK, then each non-key attribute must be fully dependent on the entire PK and not on a subset of the PK (i.e., there must be no partial dependency or augmentation).
+
+**Process for 2nd Normal Form Example**
+
+To move to 2NF, a table must first be in 1NF.
+
+- The Student table is already in 2NF because it has a single-column PK.
+- When examining the Student Course table, we see that not all the attributes are fully dependent on the PK, specifically all course information. The only attribute that is fully dependent is grade.
+- Identify the new table that contains the course information.
+- Identify the PK for the new table.
+- The three new tables are shown below.
+
+Table: Student
+
+| <u>StudentNo</u> | StudentName  | Major     |
+| ---------------- | ------------ | --------- |
+| 123              | Salley Smith | Chemistry |
+
+Table: CourseGrade
+
+| <u>StudentNo</u> | <u>CourseNo</u> | Grade |
+| ---------------- | --------------- | ----- |
+| 123              | CHM 101         | A     |
+
+Table: CourseInstructor
+
+| <u>CourseNo</u> | CourseName    | InstructorNo | InstructorName | InstructorLocation |
+| --------------- | ------------- | ------------ | -------------- | ------------------ |
+| CHM 101         | Intro to Chm. | 123          | Dr. Brown      | Old Main, Rm 10    |
+
+**How to update 2NF anomalies**
+
+- When adding a new instructor, we need a course.
+- Updating course information could lead to inconsistencies for instructor information.
+- Deleting a course may also delete instructor information.
+
+#### 3rd Normal Form
+
+To be in the third normal form, the relation must be in the second normal form. Also, all transitive dependencies must be removed; a non-key attribute may not be functionally dependent on another non-key attribute.
+
+**Process for 3rd Normal Form Example**
+
+- Eliminate all dependent attributes in the transitive relationship(s) from each of the tables that have a transitive relationship.
+- Create a new table(s) with removed dependency.
+- Check new table(s) as well as the table(s) modified to make sure that each table has a determinant and that no table contains - inappropriate dependencies.
+
+See the four new tables below.
+
+Table: Student
+
+| <u>StudentNo</u> | StudentName  | Major     |
+| ---------------- | ------------ | --------- |
+| 123              | Salley Smith | Chemistry |
+
+Table: CourseGrade
+
+| <u>StudentNo</u> | <u>CourseNo</u> | Grade |
+| ---------------- | --------------- | ----- |
+| 123              | CHM 101         | A     |
+
+Table: Course
+
+| <u>CourseNo</u> | CourseName    | InstructorNo |
+| --------------- | ------------- | ------------ |
+| CHM 101         | Intro to Chm. | 123          |
+
+Table: CourseInstructor
+
+| <u>InstructorNo</u> | InstructorName | InstructorLocation |
+| ------------------- | -------------- | ------------------ |
+| 123                 | Dr. Brown      | Old Main, Rm 100   |
