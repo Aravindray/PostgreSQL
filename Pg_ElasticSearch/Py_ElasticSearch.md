@@ -129,3 +129,60 @@ with open("pg14091.txt", "r", encoding="utf-8") as file:
 
 print("loaded", pcount, " paragraphs")
 ```
+
+```py
+# tweet assignment
+from elasticsearch import Elasticsearch
+import hidden
+from datetime import datetime
+
+secrets = hidden.elastic()
+
+# create connections
+es = Elasticsearch(
+    [secrets["host"]],
+    http_auth=(secrets["user"], secrets["pass"]),
+    url_prefix=secrets["prefix"],
+    scheme=secrets["scheme"],
+    port=secrets["port"],
+)
+print("connected to server")
+
+indexname = secrets["user"]
+
+# drop an index
+res = es.indices.delete(index=indexname, ignore=[400, 404])
+print("index deleted")
+print(res)
+
+# create an index
+res = es.indices.create(index=indexname)
+print("index created")
+print(res)
+
+# adding a doc
+tweets = [
+    "Python program to count the words than it would be to manually scan the",
+    "The even better news is that I already came up with a simple program to",
+    "find the most common word in a text file I wrote it tested it and now",
+    "I am giving it to you to use so you can save some time",
+    "You dont even need to know Python to use this program You will need to",
+]
+
+id_count = 1
+for tweet in tweets:
+    doc = {
+        "author": "aravind",
+        "type": "tweet",
+        "text": tweet,
+        "timestamp": datetime.now(),
+    }
+    res = es.index(index=indexname, id=id_count, body=doc)
+    print("Document added")
+    print(res["result"])
+    id_count += 1
+
+res = es.indices.refresh(index=indexname)
+print("Index refreshed")
+print(res)
+```
