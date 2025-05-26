@@ -17,6 +17,9 @@
       - [1st Normal Form](#1st-normal-form)
       - [2nd Normal Form](#2nd-normal-form)
       - [3rd Normal Form](#3rd-normal-form)
+      - [Boyce-Codd Normal Form (BCNF)](#boyce-codd-normal-form-bcnf)
+      - [4th and 5th Normal Form](#4th-and-5th-normal-form)
+      - [Normalization Process](#normalization-process)
 
 # Relational Database Design from Maryland
 
@@ -66,15 +69,18 @@ Here is an example
 
 Customers
 
-| customer_id |	customer_name |
+| customer_id | customer_name |
+| ----------- | ------------- |
 
 Orders
 
 | order_id | customer_id | order_date |
+| -------- | ----------- | ---------- |
 
 Shipments
 
-| shipment_id |	order_id | shipment_date |
+| shipment_id | order_id | shipment_date |
+| ----------- | -------- | ------------- |
 
 This diagram shows that there will be a table called Customers.  It will have 2 attributes.  Customer_id is the primary key.  Customer_name is the second attribute.  Then there is a table for Orders.  It has 3 attributes:  Order_id (the primary key), customer_id and order_date.  The final table is Shipments.  It has 3 attributes:  shipment_id (the primary key), order_id and shipment_date.
 
@@ -329,3 +335,188 @@ Table: CourseInstructor
 | <u>InstructorNo</u> | InstructorName | InstructorLocation |
 | ------------------- | -------------- | ------------------ |
 | 123                 | Dr. Brown      | Old Main, Rm 100   |
+
+At this stage, there should be no anomalies in the third normal form. Let’s look at the dependency diagram (Figure 1) for this example. The first step is to remove repeating groups, as discussed above.
+
+Student (StudentNo, StudentName, Major)
+
+StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, InstructorLocation, Grade)
+
+To recap the normalization process for the School database, review the dependencies shown in Figure 1.
+
+![Dependency Diagram](../assets/School_Database_Figure_1.jpg)
+
+The abbreviations used in Figure 1 are as follows:
+
+- PD: partial dependency
+- TD:  transitive dependency
+- FD:  full dependency (Note: FD typically stands for functional dependency.)
+
+#### Boyce-Codd Normal Form (BCNF)
+
+When a table has more than one candidate key, anomalies may result even though the relation is in 3NF. Boyce-Codd's normal form is a special case of 3NF. A relation is in BCNF if, and only if, every determinant is a candidate key.
+
+**BCNF Example 1**
+
+Consider the following table (St_Maj_Adv).
+
+| Student_id | Major   | Advisor |
+| ---------- | ------- | ------- |
+| 111        | Physics | Smith   |
+| 111        | Music   | Chan    |
+| 320        | Math    | Dobbs   |
+| 671        | Physics | White   |
+| 803        | Physics | Smith   |
+
+The semantic rules (business rules applied to the database) for this table are:
+
+- Each Student may major in several subjects.
+- For each Major, a given Student has only one Advisor.
+- Each Major has several Advisors.
+- Each Advisor advises only one Major.
+- Each Advisor advises several Students in one Major.
+
+The functional dependencies for this table are listed below. The first one is a candidate key; the second is not.
+
+- Student_id, Major ——>  Advisor
+- Advisor  ——>  Major
+
+Anomalies for this table include:
+
+- Delete – student deletes advisor info
+- Insert – a new advisor needs a student
+- Update – inconsistencies
+
+Note: No single attribute is a candidate key.
+
+PK can be Student_id, Major or Student_id, Advisor.
+
+To reduce the St_Maj_Adv relation to BCNF, you create two new tables:
+
+St_Adv (Student_id, Advisor)
+Adv_Maj (Advisor, Major)
+
+Table: St_Adv
+
+| Student_id | Advisor |
+| ---------- | ------- |
+| 111        | Smith   |
+| 111        | Chan    |
+| 320        | Dobbs   |
+| 671        | White   |
+| 803        | Smith   |
+
+Table: Adv_Maj
+
+| Advisor | Major   |
+| ------- | ------- |
+| Smith   | Physics |
+| Chan    | Music   |
+| Dobbs   | Math    |
+| White   | Physics |
+
+**BCNF Example 2**
+
+Consider the following table (Client_Interview).
+
+| ClientNo | InterviewDate | InterviewTime | StaffNo | RoomNo |
+| -------- | ------------- | ------------- | ------- | ------ |
+| CR76     | 13-May-02     | 10.30         | SG5     | G101   |
+| CR56     | 13-May-02     | 12.00         | SG5     | G101   |
+| CR74     | 13-May-02     | 12.00         | SG37    | G102   |
+| CR56     | 1-July-02     | 10.30         | SG5     | G102   |
+
+FD1 – ClientNo, InterviewDate –> InterviewTime, StaffNo, RoomNo  (PK)
+
+FD2 – staffNo, interviewDate, interviewTime –> clientNO (candidate key: CK)
+
+FD3 – roomNo, interviewDate, interviewTime –> staffNo, clientNo    (CK)
+
+FD4 – staffNo, interviewDate –> roomNo
+
+A relation is in BCNF if, and only if, every determinant is a candidate key. We need to create a table that incorporates the first three FDs (Client_Interview2 table) and another table (StaffRoom table) for the fourth FD.
+
+Table: Client_Interview2
+
+| ClientNo | InterviewDate | InterViewTime | StaffNo |
+| -------- | ------------- | ------------- | ------- |
+| CR76     | 13-May-02     | 10.30         | SG5     |
+| CR56     | 13-May-02     | 12.00         | SG5     |
+| CR74     | 13-May-02     | 12.00         | SG37    |
+| CR56     | 1-July-02     | 10.30         | SG5     |
+
+Table: StaffRoom
+
+| StaffNo | InterviewDate | RoomNo |
+| ------- | ------------- | ------ |
+| SG5     | 13-May-02     | G101   |
+| SG37    | 13-May-02     | G102   |
+| SG5     | 1-July-02     | G102   |
+
+#### 4th and 5th Normal Form
+
+As mentioned previously there is a 4th and 5th Normal Form.  But these are not used very often.
+
+**4th Normal Form**
+
+In the 4th Normal Form, no two or more independent multi-valued facts about an entity.  In these cases, each multi-valued fact should be a separate entity.  Let's assume that we have a table Employee.  Each employee knows how to program in different languages: Java, Python, and C++.  Also, each employee might know some databases: Oracle, SQLite, and SQL Server.
+
+Table: Employee
+
+| EmployeeNo | ProgramLanguage | Database |
+| ---------- | --------------- | -------- |
+
+Here we have EmployeeNo determining both ProgramLanguage and Database.  This violates 4th Normal Form.  To confirm to 4th Normal Form it should be as follows.
+
+Table: EmployeeProgramLanguages
+
+| EmployeeNo | ProgramLanguage |
+| ---------- | --------------- |
+
+Table: EmployeeDatabase
+
+| EmployeeNo | Database |
+| ---------- | -------- |
+
+**5th Normal Form**
+
+In the 5th Normal Form, all tables must be broken down so there is no duplication of values.  This can be challenging.  Consider this example.
+
+Table:  Users
+
+| UserID | FirstName | LastName | PostalCode |
+| ------ | --------- | -------- | ---------- |
+
+Could multiple users have the same first name?  Yes.
+
+Could multiple users have the same last name?  Yes.
+
+Could multiple users live in the same postal code?  Yes.
+
+So, to be in 5th Normal Form you would need to break them into separate tables.
+
+Table: Users
+
+| UserID | FirstNameID | LastNameID | PostalCodeID |
+| ------ | ----------- | ---------- | ------------ |
+
+Table: FirstNames
+
+| FirstNameID | FirstName |
+| ----------- | --------- |
+
+Table: LastNames
+
+| LastNameID | LastName |
+| ---------- | -------- |
+
+Table: PostalCodes
+
+| PostalCodeID | PostalCode |
+| ------------ | ---------- |
+
+As you can see, as you increase the normal form there is a lot of extra work to designing and building the database.  Highly normalized databases do take up less space but add extra levels of complexity.
+
+#### Normalization Process
+
+During the normalization process of database design, make sure that proposed entities meet the required normal form before table structures are created. Many real-world databases have been improperly designed or burdened with anomalies if improperly modified during the course of time. You may be asked to redesign and modify existing databases. This can be a large undertaking if the tables are not properly normalized.
