@@ -14,7 +14,7 @@ Select a naming convention method from snake_case, camelCase or PascalCase
 1. Database - one or more tables
 2. Relation (Table) - contain Tuples and Attributes
 3. Tuples (Row) - a set of fields which define an object like a person, or a music track / a single row
-4. Attributes (Column or Field) -
+4. Attributes (Column or Field) - one of possibly many elements of data corresponding to the object represented by the row
 
 ## Notations
 
