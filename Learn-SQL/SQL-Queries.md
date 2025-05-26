@@ -206,7 +206,7 @@
 
 ### CREATE: How to create a database?
 
-Logged in with a <a title="How to login with SQL Server with PSQL?" href="../Basic/Intro.md#how-to-login-with-sql-server-with-psql">superuser account</a> and <a title='How to create a user?' href="../Basic/pg-specific-cmds.md#how-to-create-a-user">create a new user</a> for the owner of this newly creating database and then execute the below cmd
+Logged in with a <a title="How to login with SQL Server with PSQL?" href="https://github.com/Aravindray/PostgreSQL/blob/main/Basic/Intro.md#how-to-login-with-sql-server-as-a-admin-with-psql">superuser account</a> and <a title='How to create a user?' href="https://github.com/Aravindray/PostgreSQL/blob/main/Basic/Intro.md#how-to-create-a-user">create a new user</a> for the owner of this newly creating database and then execute the below cmd
 
 ```sql
 admin_syntax=# CREATE DATABASE database_name WITH OWNER 'user_name' ENCODING 'UTF8';
