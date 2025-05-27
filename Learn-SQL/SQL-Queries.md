@@ -1177,6 +1177,12 @@ example=> CREATE INDEX crl_4_hash ON crl_4 USING hash (url);
 query=> SELECT version();
 ```
 
+## How to delete a trigger?
+
+```sql
+example=> DROP TRIGGER trigger_name ON table_name;
+```
+
 ## What is this?
 
 ```sql
