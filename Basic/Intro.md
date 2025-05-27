@@ -63,10 +63,16 @@ replace user_name and actual_password with real username and password.
 
 ## How to Grand all the privileges to the new user?
 
-After user created, create the database and use this command to give permission to that database
+After user created, database created, login with your admin id and switch the database with `\c database_name` command and give permission to that database
 
 ```sql
-syntax=> GRANT USAGE ON SCHEMA 'database_name' TO 'user_name';
+syntax=> GRANT ALL PRIVILEGES ON DATABASE your_database TO new_user; -- Grant Full Privileges on the Database
+syntax=> GRANT USAGE ON SCHEMA public TO new_user; -- Granting Permissions on Schema
+syntax=> GRANT USAGE, CREATE ON SCHEMA public TO new_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO new_user; -- Grant Schema and Table-Level Permissions
+syntax=> GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO new_user; -- Grant Full Access to Existing Tables and Sequences
+syntax=> GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO new_user; -- Grant Execution Rights on Functions
 ```
 
 <a href='./psql-specific-cmds.md'>Learn Postgres specific commands >></a>
