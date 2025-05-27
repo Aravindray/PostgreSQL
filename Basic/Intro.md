@@ -82,4 +82,6 @@ FROM information_schema.role_table_grants
 WHERE table_name='tableName';
 ```
 
+**I figured out the reason why it keep failing because I have created tables from super user / admin id** so create tables from new user id
+
 <a href='./psql-specific-cmds.md'>Learn Postgres specific commands >></a>
