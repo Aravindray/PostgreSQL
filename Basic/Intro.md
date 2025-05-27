@@ -61,4 +61,12 @@ syntax=> CREATE USER user_name WITH PASSWORD 'password';
 
 replace user_name and actual_password with real username and password.
 
+## How to Grand all the privileges to the new user?
+
+After user created, create the database and use this command to give permission to that database
+
+```sql
+syntax=> GRANT USAGE ON SCHEMA 'database_name' TO 'user_name';
+```
+
 <a href='./psql-specific-cmds.md'>Learn Postgres specific commands >></a>
