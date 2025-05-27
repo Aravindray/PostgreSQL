@@ -70,9 +70,16 @@ syntax=> GRANT ALL PRIVILEGES ON DATABASE your_database TO new_user; -- Grant Fu
 syntax=> GRANT USAGE ON SCHEMA public TO new_user; -- Granting Permissions on Schema
 syntax=> GRANT USAGE, CREATE ON SCHEMA public TO new_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO new_user; -- Grant Schema and Table-Level Permissions
-syntax=> GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_user;
+syntax=> GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_user; -- worked
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO new_user; -- Grant Full Access to Existing Tables and Sequences
 syntax=> GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO new_user; -- Grant Execution Rights on Functions
+```
+To check permissions
+
+```sql
+SELECT grantee, privilege_type
+FROM information_schema.role_table_grants
+WHERE table_name='tableName';
 ```
 
 <a href='./psql-specific-cmds.md'>Learn Postgres specific commands >></a>
