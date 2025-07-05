@@ -7,6 +7,7 @@
   - [How to login with SQL Server as a admin with PSQL?](#how-to-login-with-sql-server-as-a-admin-with-psql)
   - [How to login with SQL Server as a user with PSQL?](#how-to-login-with-sql-server-as-a-user-with-psql)
 - [How to create a user?](#how-to-create-a-user)
+  - [How to Grand all the privileges to the new user?](#how-to-grand-all-the-privileges-to-the-new-user)
 
 # What is PostgreSQL?
 
