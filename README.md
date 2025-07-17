@@ -32,7 +32,18 @@ This is a Postgres normal user prompt `=>`
 
 > 2nd I've enrolled the course named **Relational Database Design** from University of Maryland. Published at 2022. This course based on this book **Database Design - 2nd Edition**
 
-## Indexes
+### File Structure
+
+- ├── 0-Assets /
+- ├── 1-Basic /
+- ├── 2-Learn-SQL /
+- ├── 3-Relational-Database-Design /
+- ├── 4-JSON /
+- ├── 4-Python /
+- ├── 5-ElasticSearch /
+- ├── 99-Workout /
+- ├── 100-Notes /
+- └── [credentials.md (ignored)](https://github.com/Aravindray/PostgreSQL/blob/main/credentials.md)
 
 | File Name                                                                                                                            | Description                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
@@ -49,3 +60,10 @@ This is a Postgres normal user prompt `=>`
 | [DB-Design-Maryland.md](./Relational-Database-Design/DB-Design-Maryland.md)                                                          | DB Design from Maryland lecture             |
 | [Design-Intro-Michigan.md](./Relational-Database-Design/Design-Intro-Michigan.md)                                                    | Database Design                             |
 | [PG4E - Full Text Search - Lecture Note.pdf](./Relational-Database-Design/PG4E%20-%20Full%20Text%20Search%20-%20Lecture%20Notes.pdf) | Lecture Notes about full text search        |
+
+
+<style>
+    ul {
+      list-style-type: none;
+    }
+</style>
