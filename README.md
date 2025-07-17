@@ -32,35 +32,43 @@ This is a Postgres normal user prompt `=>`
 
 > 2nd I've enrolled the course named **Relational Database Design** from University of Maryland. Published at 2022. This course based on this book **Database Design - 2nd Edition**
 
-### File Structure
+## File Structure
 
 - ├── 0-Assets /
 - ├── 1-Basic /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/1-Basic/Intro.md" title="Intro & Login details">Intro.md</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/1-Basic/psql-specific-cmds.md" title="psql commands">psql-specific-cmds.md</a>
 - ├── 2-Learn-SQL /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/2-Learn-SQL/SQL-Intro.md" title="Functions, data types, constrains and index">SQL-Intro.md</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/2-Learn-SQL/SQL-Queries.md" title="How to do it questions">SQL-Queries.md</a>
 - ├── 3-Relational-Database-Design /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/3-Relational-Database-Design/ACID_and_BASE.md" title="ACID and BASE differences">ACID_and_BASE.md</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/3-Relational-Database-Design/DB-Design-Maryland.md" title="DB Design from Maryland lecture">DB-Design-Maryland.md</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/3-Relational-Database-Design/Design-Intro-Michigan.md" title="Database Design">Design-Intro-Michigan.md</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/3-Relational-Database-Design/PG4E-Full-Text-Search-Lecture-Notes.pdf" title="Lecture Notes about full text search">PG4E-Full-Text-Search-Lecture-Notes.pdf</a>
 - ├── 4-JSON /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/4-JSON/PG4E-JSON-Lecture-Notes.pdf" title="Lecture Notes about JSON">PG4E-JSON-Lecture-Notes.pdf</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/4-JSON/Postgres_and_JSON.md" title="How to use JSON in Postgres">Postgres_and_JSON.md</a>
 - ├── 4-Python /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/4-Python/PG4E-Python-and-PostgreSQL-Lecture-Notes.pdf" title="Lecture Notes about Python">PG4E-Python-and-PostgreSQL-Lecture-Notes.pdf</a>
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/4-Python/Postgres_and_Python.md" title="How to use Postgres in Python">Postgres_and_Python.md</a>
 - ├── 5-ElasticSearch /
-- ├── 99-Workout /
+  - └── <a href="https://github.com/Aravindray/PostgreSQL/blob/main/5-ElasticSearch/Py_ElasticSearch.md" title="How to use elastic search in psql with Python">Py_ElasticSearch.md</a>
+- ├── 99-Workout (ignored) /
 - ├── 100-Notes /
-- └── [credentials.md (ignored)](https://github.com/Aravindray/PostgreSQL/blob/main/credentials.md)
+  - └── [PSQL-Notes.md](https://github.com/Aravindray/PostgreSQL/blob/main/100-Notes/PSQL-Notes.md)
+- └── [credentials.md (ignored)](./credentials.md)
 
-| File Name                                                                                                                            | Description                                 |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
-| [Intro.md](./Basic/Intro.md)                                                                                                         | Intro & Login details                       |
-| [psql-specific-cmds.md](./Basic/psql-specific-cmds.md)                                                                               | psql commands                               |
-| [SQL-Intro.md](./Learn-SQL/SQL-Intro.md)                                                                                             | Functions, data types, constrains and index |
-| [SQL-Queries.md](./Learn-SQL/SQL-Queries.md)                                                                                         | How to do it questions                      |
-| [Py_ElasticSearch.md](./Pg_ElasticSearch/Py_ElasticSearch.md)                                                                        | How to use elastic search in psql           |
-| [PG4E - JSON - Lecture Notes.pdf](./Pg_Json/PG4E%20-%20JSON%20-%20Lecture%20Notes.pdf)                                               | Lecture Notes about json                    |
-| [Postgres_and_JSON.md](./Pg_Json/Postgres_and_JSON.md)                                                                               | How to use json in postgres                 |
-| [PG4E - Python and PostgreSQL - Lecture Notes.pdf](./Pg_Py/PG4E%20-%20Python%20and%20PostgreSQL%20-%20Lecture%20Notes.pdf)           | Lecture Notes about python                  |
-| [Postgres_and_Python.md](./Pg_Py/Postgres_and_Python.md)                                                                             | How to use postgres in python               |
-| [ACID_and_BASE.md](./Relational-Database-Design/ACID_and_BASE.md)                                                                    | ACID and BASE differences                   |
-| [DB-Design-Maryland.md](./Relational-Database-Design/DB-Design-Maryland.md)                                                          | DB Design from Maryland lecture             |
-| [Design-Intro-Michigan.md](./Relational-Database-Design/Design-Intro-Michigan.md)                                                    | Database Design                             |
-| [PG4E - Full Text Search - Lecture Note.pdf](./Relational-Database-Design/PG4E%20-%20Full%20Text%20Search%20-%20Lecture%20Notes.pdf) | Lecture Notes about full text search        |
 
+## Table of Content
+- [PostgreSQL](#postgresql)
+  - [Naming Conventions](#naming-conventions)
+  - [Terminology](#terminology)
+  - [Notations](#notations)
+  - [Helpful articles](#helpful-articles)
+  - [Credits](#credits)
+  - [File Structure](#file-structure)
+  - [Table of Content](#table-of-content)
 
 <style>
     ul {

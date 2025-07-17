@@ -149,16 +149,16 @@ Next, we can design the relationships between entities.  This is normally done t
 The cardinality of Entity Relationships
 Business rules are used to determine cardinality and connectivity. Cardinality describes the relationship between two data tables by expressing the minimum and a maximum number of entity occurrences associated with one occurrence of a related entity. In the following figure, you can see that cardinality is represented by the innermost markings on the relationship symbol. In this figure, the cardinality is 0 (zero) on the right and 1 (one) on the left.
 
-![cardinality](../assets/cardinality.png)
+![cardinality](../0-Assets/cardinality.png)
 Figure Position of connectivity and cardinality on a relationship symbol, by A. Watt.
 
 The outermost symbol of the relationship symbol, on the other hand, represents the connectivity between the two tables. Connectivity is the relationship between two tables, e.g., one-to-one or one-to-many. The only time it is zero is when the FK can be null. When it comes to participation, there are three options to the relationship between these entities: either 0 (zero), 1 (one) or many. In the figure above, for example, the connectivity is 1 (one) on the outer, left-hand side of this line and many on the outer, right-hand side.
 
 This figure shows the symbol that represents a one-to-many relationship.
-![one-to-many](../assets/1-to-many.png)
+![one-to-many](../0-Assets/1-to-many.png)
 
 In this figure, both inner (representing cardinality) and outer (representing connectivity) markers are shown. The left side of this symbol is read as minimum 1 and maximum 1. On the right side, it is read as: minimum 1 and maximum many.
-![one-to-many](../assets/cardinality-connectivity.png)
+![one-to-many](../0-Assets/cardinality-connectivity.png)
 
 ### Relationship Types
 
@@ -344,7 +344,7 @@ StudentCourse (StudentNo, CourseNo, CourseName, InstructorNo, InstructorName, In
 
 To recap the normalization process for the School database, review the dependencies shown in Figure 1.
 
-![Dependency Diagram](../assets/School_Database_Figure_1.jpg)
+![Dependency Diagram](../0-Assets/School_Database_Figure_1.jpg)
 
 The abbreviations used in Figure 1 are as follows:
 
