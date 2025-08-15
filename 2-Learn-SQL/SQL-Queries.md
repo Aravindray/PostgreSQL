@@ -401,7 +401,7 @@ DROP DATABASE database_name;
 
 # Relation Operations
 
-- For best check out this [[Design-Intro-Michigan]], for my remembrance I will repeat it once.
+- For best check out this [article :LiNewspaper:](../3-Relational-Database-Design/Design-Intro-Michigan.md), for my remembrance I will repeat it once.
 
 ## One-to-One Relationship
 
